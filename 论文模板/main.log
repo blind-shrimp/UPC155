@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.11)  7 NOV 2026 19:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.11)  7 NOV 2026 19:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -645,25 +645,25 @@ e/2026/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}] (./main.toc)
 
 ] [4] [5{d:/downloads/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}
 ] [6]
-<figures/case_regions.png, id=197, 867.24pt x 289.08pt>
+<figures/case_regions.png, id=217, 867.24pt x 289.08pt>
 File: figures/case_regions.png Graphic file (type png)
 <use figures/case_regions.png>
 Package pdftex.def Info: figures/case_regions.png  used on input line 195.
 (pdftex.def)             Requested size: 452.9679pt x 150.98851pt.
+ [7 <./figures/case_regions.png>]
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10> on input line 226.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 226.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 226.
- [7 <./figures/case_regions.png>]
-<figures/cd_prior_contours.png, id=210, 650.43pt x 289.08pt>
+<figures/cd_prior_contours.png, id=231, 650.43pt x 289.08pt>
 File: figures/cd_prior_contours.png Graphic file (type png)
 <use figures/cd_prior_contours.png>
 Package pdftex.def Info: figures/cd_prior_contours.png  used on input line 277.
 
 (pdftex.def)             Requested size: 452.9679pt x 201.32243pt.
- [8] [9 <./figures/cd_prior_contours.png>] [10] [11] [12] (./main.aux)
+ [8] [9 <./figures/cd_prior_contours.png>] [10] [11] [12] [13] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -672,13 +672,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: B9D0CC1A5533465D26849A01E255A5AA;4682.
  ) 
 Here is how much of TeX's memory you used:
- 15028 strings out of 467525
- 240075 string characters out of 5417939
- 702307 words of memory out of 5000000
- 43433 multiletter control sequences out of 15000+600000
- 722950 words of font info for 214 fonts, out of 8000000 for 9000
+ 15053 strings out of 467525
+ 240397 string characters out of 5417939
+ 703605 words of memory out of 5000000
+ 43442 multiletter control sequences out of 15000+600000
+ 723304 words of font info for 217 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,13n,79p,1237b,611s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 71i,13n,79p,1237b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/downloads/texlive/2026/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><d:/do
 wnloads/texlive/2026/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><d:/downloads/
 texlive/2026/texmf-dist/fonts/type1/public/lm/lmex10.pfb><d:/downloads/texlive/
@@ -690,10 +690,10 @@ c/lm/lmr12.pfb><d:/downloads/texlive/2026/texmf-dist/fonts/type1/public/lm/lmr8
 .pfb><d:/downloads/texlive/2026/texmf-dist/fonts/type1/public/lm/lmri10.pfb><d:
 /downloads/texlive/2026/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><d:/downloa
 ds/texlive/2026/texmf-dist/fonts/type1/public/lm/lmsy8.pfb>
-Output written on main.pdf (12 pages, 537277 bytes).
+Output written on main.pdf (13 pages, 543172 bytes).
 PDF statistics:
- 336 PDF objects out of 1000 (max. 8388607)
- 288 compressed objects within 3 object streams
- 63 named destinations out of 1000 (max. 500000)
+ 374 PDF objects out of 1000 (max. 8388607)
+ 324 compressed objects within 4 object streams
+ 73 named destinations out of 1000 (max. 500000)
  51395 words of extra memory for PDF output out of 51595 (max. 10000000)
 

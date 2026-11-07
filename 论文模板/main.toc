@@ -3,21 +3,21 @@
 \contentsline {subsection}{\numberline {1.2}Background and Approach}{3}{subsection.1.2}%
 \contentsline {section}{\numberline {2}Materials and Methods}{4}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Assumptions and Approximations}{4}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Physical Model}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.2}Physical Model}{5}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Numerical Solution and Event Detection}{5}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Bayesian Inference of Launch Conditions}{5}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Noise-Conditioned Mixture Density Network}{5}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.5}Noise-Conditioned Mixture Density Network}{6}{subsection.2.5}%
 \contentsline {subsection}{\numberline {2.6}Training Data and Evaluation Protocol}{6}{subsection.2.6}%
 \contentsline {section}{\numberline {3}Results}{6}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Constant-Acceleration Baseline and the Stated Case}{6}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Accuracy and Calibration on Held-Out Simulations}{7}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Comparison with the Physics Posterior on Fresh Trajectories}{8}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Sensitivity to the Drag Prior}{8}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Model-Form Check on Tracked Free-Kick Arcs}{8}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.5}Model-Form Check on Tracked Free-Kick Arcs}{10}{subsection.3.5}%
 \contentsline {section}{\numberline {4}Discussion}{10}{section.4}%
 \contentsline {subsection}{\numberline {4.1}What the Two Estimators Agree On}{10}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Strengths}{10}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2}Strengths}{11}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Limitations and Applicability}{11}{subsection.4.3}%
 \contentsline {section}{\numberline {5}Conclusion}{11}{section.5}%
 \contentsline {section}{References}{12}{section*.2}%
-\contentsline {section}{\numberline {A}Propagation of Position Noise to Acceleration}{12}{appendix.A}%
+\contentsline {section}{\numberline {A}Propagation of Position Noise to Acceleration}{13}{appendix.A}%
