@@ -1,0 +1,16 @@
+\begin{table}[htbp]
+\centering
+\caption{P0 five-arm ablation: median endpoint error (m) on the frozen 4,187-flight synthetic test set (3 seeds).}
+\label{tab_p0_ablation_median}
+\begin{tabular}{lcccc}
+\toprule
+Arm & 2 mm & 5 mm & 10 mm & 15 mm \\
+\midrule
+A: raw$_6$+$\sigma$ $\to$ absolute & 0.143 & 0.309 & 0.477 & 0.566 \\
+B: raw$_6$+$\sigma$ $\to$ residual & 0.141 & 0.307 & 0.484 & 0.582 \\
+C: physics$_{16}$ $\to$ absolute & 0.133 & 0.294 & 0.469 & 0.559 \\
+D: physics$_{16}$ $\to$ residual & 0.130 & 0.291 & 0.477 & 0.573 \\
+E: raw$_6$+$\sigma$+base $\to$ residual & 0.133 & 0.294 & 0.477 & 0.573 \\
+\bottomrule
+\end{tabular}
+\end{table}

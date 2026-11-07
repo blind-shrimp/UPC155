@@ -1,0 +1,64 @@
+{
+  "name": "P0 canonical test set",
+  "stage": "P0",
+  "owner": "student-c",
+  "created": "2026-11-07",
+  "n_flights": 4187,
+  "source_file": "student_b/runs/canonical50k/data.npz",
+  "generator": "student_b/experiment.py::generate(n=50000, seed=42)",
+  "canonical_simulator": "student_b/physics.py + student_b/params.json",
+  "filter": "split==2 and status==1 (airborne goal-plane crossing) and finite observations",
+  "expected_event_counts": {
+    "airborne": 41733,
+    "ground": 8267,
+    "timeout": 0
+  },
+  "expected_split_counts": {
+    "train": 33367,
+    "val": 4179,
+    "test": 4187
+  },
+  "units": "SI (m, m/s, rad/s); C_D dimensionless",
+  "observations": "noise-free r(0.05) and r(0.10), 3 components each",
+  "endpoint": "first forward crossing of x=11 m, (Y,Z)",
+  "noise_rule": "add independent N(0, sigma^2) to each of the 6 observation coordinates",
+  "noise_seeds": {
+    "ablation_and_models": {
+      "2mm": 11100,
+      "5mm": 14100,
+      "10mm": 19100,
+      "15mm": 24100
+    },
+    "diagnostics_legacy_mdn": {
+      "2mm": 11000,
+      "5mm": 14000,
+      "10mm": 19000,
+      "15mm": 24000
+    },
+    "formula": "seed = 9100 (models) or 9000 (diagnostics) + int(sigma_m * 1e6)"
+  },
+  "warning": "Do not train, tune or calibrate on this file; it is the frozen P0 test set.",
+  "csv_columns": [
+    "flight_id",
+    "source_index",
+    "split",
+    "status",
+    "theta_vx",
+    "theta_vy",
+    "theta_vz",
+    "theta_wx",
+    "theta_wy",
+    "theta_wz",
+    "theta_cd",
+    "obs005_x",
+    "obs005_y",
+    "obs005_z",
+    "obs010_x",
+    "obs010_y",
+    "obs010_z",
+    "endpoint_y",
+    "endpoint_z"
+  ],
+  "csv_sha256": "ba44252bea01885d2b4bbc76b294ab4f2fcebfbfcf2c4fca2904d64616583a27",
+  "csv_bytes": 850158
+}

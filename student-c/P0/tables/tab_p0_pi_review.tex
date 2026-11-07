@@ -1,0 +1,16 @@
+\begin{table}[htbp]
+\centering
+\caption{PI-ResMDN review at $\sigma=5$ mm. Own simulator = uploaded script; canonical = retrained on the canonical simulator and evaluated on the same 4,187-flight test set.}
+\label{tab:p0-pi}
+\begin{tabular}{lcccc}
+\toprule
+Model & Median err. (m) & 50\% cov. & 95\% cov. & NLL \\
+\midrule
+PI-ResMDN (own simulator) & 0.377 & 64.1\% & 97.1\% & --- \\
+PI-ResMDN (canonical, 150 ep) & 0.424 & 55.5\% & 94.9\% & 1.08 \\
+Arm A (canonical) & 0.309 & 47.1\% & 95.5\% & 0.07 \\
+Arm C (canonical) & 0.294 & 48.3\% & 95.1\% & -0.15 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\footnotesize Paired comparison (same 4,187 flights, same noise): PI is better than A on 31.4\% and than C on 27.4\% of trajectories.
+\end{table}

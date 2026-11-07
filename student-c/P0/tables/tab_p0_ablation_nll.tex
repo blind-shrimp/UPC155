@@ -1,0 +1,16 @@
+\begin{table}[htbp]
+\centering
+\caption{P0 five-arm ablation: mean negative log-likelihood in physical units (lower is better; absolute and residual targets are comparable by translation).}
+\label{tab_p0_ablation_nll}
+\begin{tabular}{lcccc}
+\toprule
+Arm & 2 mm & 5 mm & 10 mm & 15 mm \\
+\midrule
+A: raw$_6$+$\sigma$ $\to$ absolute & -1.30 & 0.07 & 0.77 & 1.02 \\
+B: raw$_6$+$\sigma$ $\to$ residual & -1.32 & 0.14 & 1.28 & 2.02 \\
+C: physics$_{16}$ $\to$ absolute & -1.61 & -0.15 & 0.66 & 0.97 \\
+D: physics$_{16}$ $\to$ residual & -1.74 & 0.10 & 4.27 & 9.03 \\
+E: raw$_6$+$\sigma$+base $\to$ residual & -1.55 & -0.02 & 1.10 & 2.03 \\
+\bottomrule
+\end{tabular}
+\end{table}

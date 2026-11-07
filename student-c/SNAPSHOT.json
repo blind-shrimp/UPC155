@@ -1,0 +1,175 @@
+{
+  "stage": "P0",
+  "owner": "student-c",
+  "created": "2026-11-07T20:52:00+08:00",
+  "source_commit": "81f9ce3",
+  "authoritative_results": "student_b/experiments/results",
+  "note": "C-line snapshot of the P0 test set, report, tables and figures; the live code/results stay in student_b/experiments.",
+  "files": [
+    {
+      "path": "P0/code/make_latex_tables.py",
+      "bytes": 8994,
+      "sha256": "9c6caf770ade525af44214c5f17f6f36b9733147e24faad95684e1d0e3622fa0"
+    },
+    {
+      "path": "P0/code/README.md",
+      "bytes": 1139,
+      "sha256": "5d3d19fd7c6e4e8977103dab29895a731c5892aae17e104f9c50b755124a469e"
+    },
+    {
+      "path": "P0/data/export_test_set.py",
+      "bytes": 3841,
+      "sha256": "409fe672fd6bed340351a20bfbf005459db59d4d54fc781c2e22c13a8fd4e34e"
+    },
+    {
+      "path": "P0/data/test_canonical_4187_manifest.json",
+      "bytes": 1806,
+      "sha256": "95544bb6f7b2f0aab0e9cac0c8286765641cf4350fc2469d2920744dbb2e501f"
+    },
+    {
+      "path": "P0/data/test_canonical_4187.csv",
+      "bytes": 850158,
+      "sha256": "ba44252bea01885d2b4bbc76b294ab4f2fcebfbfcf2c4fca2904d64616583a27"
+    },
+    {
+      "path": "P0/README.md",
+      "bytes": 4772,
+      "sha256": "f16f8c48320865d667bb541f2104efa5e520f405e581a98103507f93172d20e6"
+    },
+    {
+      "path": "P0/report/ablation_paired_5mm.csv",
+      "bytes": 1374,
+      "sha256": "7e01a3ac2ca695651145f5b4fbb6f76d4aad802004276cbb6598b2b3fb66f34e"
+    },
+    {
+      "path": "P0/report/ablation_runs.csv",
+      "bytes": 18763,
+      "sha256": "f59e7dd43dac5a66bd1c794d9b506d1d073f629524c4cf827f4bb0c084712450"
+    },
+    {
+      "path": "P0/report/ablation_summary.csv",
+      "bytes": 8568,
+      "sha256": "bfde32e7bc5a9af5c68f473d4f0eae1e6d2f3d641265da36eef2ff6fc0709522"
+    },
+    {
+      "path": "P0/report/diagnostics.json",
+      "bytes": 11618,
+      "sha256": "7b10cfee83246b5f9707f5e62928d5d43bd2024b09b6d8d05fe8fb0a794709a3"
+    },
+    {
+      "path": "P0/report/diagnostics.md",
+      "bytes": 1688,
+      "sha256": "395779ef0cd8ac00e363f90579b6e1282bc7a87eb5ab54a1371514af2ffd1445"
+    },
+    {
+      "path": "P0/report/figures/ablation_coverage.png",
+      "bytes": 129901,
+      "sha256": "81a304dc71291e2bfea32f128e717614f96031b6ea7946f9645c8a8e33225d56"
+    },
+    {
+      "path": "P0/report/figures/ablation_median.png",
+      "bytes": 84794,
+      "sha256": "e325d843ea24e9e638ffd430d5bfae88147fd354b1cf12bb43c632ea4f86a631"
+    },
+    {
+      "path": "P0/report/figures/ablation_nll.png",
+      "bytes": 57529,
+      "sha256": "e15666dd4acc6f2e4a06cb9907f29f0da383ac9c454c36204680dbae675c24e1"
+    },
+    {
+      "path": "P0/report/figures/baseline_residuals.png",
+      "bytes": 43250,
+      "sha256": "fdfebce4aeec237a7359a7bd99f6998e18605995f20f16c50ad1a011a828c9ef"
+    },
+    {
+      "path": "P0/report/figures/coverage_vs_sigma_legacy.png",
+      "bytes": 37050,
+      "sha256": "b18a11a63d8cefdf69b4cc7923a718e10e1cf23d6ca6669a091fe94c55589c1e"
+    },
+    {
+      "path": "P0/report/figures/feature_correlation_5mm.png",
+      "bytes": 48159,
+      "sha256": "128e2f4236918c5f63cd1e7276f644730a4b1bc5cb125a87ecd8ecffcd85c75d"
+    },
+    {
+      "path": "P0/report/figures/pi_res_mdn_case_heatmaps.png",
+      "bytes": 738293,
+      "sha256": "bc4bb8875021ae7373fef8dd1d3c6820f1190ce7e9965c8ec634d08dfb4b823d"
+    },
+    {
+      "path": "P0/report/nll_tails.json",
+      "bytes": 9401,
+      "sha256": "b481fdadd50d679778c74305f5293c96643610663c7b3c2c2c9d02a12e6782bd"
+    },
+    {
+      "path": "P0/report/P0_report.md",
+      "bytes": 15174,
+      "sha256": "86e6dbf183272a66b17144f467181f0dd182aece2ee1e8593ea506ad584585c7"
+    },
+    {
+      "path": "P0/report/P0_summary.md",
+      "bytes": 3763,
+      "sha256": "9b87aedc803dfbc99dc8e9d6513ed629b723b913b06c4c2697508e4329c8a002"
+    },
+    {
+      "path": "P0/report/paired_PI_vs_AC_5mm.csv",
+      "bytes": 744,
+      "sha256": "f63da8e844cc16397b0820332513271622e12284b59fb078ee0b0756d9ea73ef"
+    },
+    {
+      "path": "P0/report/pi_canonical_runs_e150.csv",
+      "bytes": 5600,
+      "sha256": "bef3aa6df5ededb7f699befde24fbdde7fe95cdf84636f107d9ad76c5fbd45e4"
+    },
+    {
+      "path": "P0/report/pi_feature_diag.json",
+      "bytes": 1853,
+      "sha256": "f6f702f2c0772dc534cad4fda2beb4834bfc649931cb82e769384592820f3ec2"
+    },
+    {
+      "path": "P0/report/simulator_diff.json",
+      "bytes": 5211,
+      "sha256": "551f4923ac7fec426625688648279e5bfb5079105493a8827b817151ab6a33b1"
+    },
+    {
+      "path": "P0/report/simulator_diff.md",
+      "bytes": 798,
+      "sha256": "12031afafb37d6b4e4ec309d27149ba3990561bc4f6bcfd5f0fb26c3247ecc87"
+    },
+    {
+      "path": "P0/tables/tab_p0_ablation_median.tex",
+      "bytes": 660,
+      "sha256": "ab3c3aac5f9acf103e7d94fc44f4473403d18ccbea09c989dc9204e93f7f97d1"
+    },
+    {
+      "path": "P0/tables/tab_p0_ablation_nll.tex",
+      "bytes": 688,
+      "sha256": "6df17c696a2a389a9e93eb5bafdfa10443d8a9a35789f2abbbb8c82a1e1680e3"
+    },
+    {
+      "path": "P0/tables/tab_p0_coverage.tex",
+      "bytes": 813,
+      "sha256": "5220302081961a1552080fac3f92f61b4057633ffa320549c661db613106da3d"
+    },
+    {
+      "path": "P0/tables/tab_p0_features.tex",
+      "bytes": 689,
+      "sha256": "3b0b79748e9a6b4459c073f49ea5ad915cdb6842bbe448e84aa7ae296ecc04b0"
+    },
+    {
+      "path": "P0/tables/tab_p0_pi_review.tex",
+      "bytes": 761,
+      "sha256": "e86aac1f70192287f68fdc5f5eee8471ec1a80ac635f853dff6c0abdc931d1d3"
+    },
+    {
+      "path": "P0/tables/tab_p0_residual.tex",
+      "bytes": 592,
+      "sha256": "aa1353b5817f0f46c85ceec8b3ec4cefa5f38bad337c9c2174c5dafa189c60e2"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2040,
+      "sha256": "fadbf243f08363a006b4fd39b7b204635aac920798d9c0fd8b9dc366aba088f9"
+    }
+  ]
+}
