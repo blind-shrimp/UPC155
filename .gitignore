@@ -14,3 +14,14 @@ desktop.ini
 
 # P0 experiment checkpoints (reproducible from scripts)
 student_b/experiments/results/checkpoints/
+
+# P1 intermediate checkpoints and local-only error trace
+student-c/P1/checkpoints/*.pt
+student-c/P1/final/candidates/*.pt
+student-c/P1/run_log.txt
+
+# Generated LaTeX working files
+论文模板/main.aux
+论文模板/main.log
+论文模板/main.out
+论文模板/main.toc

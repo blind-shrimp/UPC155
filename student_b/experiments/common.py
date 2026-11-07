@@ -104,6 +104,9 @@ def make_inputs(kind, obs, sigma):
         return np.column_stack([flat, sigma])
     if kind == "phys":
         return physics_features(obs, sigma)
+    if kind == "phys_reduced":
+        # Drop the three gravity-shifted duplicates and apparent Cd/Cl.
+        return physics_features(obs, sigma)[:, [0, 1, 2, 3, 4, 5, 9, 10, 11, 14, 15]]
     if kind == "rawbase":
         return np.column_stack([flat, sigma, baseline_endpoint(obs)])
     raise ValueError(kind)
@@ -127,17 +130,19 @@ def standardize_fit(X, Y):
 
 
 # ------------------------------------------------------------------ the model
-def build_mdn(input_dim, k=3, hidden=128, depth=2, layernorm=True):
+def build_mdn(input_dim, k=3, hidden=128, depth=2, layernorm=True, activation="SiLU",
+              correlation=True):
     import torch
     from torch import nn
 
     layers = []
+    activation_class = {"SiLU": nn.SiLU, "GELU": nn.GELU, "ReLU": nn.ReLU, "Tanh": nn.Tanh}[activation]
     d = input_dim
     for _ in range(depth):
         layers.append(nn.Linear(d, hidden))
         if layernorm:
             layers.append(nn.LayerNorm(hidden))
-        layers.append(nn.SiLU())
+        layers.append(activation_class())
         d = hidden
     layers.append(nn.Linear(d, 6 * k))
     net = nn.Sequential(*layers)
@@ -153,7 +158,7 @@ def build_mdn(input_dim, k=3, hidden=128, depth=2, layernorm=True):
             logits = raw[:, :, 0]
             mu = raw[:, :, 1:3]
             scale = torch.nn.functional.softplus(raw[:, :, 3:5]) + 1e-3
-            corr = 0.995 * torch.tanh(raw[:, :, 5])
+            corr = 0.995 * torch.tanh(raw[:, :, 5]) if correlation else torch.zeros_like(raw[:, :, 5])
             L = torch.zeros((*mu.shape, 2), device=x.device)
             L[:, :, 0, 0] = scale[:, :, 0]
             L[:, :, 1, 0] = corr * scale[:, :, 1]
@@ -212,7 +217,8 @@ def _abs_from_dist(samples, stats, target_kind, base):
 
 
 def evaluate_distribution(dist, y_std, stats, target_kind, base_abs, goal_rect,
-                           n_thr=512, n_area=1024, n_goal=512, n_energy=128):
+                           n_thr=512, n_area=1024, n_goal=512, n_energy=128,
+                           hdr_masses=None):
     """Return per-sample metrics for a batch of predicted mixtures."""
     import torch
 
@@ -222,13 +228,16 @@ def evaluate_distribution(dist, y_std, stats, target_kind, base_abs, goal_rect,
 
     s = dist.sample((n_thr,))
     lp_s = dist.log_prob(s)
-    thr = {a: torch.quantile(lp_s, 1 - a, dim=0) for a in (0.5, 0.95)}
+    if hdr_masses is None:
+        hdr_masses = {0.5: 0.5, 0.95: 0.95}
+    thr = {level: torch.quantile(lp_s, 1 - mass, dim=0)
+           for level, mass in hdr_masses.items()}
     coverage = {a: (truth_lp >= thr[a]).cpu().numpy() for a in thr}
 
     s2 = dist.sample((n_area,))
     lp2 = dist.log_prob(s2)
     area = {}
-    for a in (0.5, 0.95):
+    for a in hdr_masses:
         area[a] = (torch.where(lp2 >= thr[a], torch.exp(-lp2), torch.zeros_like(lp2))
                    .mean(0) * float(np.prod(stats["ys"]))).cpu().numpy()
 

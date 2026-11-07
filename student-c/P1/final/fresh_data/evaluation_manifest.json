@@ -1,0 +1,20 @@
+{
+  "sha256": "e1c6496a65d75c795201bec950f4a0e05582b411415403314bcfd7f7e296d5b1",
+  "seed": 155107,
+  "generated": 6000,
+  "scored": 5036,
+  "robustness": {
+    "wind_3mps": {
+      "n_paired": 5001,
+      "nominal_airborne": 5036,
+      "shifted_airborne": 5036,
+      "status_changes": 70
+    },
+    "spin_tau_0.5s": {
+      "n_paired": 5003,
+      "nominal_airborne": 5036,
+      "shifted_airborne": 5064,
+      "status_changes": 94
+    }
+  }
+}

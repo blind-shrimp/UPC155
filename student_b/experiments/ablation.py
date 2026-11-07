@@ -63,8 +63,11 @@ def load():
     return d, parts
 
 
-def train_one(arm, seed, parts, verbose=True):
-    spec = ARMS[arm]
+def train_one(arm, seed, parts, verbose=True, *, input_kind=None, k=K, depth=DEPTH,
+              activation="SiLU", correlation=True, cosine=True, dynamic_noise=True):
+    spec = dict(ARMS[arm])
+    if input_kind is not None:
+        spec["input"] = input_kind
     rng = np.random.default_rng(seed)
     torch.manual_seed(seed)
     obs_tr, y_tr = parts["tr"]["obs"], parts["tr"]["y"]
@@ -94,9 +97,14 @@ def train_one(arm, seed, parts, verbose=True):
     Xva = torch.tensor((Xva_raw[ok_va] - st["xm"]) / st["xs"], dtype=torch.float32)
     Yva = torch.tensor((Yva_raw[ok_va] - st["ym"]) / st["ys"], dtype=torch.float32)
 
-    model = build_mdn(X_ref.shape[1], k=K, hidden=HIDDEN, depth=DEPTH)
+    model = build_mdn(X_ref.shape[1], k=k, hidden=HIDDEN, depth=depth,
+                      activation=activation, correlation=correlation)
     opt = torch.optim.Adam(model.parameters(), lr=LR)
-    sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=EPOCHS)
+    sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=EPOCHS) if cosine else None
+    if not dynamic_noise:
+        fixed_rng = np.random.default_rng(seed + 100000)
+        fixed_sigma = fixed_rng.uniform(.001, .020, n_tr)
+        fixed_obs = obs_tr + fixed_rng.normal(size=obs_tr.shape) * fixed_sigma[:, None, None]
     n_params = sum(p.numel() for p in model.parameters())
     history = []
     t0 = time.perf_counter()
@@ -106,8 +114,11 @@ def train_one(arm, seed, parts, verbose=True):
         total, seen = 0.0, 0
         for start in range(0, n_tr, BATCH):
             b = perm[start:start + BATCH]
-            sig = rng.uniform(.001, .020, len(b))
-            obs_b = obs_tr[b] + rng.normal(size=obs_tr[b].shape) * sig[:, None, None]
+            if dynamic_noise:
+                sig = rng.uniform(.001, .020, len(b))
+                obs_b = obs_tr[b] + rng.normal(size=obs_tr[b].shape) * sig[:, None, None]
+            else:
+                sig, obs_b = fixed_sigma[b], fixed_obs[b]
             X = np.nan_to_num((make_inputs(spec["input"], obs_b, sig) - st["xm"]) / st["xs"],
                               nan=0.0, posinf=0.0, neginf=0.0)
             Y = (make_target(spec["target"], y_tr[b], obs_b) - st["ym"]) / st["ys"]
@@ -127,7 +138,8 @@ def train_one(arm, seed, parts, verbose=True):
             opt.step()
             total += float(loss.detach()) * len(b)
             seen += len(b)
-        sched.step()
+        if sched is not None:
+            sched.step()
         model.eval()
         with torch.no_grad():
             val = float(-model(Xva).log_prob(Yva).mean()) + float(np.log(st["ys"]).sum())
@@ -139,14 +151,14 @@ def train_one(arm, seed, parts, verbose=True):
     return model, st, history, seconds, n_params
 
 
-def evaluate(model, st, arm, parts, seed):
+def evaluate(model, st, arm, parts, seed, *, noise_seed_base=9100):
     spec = ARMS[arm]
     obs_te, y_te = parts["te"]["obs"], parts["te"]["y"]
     ym, ys = st["ym"], st["ys"]
     rows, per_sample = [], []
     with torch.no_grad():
         for sigma in LEVELS:
-            rng = np.random.default_rng(9100 + int(sigma * 1e6))  # same noise for all arms/seeds
+            rng = np.random.default_rng(noise_seed_base + round(sigma * 1e6))  # shared by arms/seeds
             noisy = obs_te + rng.normal(size=obs_te.shape) * sigma
             base = baseline_endpoint(noisy)
             bad = ~np.isfinite(base).all(axis=1)

@@ -111,14 +111,14 @@ def train(seed, parts):
     return model, feat_mean, feat_std, time.perf_counter() - t0, best
 
 
-def evaluate(model, feat_mean, feat_std, parts, seed):
+def evaluate(model, feat_mean, feat_std, parts, seed, *, noise_seed_base=9100):
     x_te, y_te = parts["te"]["obs"], parts["te"]["y"]
     rows = []
     per_sample = None
     identity = dict(ym=np.zeros(2), ys=np.ones(2))
     with torch.no_grad():
         for sigma in LEVELS:
-            rng = np.random.default_rng(9100 + int(sigma * 1e6))
+            rng = np.random.default_rng(noise_seed_base + round(sigma * 1e6))
             noisy = x_te + rng.normal(size=x_te.shape) * sigma
             errs, nll, c50, c95, a50, a95, pg, en = [], [], [], [], [], [], [], []
             pis = []

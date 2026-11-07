@@ -1,0 +1,218 @@
+{
+  "best_depth": [
+    4,
+    "SiLU",
+    "reference"
+  ],
+  "chosen_depth": [
+    3,
+    "SiLU",
+    "reference"
+  ],
+  "best_activation": [
+    3,
+    "GELU",
+    "reference"
+  ],
+  "winner": [
+    3,
+    "GELU",
+    "reference"
+  ],
+  "depth_decisions": [
+    {
+      "simpler": [
+        1,
+        "SiLU",
+        "reference"
+      ],
+      "reference": [
+        4,
+        "SiLU",
+        "reference"
+      ],
+      "chosen": [
+        4,
+        "SiLU",
+        "reference"
+      ],
+      "simpler_metrics": {
+        "nll_by_seed": [
+          0.05152739956974983,
+          0.025771986693143845,
+          0.07275674026459455
+        ],
+        "mean_absolute_coverage_gap": 0.021212121212121238
+      },
+      "reference_metrics": {
+        "nll_by_seed": [
+          -0.09670059010386467,
+          -0.10155372321605682,
+          -0.08928453549742699
+        ],
+        "mean_absolute_coverage_gap": 0.014094896331738457
+      },
+      "delta_nll_mean": 0.14586499178161225,
+      "delta_nll_seed_sd": 0.01747799895292911
+    },
+    {
+      "simpler": [
+        2,
+        "SiLU",
+        "reference"
+      ],
+      "reference": [
+        4,
+        "SiLU",
+        "reference"
+      ],
+      "chosen": [
+        4,
+        "SiLU",
+        "reference"
+      ],
+      "simpler_metrics": {
+        "nll_by_seed": [
+          -0.06373576819896698,
+          -0.06544705480337143,
+          -0.054784614592790604
+        ],
+        "mean_absolute_coverage_gap": 0.014274322169059028
+      },
+      "reference_metrics": {
+        "nll_by_seed": [
+          -0.09670059010386467,
+          -0.10155372321605682,
+          -0.08928453549742699
+        ],
+        "mean_absolute_coverage_gap": 0.014094896331738457
+      },
+      "delta_nll_mean": 0.03452380374073982,
+      "delta_nll_seed_sd": 0.001571059407539927
+    },
+    {
+      "simpler": [
+        3,
+        "SiLU",
+        "reference"
+      ],
+      "reference": [
+        4,
+        "SiLU",
+        "reference"
+      ],
+      "chosen": [
+        3,
+        "SiLU",
+        "reference"
+      ],
+      "simpler_metrics": {
+        "nll_by_seed": [
+          -0.09294169396162033,
+          -0.08677927404642105,
+          -0.08962801471352577
+        ],
+        "mean_absolute_coverage_gap": 0.015231259968102076
+      },
+      "reference_metrics": {
+        "nll_by_seed": [
+          -0.09670059010386467,
+          -0.10155372321605682,
+          -0.08928453549742699
+        ],
+        "mean_absolute_coverage_gap": 0.014094896331738457
+      },
+      "delta_nll_mean": 0.006063288698593776,
+      "delta_nll_seed_sd": 0.007817967028541928
+    }
+  ],
+  "activation_decision": {
+    "simpler": [
+      3,
+      "SiLU",
+      "reference"
+    ],
+    "reference": [
+      3,
+      "GELU",
+      "reference"
+    ],
+    "chosen": [
+      3,
+      "GELU",
+      "reference"
+    ],
+    "simpler_metrics": {
+      "nll_by_seed": [
+        -0.09294169396162033,
+        -0.08677927404642105,
+        -0.08962801471352577
+      ],
+      "mean_absolute_coverage_gap": 0.015231259968102076
+    },
+    "reference_metrics": {
+      "nll_by_seed": [
+        -0.10611424595117569,
+        -0.09918705001473427,
+        -0.09657728672027588
+      ],
+      "mean_absolute_coverage_gap": 0.017065390749601284
+    },
+    "delta_nll_mean": 0.010843199988206228,
+    "delta_nll_seed_sd": 0.003393851342389932
+  },
+  "depth_nll": [
+    {
+      "depth": 1,
+      "mean_nll": 0.050018708842496075
+    },
+    {
+      "depth": 2,
+      "mean_nll": -0.061322479198376335
+    },
+    {
+      "depth": 3,
+      "mean_nll": -0.08978299424052238
+    },
+    {
+      "depth": 4,
+      "mean_nll": -0.09584628293911616
+    }
+  ],
+  "activation_nll": [
+    {
+      "activation": "SiLU",
+      "mean_nll": -0.08978299424052238
+    },
+    {
+      "activation": "GELU",
+      "mean_nll": -0.10062619422872861
+    },
+    {
+      "activation": "ReLU",
+      "mean_nll": -0.07218082249164581
+    },
+    {
+      "activation": "Tanh",
+      "mean_nll": -0.0643065186838309
+    }
+  ],
+  "critique_nll": [
+    {
+      "intervention": "reference",
+      "mean_nll": -0.10062619422872861
+    },
+    {
+      "intervention": "rho_zero",
+      "mean_nll": -0.024491579582293827
+    },
+    {
+      "intervention": "fixed_lr",
+      "mean_nll": 0.02982446861763795
+    },
+    {
+      "intervention": "fixed_noise",
+      "mean_nll": 0.0010274872183799744
+    }
+  ]
+}

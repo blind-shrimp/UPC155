@@ -1,0 +1,38 @@
+validated 2xSiLU reference seed=11 NLL=-0.0637
+validated 2xSiLU reference seed=22 NLL=-0.0654
+validated 2xSiLU reference seed=33 NLL=-0.0548
+validated 1xSiLU reference seed=22 NLL=0.0258
+validated 1xSiLU reference seed=11 NLL=0.0515
+validated 1xSiLU reference seed=33 NLL=0.0728
+validated 3xSiLU reference seed=11 NLL=-0.0929
+validated 3xSiLU reference seed=22 NLL=-0.0868
+validated 3xSiLU reference seed=33 NLL=-0.0896
+validated 4xSiLU reference seed=11 NLL=-0.0967
+validated 4xSiLU reference seed=22 NLL=-0.1016
+validated 4xSiLU reference seed=33 NLL=-0.0893
+validated 3xReLU reference seed=11 NLL=-0.0710
+validated 3xGELU reference seed=33 NLL=-0.0966
+validated 3xGELU reference seed=22 NLL=-0.0992
+validated 3xGELU reference seed=11 NLL=-0.1061
+validated 3xReLU reference seed=22 NLL=-0.0743
+validated 3xReLU reference seed=33 NLL=-0.0712
+validated 3xTanh reference seed=11 NLL=-0.0662
+validated 3xTanh reference seed=22 NLL=-0.0600
+validated 3xTanh reference seed=33 NLL=-0.0666
+architecture selected on validation: (3, 'GELU', 'reference')
+validated 3xGELU rho_zero seed=22 NLL=-0.0205
+validated 3xGELU rho_zero seed=11 NLL=-0.0197
+validated 3xGELU rho_zero seed=33 NLL=-0.0333
+validated 3xGELU fixed_lr seed=11 NLL=0.0689
+validated 3xGELU fixed_lr seed=22 NLL=-0.0246
+validated 3xGELU fixed_noise seed=11 NLL=0.0163
+validated 3xGELU fixed_lr seed=33 NLL=0.0451
+validated 3xGELU fixed_noise seed=22 NLL=-0.0158
+validated 3xGELU fixed_noise seed=33 NLL=0.0026
+Final architecture and calibration frozen before fresh test generation
+generated 2000/6000
+generated 4000/6000
+generated 6000/6000
+scored phys_reduced K=3 seed=11
+scored phys_reduced K=3 seed=22
+scored phys_reduced K=3 seed=33

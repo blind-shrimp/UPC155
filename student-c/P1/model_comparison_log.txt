@@ -1,0 +1,6 @@
+P0 arm A scored on fresh data
+P0 arm B scored on fresh data
+P0 arm C scored on fresh data
+P0 arm D scored on fresh data
+P0 arm E scored on fresh data
+Bayesian paired subset complete 30 / 32
