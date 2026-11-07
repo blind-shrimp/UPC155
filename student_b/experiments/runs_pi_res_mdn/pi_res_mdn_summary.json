@@ -1,0 +1,78 @@
+{
+  "simulation_meta": {
+    "total_simulated": 62500,
+    "valid_air_crossing": 55882,
+    "excluded_ground_or_short_ratio": 0.10588799999999998,
+    "kept_samples": 50000
+  },
+  "test_evaluation": {
+    "sigma_2mm": {
+      "const_accel_median_err_m": 0.1787,
+      "const_accel_p90_err_m": 0.3969,
+      "pi_res_mdn_median_err_m": 0.1805,
+      "pi_res_mdn_p90_err_m": 0.3881,
+      "empirical_coverage_50": 0.6334,
+      "empirical_coverage_95": 0.9952,
+      "single_inference_time_ms": 0.0004
+    },
+    "sigma_5mm": {
+      "const_accel_median_err_m": 0.4122,
+      "const_accel_p90_err_m": 0.9478,
+      "pi_res_mdn_median_err_m": 0.3769,
+      "pi_res_mdn_p90_err_m": 0.8916,
+      "empirical_coverage_50": 0.6414,
+      "empirical_coverage_95": 0.971,
+      "single_inference_time_ms": 0.0007
+    },
+    "sigma_10mm": {
+      "const_accel_median_err_m": 0.8191,
+      "const_accel_p90_err_m": 1.9501,
+      "pi_res_mdn_median_err_m": 0.8182,
+      "pi_res_mdn_p90_err_m": 1.9537,
+      "empirical_coverage_50": 0.5694,
+      "empirical_coverage_95": 0.9794,
+      "single_inference_time_ms": 0.0007
+    }
+  },
+  "case_study": {
+    "sigma_2mm": {
+      "mode_yz": [
+        2.5156,
+        2.0331
+      ],
+      "mean_yz": [
+        2.4968,
+        1.9904
+      ],
+      "area_50_m2": 0.166,
+      "area_95_m2": 1.7937,
+      "goal_probability": 0.926
+    },
+    "sigma_5mm": {
+      "mode_yz": [
+        2.4836,
+        1.9808
+      ],
+      "mean_yz": [
+        2.5431,
+        2.0257
+      ],
+      "area_50_m2": 1.56,
+      "area_95_m2": 13.1385,
+      "goal_probability": 0.6247
+    },
+    "sigma_15mm": {
+      "mode_yz": [
+        2.4238,
+        1.9738
+      ],
+      "mean_yz": [
+        2.5118,
+        1.9795
+      ],
+      "area_50_m2": 2.4494,
+      "area_95_m2": 22.5576,
+      "goal_probability": 0.5968
+    }
+  }
+}
