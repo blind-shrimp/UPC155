@@ -112,16 +112,30 @@ def marginal_intervals(points, weights):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     root = Path(__file__).resolve().parents[1]
-    parser.add_argument('--data', type=Path, default=root/'student-a/flight_trajectory_validation_2026-11-07')
-    parser.add_argument('--out', type=Path, default=root/'student_b/runs/real_spin_final')
+    sources = parser.add_mutually_exclusive_group()
+    sources.add_argument('--data', type=Path)
+    sources.add_argument('--dfl-positions', type=Path, help='Screened DFL positions.csv with input/held_out roles')
+    parser.add_argument('--out', type=Path)
     parser.add_argument('--samples', type=int, default=16000)
     parser.add_argument('--step', type=float, default=.005)
     args = parser.parse_args()
     if args.samples < 2 or args.step <= 0:
         parser.error('samples must be >=2 and step positive')
-    args.out.mkdir(parents=True, exist_ok=True)
-    config = json.loads((args.data/'case_config.json').read_text(encoding='utf-8-sig'))
-    prefix = read_csv(args.data/'inputs_only.csv')
+    out = args.out or root/'student_b/runs'/('dfl_screened_spin' if args.dfl_positions else 'real_spin_final')
+    out.mkdir(parents=True, exist_ok=True)
+    if args.dfl_positions:
+        # The provider table contains both roles. Only the input rows enter the fit.
+        prefix = [r for r in read_csv(args.dfl_positions) if r['role'] == 'input']
+        config = {case: {'score_axes': list('xyz'), 'target_local_x_m': None}
+                  for case in dict.fromkeys(r['case_id'] for r in prefix)}
+        source_files = [args.dfl_positions]
+        if not config:
+            raise ValueError('No DFL input segments found')
+    else:
+        data = args.data or root/'student-a/flight_trajectory_validation_2026-11-07'
+        config = json.loads((data/'case_config.json').read_text(encoding='utf-8-sig'))
+        prefix = read_csv(data/'inputs_only.csv')
+        source_files = [data/name for name in ('inputs_only.csv', 'held_out.csv', 'case_config.json')]
     cfg = Config(dt=args.step)
     fitted = {}
     for case, spec in config.items():
@@ -135,13 +149,20 @@ def main():
                 for rotating in (False, True):
                     fitted[case, sigma, seed, rotating] = sample_prefix(times, obs, axes, sigma, args.samples, seed, rotating, cfg)
     # Only score after all state and aerodynamic posterior draws are fixed.
-    held = read_csv(args.data/'held_out.csv')
+    if args.dfl_positions:
+        held = [r for r in read_csv(args.dfl_positions) if r['role'] == 'held_out']
+    else:
+        held = read_csv(data/'held_out.csv')
+    if set(config) != {row['case_id'] for row in held}:
+        raise ValueError('Each input segment must have matching held-out rows')
     records = []
     for (case, sigma, seed, rotating), (state, theta, weights) in fitted.items():
         spec = config[case]
         axes = np.array(['xyz'.index(a) for a in spec['score_axes']])
         last = max(float(r['t_s']) for r in prefix if r['case_id'] == case)
         times, truth = arrays([r for r in held if r['case_id'] == case], axes)
+        if not np.all(np.diff(times) > 0) or times[0] <= last or not np.isfinite(truth).all():
+            raise ValueError(f'{case}: invalid held-out times or positions')
         target = spec['target_local_x_m']
         reference = None
         if target is not None:
@@ -171,9 +192,8 @@ def main():
             goal_reference_local_yz_m=reference.tolist() if reference is not None else None,
             goal_error_m=float(np.linalg.norm(mean_goal-reference)) if mean_goal is not None else None,
             frame_predictions=forecasts))
-    save_json(args.out/'scores.json', {'samples_per_fit': args.samples, 'dt_max_s': args.step,
-        'source_sha256': {name: hashlib.sha256((args.data/name).read_bytes()).hexdigest()
-                          for name in ('inputs_only.csv', 'held_out.csv', 'case_config.json')},
+    save_json(out/'scores.json', {'samples_per_fit': args.samples, 'dt_max_s': args.step,
+        'source_sha256': {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in source_files},
         'prior': 'Cd U[.15,.30]; spin U[-60,60] per active axis or zero; initial position within 1 m per coordinate of observed origin and above ground; velocity +/-60 m/s per coordinate',
         'records': records})
     for case in config:

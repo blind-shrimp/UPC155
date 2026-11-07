@@ -8,7 +8,7 @@
 
 两次 DFL 点球、新 ISSIA 片段与 Barber 二维实验已完成三点输入、后段留出的旋转对照。加入旋转改善 J03WOH，在其余案例未表现出一致改善。报告包含两个噪声情景、两个种子、过门边际区间和触地概率。[四例结果](student_b/runs/real_spin_final/旋转外推.md)
 
-仓库的 [P0 神经网络消融](student_b/experiments/results/P0_report.md) 已单独完成，使用固定仿真测试集。A 新筛选的 DFL 比赛片段适合后续探索性外推。[筛选说明](student-a/additional_flight_data_2026-11-07/README.md)
+仓库的 [P0 神经网络消融](student_b/experiments/results/P0_report.md) 已单独完成，使用固定仿真测试集。A 筛选的 11 段 DFL 比赛轨迹已完成探索性外推。15/30 mm 两个噪声情景各有 7/11 段的两种子平均 RMSE 降低，逐段误差与腾空概率见 [DFL 旋转对照](student_b/runs/dfl_screened_spin/DFL旋转对照.md)。
 
 ## 两次真实点球外推已完成
 
