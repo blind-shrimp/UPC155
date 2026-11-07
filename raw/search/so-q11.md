@@ -1,0 +1,29 @@
+---
+time: "2026-10-23"
+---
+
+# QUERY(so): 国际大学生物理竞赛 48小时 时间分配 分工
+
+## 关于组织参加2025年国际大学生物理竞赛的通知-重庆邮电大学教务处
+URL: https://www.so.com/link?m=uQRDVJQr7Pm4KZTml9W%2FuCtJHB6OCt43DNUYUct7dwsv1E2szGmxF4Y5Qy7ogtoj0ZdBwGRPuOHdrOhnymQg3EDa5MpnE00D%2BzoQ1CQtdzWAlmmJp8aDeCLGWcw29EzrPcAqXNnZNcy6iRQABTx9NniG0IZK%2FGGuHYStwLAZEJBADREAo%2B%2BUx2l6TgkVZahhmk9yLNcBiiszj3uNrq21R3MCJyF7XriOGY2nar48Hg7Ts8MWtqJx%2BSYhp%2Ffdk5qxZLZu%2Bhe3obEz4lab9%2BypfyOK%2FehCpb4%2FhnYB%2F2jeqUi4zdXVnbg%2BabM38D2DaqP43HKSCfh7sO6WdChe95xaq%2BQ%3D%3D
+摘要: 2025年9月23日 - 大学物理竞赛是一个国际性的比赛,参赛者是世界各地的在校本科生,以三人组成的队伍在各自所在的大学里,在十一月的第一个周末(今年比赛时间为2025年11月...
+
+## 2025年BPHO物理竞赛中国区名额限制和分配规则说明! - 国际教育联盟
+URL: https://www.so.com/link?m=wdpIwWDkHT3oU3vte257HCuUf2e2j1H8FrGTNa6%2FtdXZKSdSRjA%2BWqNqnIsW2TKWnu23xVyNjMlEGCgoutKpSoOETfNHc8eswzNfxCaJnMM%2BrBmcdjK17T1qum7h%2F9XW4owVebLxeTYMfqhgmBLQoXK%2FPdPunmy5pWL7NZKQKQc0Nu7wkNvgZNN76XwcWOe52oipUZ7IDXKHNzOnSWzFL%2FGsihwflO4L7QzoL8pD5oYskV%2BJ86WiERK%2FQNEvDTPxl7IGIO3bDFxJ1DyVLhRFv%2FkjFOIzjzn2rDVR7AWpBFNT3ygwao8l5h4upwKD9tBQwTo%2BJ%2BmORDdg5xnReXcFJbQ%3D%3D
+摘要: 2025年1月22日 - 机构物理竞赛辅导培训,由董方知老师带队,帮助学生从竞赛知识点与国际课程知识点重新整合,分单元提升知识广度和各板块深度。.物理竞赛的同学注意了!202...
+
+## 同济学子获2024年国际大学生物理竞赛2金17银21铜-同济大学新闻网
+URL: https://www.so.com/link?m=w7GLXq6FqrBo1iFqfKuBih8yIlxZsVfHPhmhUsWroOySaQr8T2FQhjg2dxf%2BKMH%2BJVvaAh6%2Byg%2FrQSWYDBFyjqa9gy77xnR2I2tmcHKacmQ8FFNX4tvsuv1Y%2BaxJNG%2FtH00YQgddy3n7%2BA2%2FO4xQFQCVHJvh9YCy1KY184mV1M3zygnD1i81gS7325LobPNr3ihtHeBAF7WFQHqHX%2FvszBbZhlsgV9OeQRUCqwJxFxGfQNj4Tliud53hvWOFgrtyRF661iqnQsv0h15DI83WIS2Fd4RTZRlsDjS0NYTEDYQIVDx5TOunVoa8GZ%2BMTXRC%2B0%2BLOhNgCeckq7q32i8r0%2FFw2jTQ%3D
+摘要: 2025年2月26日 - 国际大学生物理竞赛由美国物理学会(APS)与美国天文学会(AAS)联合主办,是全球最具影响力的本科生物理学科竞赛之一.竞赛要求参赛团队在48小时...news.tongji.edu.cn反馈
+
+## 金牌+3!密院学子在2024年国际大学生物理竞赛中再创佳绩! | 上海交通大学浦江国际学院
+URL: https://www.so.com/link?m=z%2FXvTW2OsdmdqL176OCPih6jpcJ4LSArt2VF5QWuDzUQferh7lTSby1x5oj07qattA87Qr51sfJ%2FP%2F3IK3FFsGj7Y0JddF7ZqHSx1c5tsSrusel9bJ6rmcccGC4okxhUE4uP0Br164WhFMgdinj3S0rsGMjXUUmGlP4kaCnD2NZ1CawO2uRZc%2FPtFNbXbG63S1mDz%2BNFhuFYPdi8lGc8rRnbaqDvNAgSWUgNc1zCTC1le5EIiogs9leIUtkjdeYF%2BjYE33X23S5PdV66t7EVyVWV3Qssu44%2FurYb%2Fqf%2FovSV9KFwHf6gLRSY%2FAFc1pgDxEil6%2FmM2l0TFBTwS%2F3wznJKi9T2GNaAi3pewzuAxWz2DmS42
+摘要: 2025年2月18日 - 国际大学生物理竞赛(The University Physics Competition,英文简称UPC)是由美国物理学会和美国天文学会举办的一项面向全球本科生的国际性赛事。参赛队...
+
+## 祝贺!上科大本科生首次参加国际大学生物理竞赛荣获铜奖
+URL: https://www.so.com/link?m=uAseSvZa3d5KEUgcHWEJU1670GhHhVNgGTPcSOb5L62UuuhZYW8Kl4WYjLbLQkXxV8UnACZhBQF7b1hpY%2FtKYP9vmLkHZMy8r8bsQ8Wvvrf61wxAcS%2BJvHRqruDIqgWFhozqyr%2FFED%2FssXEQTXciGqC8SAk1mZ9fLMZ1d0AitqBkgVj2Hm8SMcDCgJw0s1rV%2Bk9QAKTSKuanb%2B0yGrsBvQUR%2BngwC%2BoEAZX1p%2F2IefCjo580rd6%2BtHldv%2B%2BsWgiUSTB9OEb5Q7gej4OMjQ7w8%2BWNKDcn0uL7j1QCr1nbjgK0cs2gauKkQ%2BfGCDk4CBAmmgupTpkCXNbfQ%2BkpqIxk0rlRGyDDKXRojsDRynQtSToDM9SvPDIFeRQ%3D%3D
+摘要: 2023年2月10日 - 第13届国际大学生物理竞赛上科大团队获奖证书.竞赛要求学生以最多三人一组的团队合作形式参赛,选手从两个提供问题中选择一个,利用物理学原...spst.shanghaitech.edu.cn反馈
+
+## 连续五届国际金奖!这所高校学子创纪录|高校学子_新浪财经_新浪网
+URL: https://www.so.com/link?m=uTa4QqMVw5HnciIm8N%2BCSvEk8nHKrNIp923%2BSiUtS3hZIQe0cqB0MU68LMbAbibERtIv9%2F%2FHdUHqaKBcfPLiLov0qlmaft6fLmU3kMP425zvlxuG4SJwfcnRYrtZ4rylrKfPyaURuYdioxtqA5IHFyfXbaR1LaOvqLRcs%2BOFOIerdzdNQn2lHhEeK14uv21b%2FQ8hIRtnr4W4TyS%2Fi%2F%2FuYxbcyNSxxT8Juv0aiHSGFQoIDn4CoEIGj7hNjiY%2FNoulCIQeMNGU4RTewQarjGgfuBkN5rJjKg42ntlcZdtafFWyEiHlqW2jlWvIg%2F3sceTxSTsdsNAusbkdLTr38eihyUM9VIOkZbR8rrmvOdCUunhnPGUlPB6DQEdqe0HMzft0Q765hGQ%3D%3D
+摘要: 2025年3月11日 - 近日,2024年国际大学生物理竞赛(The 2024 University Physics Competition)成绩揭晓.竞赛要求参赛团队在48小时内,从两道开放性物理问题中选...finance.sina.com.cn反馈

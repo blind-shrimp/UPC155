@@ -1,0 +1,33 @@
+---
+time: "2026-10-23"
+---
+
+# QUERY(so): 国际大学生物理竞赛 论文 写作 经验 结构
+
+## 国际物理竞赛论文撰写-模板(5页)-原创力文档
+URL: https://www.so.com/link?m=eHgkdmDwQy9L7o6etBUD5ft6EMTmYUsBama%2F1yFArbsZOh%2BjzOqg09YCULZ3xr8RHf9z1uCq4aAkfaSZ3PhXdb7k7%2BdxMfgHbez24nZ968%2Bl6oxPQTufBB8RyZynoc%2FbDnAFyIJ5GnNDP0N1dtUxzAH17JPa%2FlzLc%2FElGxCgG1q7z%2FhlEwIneBpVth3C1%2FDdN8dAQo3uY9lo9cr%2BM7ou11qHf4avEgiLM6W2eysVfQPFqxY%2Bq9t%2Brphlw0hBoSoOOVunurXjuSoZ6K8TkxKrnyppNql1ayNQiE3cZ9XgBpFF6IIErTDhNtO5vt65ziBdkcKY0p9bOmrRUcXfzz8NZvmTasAISaXqI4iR4lSVrM90%3D
+摘要: 2021年12月3日 - 国际物理竞赛论文撰写-模板.docx,PAGE 2 Title: Team: November 3, 2019 Abstract Contents Introduction Model and formulas Results and discussion...
+
+## 国际物理竞赛论文撰写-通用模板 (1).docx-原创力文档
+URL: https://www.so.com/link?m=eNzBdT0vMSJC7UjaDx2d6CDBnqtuo2lv1Gdq4ix2%2BD9G%2FVQWEUTmwj62f3eEKnpasi2lT%2Bf0J0zonq%2Fel3vcF0VYJraEdrviPtlkkIkyuXHMmjeSmp8ikKRVr3IuLhNpSW2AXJAsd63VecYwPk7E8WyCDHS0xIouEcb30en7RQS3NQU0Htp6Zt6wRiT4zN%2Fp5mwFsoxZETVkkmI%2BvD0CPS3USZJFSFvn9VBmQbHRs0R3n%2FJvO3WTD5j8xeegoyOEtog%2FLudXtQPeySubQZGoL9vx%2BrYA8d3CF%2F7FLVy3Rv%2Blg8UUZ5dWWlySV3BeTcBsX146lP9HVYbP6vcqTUbQQAnmZJzQWmAPk04meDnrlweU%3D
+摘要: 6页2021年12月3日PAGE 6 Problem: A or B Title: Designing XXXXXX Team: XXX November 6, 2021 Abstract Keywords: XX, XX, XX, XX, XX, XX. Contents Introduction Model and f...max.book118.com反馈
+
+## 大学生物理竞赛论文格式范例.docx-原创力文档
+URL: https://www.so.com/link?m=eXRMa0rCVBvADjMcEibX%2FDMgkMQ0MTMf6gsUT4kCTUvNcG6Wx9x9rU0JQ1oUsBns5MB8%2FMlsNUkYkZdDwZFfnAv0KQ%2BTYeykZnG%2FkpOZ%2BqwJbRnVE0jq4SICD9BtVsjVwxhauyEoZx8RTf9IaJnisaBLajUZEn3jioneciCytvWoVd0gor2UqLR9OR0Lr%2BoLgRV7y4CL2%2BzhB%2B7WGeX%2FhlJkOIXn%2BvIOOClcnqwL%2FVV2kAfeudBE%2FgsxfQ4Fb7xJLZ0NcvNF%2BQ2GroYkyB%2Bp0CyOsvnn59LJdBZtz25hnUBWfgSdnmG88vr1JbDnKx9fD%2Bur%2BnNUSeOL0%2FT3qNJcoUByrBe5Cf82CxHjrLf5%2BDQY%3D
+摘要: 4页2021年7月17日大学生物理竞赛论文格式范例 大学生物理竞赛论文格式范例 实验测定库仑比例常数K值 刘某某、王某某 重庆某某大学某某学院,重庆 400074 摘要 该实验采用了点电荷...max.book118.com反馈
+
+## 卓越表现丨南京理工大学学子斩获第十六届国际大学生物理竞赛金奖第一名
+URL: https://www.so.com/link?m=zKubU%2F84guSpTy370Vql%2B5nQssY1F4uw2QX8QtHqz4zeZhW0kJxTn%2B3ZfUMxL9vJkvUq82sn6G83zKeGmYUB6i5K5d29J6v51PuQe69reu%2F9RB45LXS1Mee2ci%2FLdxiEa6OuevbRoT3S1EzaPQXPwHJ8ZAVFhEsJYsGSetfY%2BhNO7B6x6y8kAda8Lsbe0%2FfRctCd9VxeLfq8aobNSWWKSyeJxev1Na3KChW4ENV45ML3fj6QzGsLtcwFUXVunxd%2B0LC9RiMiszQGbRMYjRw3d9FmHASWFUI22DJByDkUQL7xIkZyKnG9mD1V6JHfoFdonMgU0Kn9oQf%2BUdC5505lqU7SjH%2F%2Bivk4o
+摘要: 2026年2月5日 - 赛前,团队为参赛学生开展了系统而有针对性的培训,包括学术论文写作指导、重点知识强化等内容,充分体现了指导教师们在学科竞赛培训方面的丰...zs.njust.edu.cn反馈
+
+## 国防科技大学
+URL: https://www.so.com/link?m=e2CQmLXErUHFG18xanWBEAZqHUT%2BWD%2BhrrSDL1%2F0l9vDrO40RdpD6N2Pz%2FpBteSaXuKB1KzyH3Kj54H%2BiqNAGYOzgqH8tLheYAN%2BCi7NZrnE%2Fj%2Bxy8PfzDvg6QydDyW%2Bru04O9opbF4TYubxffbyFf4XeCSiFJkk4lc4HStYWVoFoXWkKnXjowbAbPWwR97ZZImrbTbdWipPCP5oVcvfGxr7Eku5nc3F%2BgNbJLSZzXRrlaHonUZmKhBl05kmRqJeaLL7O0OLH%2BBWvE36ZmLoTgDLjOx4lMXoahu6%2BE85Ka0mo7SElpjk8WEsApE298UYsRkPbvvcHzUraO4BaL5ZgibOsVqQVkFij%2BCQ%2FkrIwTmhzjZWA0k04rg%3D%3D
+摘要: 2026年6月10日 - 在团队的努力下,这几名第一次参赛的 萌新 最终获得国际大学生物理竞赛银奖。. 比赛期间,俱乐部竞赛指导教员团队为参赛学员开展了为期两个月的系统培...
+
+## 校友风采|南京理工大学学子斩获第十六届国际大学生物理竞赛金奖第一名
+URL: https://www.so.com/link?m=wFcmzag9IfoFNzEg19Ed6AXW6mS9bgohWTvGrWMoPrrAPsPCyriuJAJBpycUQd80RfKbQGPQxgFTER0RHK8cx32RBF3fO7%2Fh9P1iAILIq6fgkXfzrFaw02sPoLnbPUW2arrG5AI1tScFVPt%2BHO2SyD86HUo2oAXOvME8zN5qv4eWBWLpYIV76ii2%2FFeWR8mRz5xlVSxpMDTEJ5pugSv%2BJA5cjxDK%2F4W8donOeIpJx62%2FF3hRqkTtSvBSjiyDqWa3O7M6E7%2B2c0Hh%2Fz2U0dVQfax04TnxizMC8Wu%2FZywBQ9uxKdmDca9nFaVzdA%2FC3PGrgeGxLILC08uUMyhBY95VFsPk698337PRD47lxAg%3D%3D
+摘要: 2026年2月6日 - 南京理工大学 校友风采|南京理工大学学子斩获第十六届国际大学生物理竞赛金奖第一名 发布者:王菁发布时间:2026-02-06浏览次数:10 日前,第十六届国际大...
+
+## 英国UCL物理论文的写作实用技巧总结
+URL: https://www.so.com/link?m=zZvREMHsxzpCWFhL9ouuo3ydFiYIFkxgfr67IqCKOuteg5QARec7cpt4SCEHkls5fknKOyamInkNLMa2w2WLhSrPyn09O7xmKvFLwSjJTCjFa9gePGxusdwsDGdYAUeNeAD6w%2FkznaugfidKxLUJQaOxY%2FONRntDzygyaZjFhB%2Frh7Ig8GN9O7Mpi8vEpYswXgd4jT2F246VGQ01JdqQA38RsMk448XCG65voG43Q1Z8zEcvJJrHo0Z509zKN29BM12INnItsQkTCbx6vNZZP%2FbyAZZmED4OdtBj1aoXhPIcdUkuNCbwrK07Ifdgn6rDdX1OuEvwvlUgceehHeuvYQA%3D%3D
+摘要: 2023年8月8日 - 2.使用物理论文的标准结构.与其他类型的论文一样,物理论文也有一个共同的结构:扉页、摘要、引言、主体、结论、参考文献和附录。物理论文的每个部分都...

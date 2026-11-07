@@ -1,0 +1,16 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Problem Restatement}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Background and Approach}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Materials and Methods}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Assumptions and Approximations}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Physical Model}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Solution and Computational Method}{3}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Results}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Main Results}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Validation and Checks}{3}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Discussion}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Sensitivity and Uncertainty}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Strengths, Limitations, and Applicability}{4}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Conclusion}{4}{section.5}%
+\contentsline {section}{References}{4}{section*.2}%
+\contentsline {section}{\numberline {A}Supplementary Material}{4}{appendix.A}%

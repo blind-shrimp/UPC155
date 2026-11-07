@@ -1,0 +1,152 @@
+% UPC paper template. Compile with pdfLaTeX (twice for cross-references).
+% Replace every [TODO: ...] before submission. The % comments do not print.
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+\else
+  % XeLaTeX supports Chinese text in an AI report, if needed.
+  \usepackage{fontspec}
+  \usepackage{xeCJK}
+  \setmainfont{Latin Modern Roman}
+\fi
+\usepackage[margin=1in,headheight=15pt,headsep=20pt]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{fvextra}
+\usepackage{fancyhdr}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{hidelinks,pdfauthor={},pdftitle={},pdfsubject={},pdfkeywords={}}
+\urlstyle{same}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setcounter{tocdepth}{2}
+
+% ========== Fill these three fields first ==========
+\newcommand{\teamnumber}{[TODO: Team Number]}
+\newcommand{\problemletter}{[TODO: A or B]}
+\newcommand{\papertitle}{[TODO: Paper Title]}
+\newcommand{\todo}[1]{\textbf{[TODO: #1]}}
+
+% Team number at the top of every page, including the first page.
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Team \teamnumber}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{cover}{%
+  \fancyhf{}%
+  \fancyhead[L]{Team \teamnumber}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+\begin{document}
+
+% FIRST PAGE: only team number, problem letter, title, and summary.
+% Keep the summary at or below 300 English words. Check that it fits on page 1.
+\thispagestyle{cover}
+\begin{center}
+  \vspace*{1.2cm}
+  {\large Problem \problemletter\par}
+  \vspace{1.4cm}
+  {\LARGE\bfseries \papertitle\par}
+  \vspace{1.4cm}
+  {\large\bfseries Summary\par}
+\end{center}
+\vspace{0.4cm}
+\todo{In at most 300 words, summarize the problem, approach, essential assumptions, numerical answers with units, and conclusions. Replace this entire paragraph.}
+
+\clearpage
+\tableofcontents
+\clearpage
+
+\section{Introduction}
+\subsection{Problem Restatement}
+\todo{Restate the selected problem in your own words. Define the physical setting, the questions to answer, and the scope and boundaries of the analysis.}
+
+\subsection{Background and Approach}
+\todo{Briefly review relevant literature with in-text citations. Explain the physical mechanism and give a roadmap of the approach.}
+% Example citation after adding a real source in References: \cite{source-key}.
+
+\section{Materials and Methods}
+\subsection{Assumptions and Approximations}
+\todo{State all assumptions and approximations; explain why each is appropriate using evidence, scale estimates, or comparison with the relevant physical regime.}
+\begin{enumerate}
+  \item[\textbf{A1.}] \todo{Assumption, justification, and applicability.}
+  \item[\textbf{A2.}] \todo{Assumption, justification, and applicability.}
+\end{enumerate}
+
+\subsection{Physical Model}
+\todo{Define the system, variables, units, governing laws, initial and boundary conditions. Justify the model and cite external inputs.}
+% Example equation (uncomment and replace with your own):
+% \begin{equation}\label{eq:example}
+%   F = ma .
+% \end{equation}
+% Define each symbol and its unit in the surrounding text.
+
+\subsection{Solution and Computational Method}
+\todo{Explain derivation and numerical methods in the main text, including parameter values, sources, algorithms, convergence criteria, and any software citations as applicable.}
+% Figure example: place the image in figures/ and uncomment these lines.
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.8\linewidth]{figures/your-figure.pdf}
+%   \caption{Replace with a descriptive caption. Label plot axes and units.}
+%   \label{fig:example}
+% \end{figure}
+
+\section{Results}
+\subsection{Main Results}
+\todo{Present answers to each question, with units and appropriate significant figures. Explain figures and tables in the text.}
+% Table example (replace values and headings; delete if unnecessary):
+% \begin{table}[htbp]
+%   \centering
+%   \caption{Replace with a descriptive caption.}
+%   \label{tab:example}
+%   \begin{tabular}{lll}
+%     \toprule
+%     Quantity & Value & Unit \\
+%     \midrule
+%     Quantity 1 & ... & ... \\
+%     \bottomrule
+%   \end{tabular}
+% \end{table}
+
+\subsection{Validation and Checks}
+\todo{Check units and limiting cases; compare with an independent estimate, reference, experiment, or numerical convergence test where appropriate.}
+
+\section{Discussion}
+\subsection{Sensitivity and Uncertainty}
+\todo{Describe how uncertainties and changes in important assumptions or parameters affect the results.}
+
+\subsection{Strengths, Limitations, and Applicability}
+\todo{Discuss strengths and weaknesses, neglected effects, and the conditions under which the model may fail.}
+
+\section{Conclusion}
+\todo{Answer the original questions directly, summarize the principal numerical results and their limitations, and give the main takeaway.}
+
+% References are numbered in the order you put them here. Every item should
+% correspond to an actual source and be cited in the text with \cite{key}.
+\begin{thebibliography}{99}
+\bibitem{source-key} \todo{Replace with a real reference and cite it in the text. Add more \textbackslash bibitem entries as needed.}
+\end{thebibliography}
+\addcontentsline{toc}{section}{References}
+
+% Appendix is optional. Delete it if it does not help the paper.
+\appendix
+\section{Supplementary Material}
+\todo{Optional: provide supporting derivations, extra data, or code. Explain essential methods, algorithms, and results in the main text.}
+
+% If required, the AI report must be the LAST section of the paper.
+% Uncomment the following line after completing ai-report.tex.
+% \input{ai-report.tex}
+
+\end{document}
