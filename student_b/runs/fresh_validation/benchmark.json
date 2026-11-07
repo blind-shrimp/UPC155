@@ -1,0 +1,36 @@
+{
+  "seed": 8047,
+  "physics_samples_per_stage": 6000,
+  "scenarios": {
+    "nominal": {
+      "total": 12,
+      "paired": 9,
+      "mdn": {
+        "median_error": 0.3406647821028292,
+        "median_energy": 0.25759835011288407,
+        "median_seconds": 0.0016215999985433882
+      },
+      "physics": {
+        "median_error": 0.35282399135248455,
+        "median_energy": 0.2110378487127503,
+        "median_seconds": 3.8664403000002494
+      },
+      "baseline_median_error": 0.42549559792379626
+    },
+    "crosswind": {
+      "total": 12,
+      "paired": 10,
+      "mdn": {
+        "median_error": 0.3519185995297277,
+        "median_energy": 0.23260489976749923,
+        "median_seconds": 0.0013760000001639128
+      },
+      "physics": {
+        "median_error": 0.26572318170866654,
+        "median_energy": 0.16892026200943785,
+        "median_seconds": 3.2951051500003814
+      },
+      "baseline_median_error": 0.8036651246625686
+    }
+  }
+}

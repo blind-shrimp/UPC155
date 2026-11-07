@@ -1,0 +1,80 @@
+{
+  "reports": [
+    {
+      "sigma": 0.002,
+      "n": 4187,
+      "mean_prediction_median_error": 0.16311523770741976,
+      "mean_prediction_p90_error": 0.43307514534978386,
+      "nll": -1.055708125479215,
+      "coverage": {
+        "0.5": {
+          "value": 0.5860998328158586,
+          "standard_error": 0.007611707994154054
+        },
+        "0.95": {
+          "value": 0.9761165512299976,
+          "standard_error": 0.0023596515615581775
+        }
+      },
+      "baseline_median_error": 0.18972005568748695,
+      "baseline_invalid": 0,
+      "mdn_median_error_on_baseline_valid": 0.16311523770741976,
+      "mean_HDR_area_m2": {
+        "0.5": 0.15946390085119833,
+        "0.95": 0.7433758413226501
+      },
+      "evaluation_seconds": 2.5303441999985807
+    },
+    {
+      "sigma": 0.005,
+      "n": 4187,
+      "mean_prediction_median_error": 0.32222266978778874,
+      "mean_prediction_p90_error": 0.6927213018680786,
+      "nll": 0.19837814207887888,
+      "coverage": {
+        "0.5": {
+          "value": 0.5225698590876523,
+          "standard_error": 0.007719259030881933
+        },
+        "0.95": {
+          "value": 0.9632194888941963,
+          "standard_error": 0.002908841315713165
+        }
+      },
+      "baseline_median_error": 0.4317250284395989,
+      "baseline_invalid": 6,
+      "mdn_median_error_on_baseline_valid": 0.3219212843509517,
+      "mean_HDR_area_m2": {
+        "0.5": 0.4321131728961441,
+        "0.95": 1.897020083240202
+      },
+      "evaluation_seconds": 1.8547681999989436
+    },
+    {
+      "sigma": 0.015,
+      "n": 4187,
+      "mean_prediction_median_error": 0.5561700675962739,
+      "mean_prediction_p90_error": 0.9977344208565216,
+      "nll": 1.0813960455498606,
+      "coverage": {
+        "0.5": {
+          "value": 0.46548841652734657,
+          "standard_error": 0.0077087066524297535
+        },
+        "0.95": {
+          "value": 0.9677573441604967,
+          "standard_error": 0.0027299026571974555
+        }
+      },
+      "baseline_median_error": 1.2169315957770657,
+      "baseline_invalid": 217,
+      "mdn_median_error_on_baseline_valid": 0.5516589384571435,
+      "mean_HDR_area_m2": {
+        "0.5": 0.9422329563833461,
+        "0.95": 3.4500509802441566
+      },
+      "evaluation_seconds": 1.8214501999991626
+    }
+  ],
+  "notes": "Synthetic development holdout only; not final publication test. Point metric uses posterior mean, not mode. HDR threshold uses 512 samples; area uses 1024 independent importance samples. Area and coverage have Monte Carlo error."
+}

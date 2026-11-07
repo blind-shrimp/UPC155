@@ -1,0 +1,26 @@
+{
+  "n": 50000,
+  "epochs": 150,
+  "steps": {
+    "generate": {
+      "success": true,
+      "returncode": 0,
+      "seconds": 11.128558158874512
+    },
+    "train": {
+      "success": true,
+      "returncode": 0,
+      "seconds": 36.10531187057495
+    },
+    "evaluate": {
+      "success": true,
+      "returncode": 0,
+      "seconds": 10.246838092803955
+    },
+    "case": {
+      "success": true,
+      "returncode": 0,
+      "seconds": 20.29036831855774
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "diagnostics": [
+    {
+      "stage": 0,
+      "ess": 1.2798392255348872,
+      "max_weight": 0.8819856682657297,
+      "best_sample_observation_rmse_m": 0.006464102877541076
+    },
+    {
+      "stage": 1,
+      "ess": 2.6717581141280182,
+      "max_weight": 0.6065892968805706,
+      "best_sample_observation_rmse_m": 0.004087595360783211
+    },
+    {
+      "stage": 2,
+      "ess": 643.753820043871,
+      "max_weight": 0.01638147847313119,
+      "best_sample_observation_rmse_m": 0.0038652704670581557
+    },
+    {
+      "stage": 3,
+      "ess": 3944.740207740497,
+      "max_weight": 0.0019943434064045897,
+      "best_sample_observation_rmse_m": 0.003857123151241523
+    }
+  ],
+  "airborne_probability": 1.000000000000001,
+  "conditional_ess": 3944.7402077405063,
+  "conditional_mean": [
+    2.694733239929477,
+    1.9956227334569194
+  ],
+  "warning": "Literature-informed aerodynamics with provisional launch prior; finite-sample approximation. Low ESS requires more samples or improved proposal; compare independent seeds.",
+  "seconds": 21.49551640000027,
+  "sigma": 0.005,
+  "fixed_cd": 0.22,
+  "seed": 42,
+  "samples_per_stage": 30000,
+  "baseline": {
+    "time": 0.4050083612273948,
+    "endpoint": [
+      2.4948244142247114,
+      1.9203670564844242
+    ]
+  }
+}

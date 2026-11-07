@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 大体积中间数据（可由代码重新生成；见 README / inventory.md）
+*.npz
+*.npy
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini

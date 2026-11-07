@@ -1,0 +1,40 @@
+{
+  "diagnostics": [
+    {
+      "stage": 0,
+      "ess": 2.0421725593162394,
+      "max_weight": 0.6436688503255562
+    },
+    {
+      "stage": 1,
+      "ess": 2.4691575435771593,
+      "max_weight": 0.6266426386406839
+    },
+    {
+      "stage": 2,
+      "ess": 5.7228988836388615,
+      "max_weight": 0.414251743878934
+    },
+    {
+      "stage": 3,
+      "ess": 697.9619949004668,
+      "max_weight": 0.013374268849426312
+    }
+  ],
+  "airborne_probability": 0.9999999999999993,
+  "conditional_ess": 697.9619949004657,
+  "conditional_mean": [
+    2.9148511696392783,
+    1.9314378477583316
+  ],
+  "warning": "Development prior; finite-sample approximation, not a gold standard. Low ESS requires more samples or improved proposal; compare independent seeds.",
+  "seconds": 5.442412899999908,
+  "sigma": 0.005,
+  "baseline": {
+    "time": 0.4050083612273948,
+    "endpoint": [
+      2.4948244142247114,
+      1.9203670564844242
+    ]
+  }
+}

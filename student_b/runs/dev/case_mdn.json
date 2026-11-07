@@ -1,0 +1,14 @@
+{
+  "sigma": 0.005,
+  "approximate_grid_mode": [
+    2.891194979195579,
+    1.860858199833026
+  ],
+  "mean": [
+    3.0887752822619188,
+    1.8440210882539192
+  ],
+  "grid_probability_mass": 0.9999720710759125,
+  "center_in_rectangle_probability_conditional_airborne": 0.9936,
+  "note": "Development model only. Rectangle probability is not a physical goal/collision probability."
+}

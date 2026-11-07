@@ -1,0 +1,40 @@
+{
+  "n": 10000,
+  "seed": 42,
+  "config": {
+    "mass": 0.43,
+    "radius": 0.11,
+    "density": 1.225,
+    "gravity": 9.81,
+    "goal": 11.0,
+    "dt": 0.002,
+    "horizon": 1.5,
+    "wind_y": 0.0,
+    "spin_decay": Infinity,
+    "lift_scale": 1.0
+  },
+  "prior_low": [
+    18.0,
+    -12.0,
+    0.5,
+    -60.0,
+    -60.0,
+    -60.0,
+    0.12
+  ],
+  "prior_high": [
+    35.0,
+    12.0,
+    12.0,
+    60.0,
+    60.0,
+    60.0,
+    0.45
+  ],
+  "status_counts": {
+    "0": 0,
+    "1": 8323,
+    "2": 1677
+  },
+  "disclaimer": "Uncalibrated development prior. No real-world validation. MDN is conditional on airborne crossing, not all kicks."
+}

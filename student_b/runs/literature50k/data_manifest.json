@@ -1,0 +1,43 @@
+{
+  "n": 50000,
+  "seed": 42,
+  "config": {
+    "mass": 0.43,
+    "radius": 0.11,
+    "density": 1.2,
+    "gravity": 9.81,
+    "goal": 11.0,
+    "dt": 0.002,
+    "horizon": 1.5,
+    "wind_y": 0.0,
+    "spin_decay": null,
+    "lift_scale": 1.0,
+    "fixed_cd": null
+  },
+  "prior_low": [
+    18.0,
+    -12.0,
+    0.5,
+    -60.0,
+    -60.0,
+    -60.0,
+    0.15
+  ],
+  "prior_high": [
+    35.0,
+    12.0,
+    12.0,
+    60.0,
+    60.0,
+    60.0,
+    0.3
+  ],
+  "status_counts": {
+    "0": 0,
+    "1": 41733,
+    "2": 8267
+  },
+  "lift_law": "CL=min(1.4*R*omega_transverse/U, 0.30)",
+  "nominal_cd": 0.22,
+  "disclaimer": "Literature-informed sensitivity prior; no real-trajectory calibration or validation. MDN is conditional on airborne crossing, not all kicks."
+}
