@@ -1,0 +1,94 @@
+{
+  "input": {
+    "r0": [
+      0.0,
+      0.0,
+      0.11
+    ],
+    "r_0.05": [
+      1.5,
+      0.45,
+      0.44
+    ],
+    "r_0.10": [
+      2.96,
+      0.86,
+      0.74
+    ],
+    "dt_s": 0.05
+  },
+  "kinematics": {
+    "v_at_0.05_m_s": [
+      29.6,
+      8.6,
+      6.3
+    ],
+    "speed_m_s": 31.4612,
+    "speed_km_h": 113.26,
+    "a_bar_m_s2": [
+      -16.0,
+      -16.0,
+      -12.0
+    ],
+    "a_aero_m_s2": [
+      -16.0,
+      -16.0,
+      -2.19
+    ],
+    "a_parallel_m_s2": -19.8656,
+    "a_perp_m_s2": [
+      2.6904,
+      -10.5697,
+      1.788
+    ],
+    "a_perp_norm_m_s2": 11.0523,
+    "v0_m_s": [
+      30.4,
+      9.4,
+      6.9
+    ]
+  },
+  "derived": {
+    "A_m2": 0.038013,
+    "spin_axis_unit": [
+      0.2357,
+      -0.1035,
+      -0.9663
+    ],
+    "spin_axis_note": "w_hat=(v_hat x a_perp)/|v_hat x a_perp|, convention a_perp=k*CL*|v|^2*(w_hat x v_hat)"
+  },
+  "inverted_coefficients_by_density": {
+    "rho_1.2": {
+      "k_rhoA_2m": 0.053042,
+      "Cd_hat": 0.3784,
+      "CL_hat": 0.2105
+    },
+    "rho_1.225": {
+      "k_rhoA_2m": 0.054147,
+      "Cd_hat": 0.3707,
+      "CL_hat": 0.2062
+    }
+  },
+  "density_note": "rho is NOT fixed yet across the team: A-table uses 1.20, old plan uses 1.225. Cd_hat differs by 2%.",
+  "constant_accel_baseline": {
+    "poly": {
+      "x": "30.4t - 8t^2",
+      "y": "9.4t - 8t^2",
+      "z": "0.11 + 6.9t - 6t^2"
+    },
+    "T_s": 0.405008,
+    "Y_m": 2.4948,
+    "Z_m": 1.9204
+  },
+  "noise_amplification": {
+    "factor_sqrt6_over_dt2": 979.796,
+    "sigma_pos_5mm_to_sigma_a_m_s2": 4.899,
+    "position_error_at_T_m": 0.4018
+  },
+  "goal_geometry": {
+    "post_half_width_m": 3.66,
+    "crossbar_m": 2.44,
+    "baseline_distance_to_right_post_m": 1.1652,
+    "baseline_distance_to_crossbar_m": 0.5196
+  }
+}

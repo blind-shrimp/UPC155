@@ -1,0 +1,51 @@
+{
+  "_status": "CANDIDATE / 待 B 确认 —— 不要直接当最终版使用",
+  "_owner": "A",
+  "_date": "2026-11-07",
+  "_note": "Q1 未回签前，ρ 与 C_D 先验宽度存在两套口径（见 01_待确认事项_回签单.md）。B 的 5 万条仿真若与本表不一致，必须重跑或用本表复算。",
+  "ball": {
+    "m_kg": 0.43,
+    "R_m": 0.11,
+    "A_m2": 0.038013,
+    "A_formula": "pi*R^2"
+  },
+  "air": {
+    "rho_kg_m3": 1.20,
+    "rho_alternative_pending": 1.225,
+    "nu_m2_s": 1.54e-5,
+    "Re_definition": "2*R*U/nu",
+    "Re_at_31p5_m_s": 4.5e5
+  },
+  "drag": {
+    "Cd_const": 0.22,
+    "Cd_sensitivity_range": [0.15, 0.30],
+    "Cd_model_optional": "Cd(U) = 0.155 + 0.346 / (1 + exp((U - 12.19)/1.309))",
+    "Cd_model_source": "Goff & Carre (2010) eq.(3), non-spinning Teamgeist fit",
+    "Cd_prior_pending": [0.15, 0.45],
+    "_warning": "案例反演 Cd_hat = 0.371 (rho=1.225) / 0.378 (rho=1.20)，超出当前 [0.15,0.30] 先验"
+  },
+  "lift": {
+    "S_definition": "R*omega_perp/U",
+    "CL_model": "min(1.4*S, 0.30)",
+    "CL_max": 0.30,
+    "_note": "1.4 与 0.30 是本题建模取值；旧方案文档上限 0.38，需统一"
+  },
+  "spin": {
+    "omega_range_rad_s": [0, 80],
+    "decay_time_constant_s": [8, 15],
+    "use_decay_in_main_model": false
+  },
+  "launch_prior": {
+    "v0_m_s": [18, 35],
+    "elevation_deg": [0, 28],
+    "yaw_deg": [-25, 25]
+  },
+  "geometry": {
+    "goal_line_x_m": 11.0,
+    "post_half_width_m": 3.66,
+    "crossbar_height_m": 2.44,
+    "ball_start_z_m": 0.11,
+    "ground_threshold": "z <= R"
+  },
+  "noise_scenarios_sigma_m": [0.002, 0.005, 0.015]
+}
