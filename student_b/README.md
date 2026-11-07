@@ -55,3 +55,20 @@ $py = 'C:/Users/pc/miniconda3/envs/mujoco/python.exe'
 接入真实轨迹后，进一步校准初速度、旋转和观测误差，并在封存样本上独立测试。更换先验后重新生成训练集。
 
 公开数据中的球心重建值不是无误差真值；导入时需确认单位、帧率、坐标与是否含物理拟合。未经筛选的ISSIA数据尚未进入训练。
+
+## 2026-11-07 16:50 之后新增（A→B 交接包 v2 处理）
+
+| 文件 | 用途 |
+|---|---|
+| `params.json` | **唯一有效参数表**（A→B 口径定稿 v2）；`pending` 字段不再使用 |
+| `selftest_case.json` / `test_selftest_case.py` | A 的仿真器自检用例（机器可读 + 6 项单元测试）；13/13 全过 |
+| `check_issia_arcs.py` | ISSIA 两段零旋转 6 帧前缀外推（结果 `runs/issia_A/arc_forecasts.json`） |
+| `case_cd_prior.py` | 案例 C_D 先验上限敏感性：50%/95% HDR 面积对比（`runs/case_cd_prior/`） |
+| `fit_issia_cd_lift.py` | ISSIA 两段：加竖直净升力后的 (C_D, L) 可辨识性（`runs/issia_A/cd_lift_fit.json`） |
+| `给A的回签与ISSIA外推结果.md` | B→A 回签（2026-11-07 16:52） |
+| `给A的回复_第三轮.md` | 对 A→B v2 的回复：面积表、§3 勘误、净升力结果、给 C 的四处同步 |
+| `对A自检用例的核对.md` | 自检用例 §3 升力方向约定勘误与证据 |
+| `ISSIA_CD_L拟合检验.md` | (C_D, L) 检验报告与结论 |
+
+`physics.py` 新增 `Config.fixed_cl`（仅自检用）、`inference.py` 新增 `posterior(..., cd_upper=)`（先验上限敏感性用）。
+原有 7 项测试 + 新增 6 项 = 13 项，`python -m unittest discover -s student_b -v` 全部通过。

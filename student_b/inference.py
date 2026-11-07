@@ -6,12 +6,17 @@ from scipy.stats import multivariate_normal
 from physics import LOW, HIGH, NOMINAL_CD, CASE, Config, simulate
 
 
-def posterior(n=20000, sigma=.005, seed=42, cfg=None, observations=CASE):
+def posterior(n=20000, sigma=.005, seed=42, cfg=None, observations=CASE, cd_upper=None):
     if sigma <= 0:
         raise ValueError('sigma must be positive; exact observations need separate treatment')
     rng = np.random.default_rng(seed); cfg = cfg or Config()
     dim = len(LOW) if cfg.fixed_cd is None else len(LOW)-1
     low, high = LOW[:dim], HIGH[:dim]
+    if cd_upper is not None:
+        if cfg.fixed_cd is not None or cd_upper <= LOW[-1]:
+            raise ValueError("cd_upper requires a variable drag coefficient and a valid range")
+        high = high.copy()
+        high[-1] = cd_upper
     eps = .2
 
     def physical_parameters(z):

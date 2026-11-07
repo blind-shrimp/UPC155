@@ -16,6 +16,9 @@ class Config:
     spin_decay: float = float('inf')
     lift_scale: float = 1.
     fixed_cd: float | None = None
+    # Validation-only override used by A's self-test case (constant C_L model form).
+    # Never set in training/evaluation experiments.
+    fixed_cl: float | None = None
 
 
 LOW = np.array([18., -12., .5, -60., -60., -60., .15])
@@ -36,7 +39,8 @@ def acceleration(v, theta, t, cfg):
     norm = np.linalg.norm(cross, axis=1)
     # |omega x u| / |u| is the transverse spin magnitude.
     S = cfg.radius * norm / np.maximum(speed**2, 1e-24)
-    cl = cfg.lift_scale * np.minimum(1.4 * S, .30)
+    cl = (cfg.fixed_cl if cfg.fixed_cl is not None
+          else cfg.lift_scale * np.minimum(1.4 * S, .30))
     direction = cross / np.maximum(norm[:, None], 1e-24)
     k = cfg.density * np.pi * cfg.radius**2 / (2 * cfg.mass)
     cd = theta[:, 6] if cfg.fixed_cd is None else np.full(len(theta), cfg.fixed_cd)
