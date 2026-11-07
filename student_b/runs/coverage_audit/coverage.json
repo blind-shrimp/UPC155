@@ -1,0 +1,483 @@
+{
+  "source": "F:\\ChatGPT\\upc\\student_b\\runs\\literature50k\\data.npz",
+  "sha256": "3ed0115563bb7c7f1c331823fe992285a61b3bac2668082ad7a83dfd33ab7cf6",
+  "counts": {
+    "all": 50000,
+    "airborne": 41733,
+    "train_airborne": 33367,
+    "validation_airborne": 4179,
+    "test_airborne": 4187
+  },
+  "events": {
+    "0": 0,
+    "1": 41733,
+    "2": 8267
+  },
+  "cross_split_exact_parameter_duplicates": 0,
+  "rows": [
+    {
+      "group": "速率 m/s",
+      "bin": "[0, 15)",
+      "all": 0,
+      "airborne": 0,
+      "train_airborne": 0,
+      "validation_airborne": 0,
+      "test_airborne": 0
+    },
+    {
+      "group": "速率 m/s",
+      "bin": "[15, 20)",
+      "all": 1169,
+      "airborne": 587,
+      "train_airborne": 461,
+      "validation_airborne": 63,
+      "test_airborne": 63
+    },
+    {
+      "group": "速率 m/s",
+      "bin": "[20, 25)",
+      "all": 13271,
+      "airborne": 10262,
+      "train_airborne": 8182,
+      "validation_airborne": 1058,
+      "test_airborne": 1022
+    },
+    {
+      "group": "速率 m/s",
+      "bin": "[25, 30)",
+      "all": 15774,
+      "airborne": 13395,
+      "train_airborne": 10727,
+      "validation_airborne": 1304,
+      "test_airborne": 1364
+    },
+    {
+      "group": "速率 m/s",
+      "bin": "[30, 35)",
+      "all": 15510,
+      "airborne": 13497,
+      "train_airborne": 10779,
+      "validation_airborne": 1364,
+      "test_airborne": 1354
+    },
+    {
+      "group": "速率 m/s",
+      "bin": "[35, 40)",
+      "all": 4276,
+      "airborne": 3992,
+      "train_airborne": 3218,
+      "validation_airborne": 390,
+      "test_airborne": 384
+    },
+    {
+      "group": "速率 m/s",
+      "bin": "[40, inf)",
+      "all": 0,
+      "airborne": 0,
+      "train_airborne": 0,
+      "validation_airborne": 0,
+      "test_airborne": 0
+    },
+    {
+      "group": "总角速度 rad/s",
+      "bin": "[0, 10)",
+      "all": 117,
+      "airborne": 99,
+      "train_airborne": 77,
+      "validation_airborne": 6,
+      "test_airborne": 16
+    },
+    {
+      "group": "总角速度 rad/s",
+      "bin": "[10, 30)",
+      "all": 3154,
+      "airborne": 2635,
+      "train_airborne": 2074,
+      "validation_airborne": 273,
+      "test_airborne": 288
+    },
+    {
+      "group": "总角速度 rad/s",
+      "bin": "[30, 60)",
+      "all": 22996,
+      "airborne": 19299,
+      "train_airborne": 15406,
+      "validation_airborne": 1968,
+      "test_airborne": 1925
+    },
+    {
+      "group": "总角速度 rad/s",
+      "bin": "[60, 90)",
+      "all": 23103,
+      "airborne": 19169,
+      "train_airborne": 15376,
+      "validation_airborne": 1890,
+      "test_airborne": 1903
+    },
+    {
+      "group": "总角速度 rad/s",
+      "bin": "[90, 120)",
+      "all": 630,
+      "airborne": 531,
+      "train_airborne": 434,
+      "validation_airborne": 42,
+      "test_airborne": 55
+    },
+    {
+      "group": "总角速度 rad/s",
+      "bin": "[120, inf)",
+      "all": 0,
+      "airborne": 0,
+      "train_airborne": 0,
+      "validation_airborne": 0,
+      "test_airborne": 0
+    },
+    {
+      "group": "横向有效角速度 rad/s",
+      "bin": "[0, 10)",
+      "all": 1182,
+      "airborne": 1012,
+      "train_airborne": 796,
+      "validation_airborne": 100,
+      "test_airborne": 116
+    },
+    {
+      "group": "横向有效角速度 rad/s",
+      "bin": "[10, 30)",
+      "all": 9431,
+      "airborne": 7969,
+      "train_airborne": 6269,
+      "validation_airborne": 850,
+      "test_airborne": 850
+    },
+    {
+      "group": "横向有效角速度 rad/s",
+      "bin": "[30, 60)",
+      "all": 28042,
+      "airborne": 23327,
+      "train_airborne": 18752,
+      "validation_airborne": 2314,
+      "test_airborne": 2261
+    },
+    {
+      "group": "横向有效角速度 rad/s",
+      "bin": "[60, 90)",
+      "all": 11284,
+      "airborne": 9370,
+      "train_airborne": 7501,
+      "validation_airborne": 910,
+      "test_airborne": 959
+    },
+    {
+      "group": "横向有效角速度 rad/s",
+      "bin": "[90, 120)",
+      "all": 61,
+      "airborne": 55,
+      "train_airborne": 49,
+      "validation_airborne": 5,
+      "test_airborne": 1
+    },
+    {
+      "group": "横向有效角速度 rad/s",
+      "bin": "[120, inf)",
+      "all": 0,
+      "airborne": 0,
+      "train_airborne": 0,
+      "validation_airborne": 0,
+      "test_airborne": 0
+    },
+    {
+      "group": "水平发射角 deg",
+      "bin": "[-90, -20)",
+      "all": 5055,
+      "airborne": 4113,
+      "train_airborne": 3311,
+      "validation_airborne": 369,
+      "test_airborne": 433
+    },
+    {
+      "group": "水平发射角 deg",
+      "bin": "[-20, -10)",
+      "all": 10349,
+      "airborne": 8679,
+      "train_airborne": 6920,
+      "validation_airborne": 872,
+      "test_airborne": 887
+    },
+    {
+      "group": "水平发射角 deg",
+      "bin": "[-10, 0)",
+      "all": 9661,
+      "airborne": 8102,
+      "train_airborne": 6408,
+      "validation_airborne": 855,
+      "test_airborne": 839
+    },
+    {
+      "group": "水平发射角 deg",
+      "bin": "[0, 10)",
+      "all": 9733,
+      "airborne": 8218,
+      "train_airborne": 6607,
+      "validation_airborne": 828,
+      "test_airborne": 783
+    },
+    {
+      "group": "水平发射角 deg",
+      "bin": "[10, 20)",
+      "all": 10192,
+      "airborne": 8588,
+      "train_airborne": 6896,
+      "validation_airborne": 840,
+      "test_airborne": 852
+    },
+    {
+      "group": "水平发射角 deg",
+      "bin": "[20, 90)",
+      "all": 5010,
+      "airborne": 4033,
+      "train_airborne": 3225,
+      "validation_airborne": 415,
+      "test_airborne": 393
+    },
+    {
+      "group": "仰角 deg",
+      "bin": "[-90, 0)",
+      "all": 0,
+      "airborne": 0,
+      "train_airborne": 0,
+      "validation_airborne": 0,
+      "test_airborne": 0
+    },
+    {
+      "group": "仰角 deg",
+      "bin": "[0, 5)",
+      "all": 8275,
+      "airborne": 2939,
+      "train_airborne": 2325,
+      "validation_airborne": 290,
+      "test_airborne": 324
+    },
+    {
+      "group": "仰角 deg",
+      "bin": "[5, 10)",
+      "all": 10486,
+      "airborne": 7823,
+      "train_airborne": 6231,
+      "validation_airborne": 809,
+      "test_airborne": 783
+    },
+    {
+      "group": "仰角 deg",
+      "bin": "[10, 20)",
+      "all": 21959,
+      "airborne": 21691,
+      "train_airborne": 17380,
+      "validation_airborne": 2149,
+      "test_airborne": 2162
+    },
+    {
+      "group": "仰角 deg",
+      "bin": "[20, 30)",
+      "all": 9033,
+      "airborne": 9033,
+      "train_airborne": 7234,
+      "validation_airborne": 900,
+      "test_airborne": 899
+    },
+    {
+      "group": "仰角 deg",
+      "bin": "[30, 90)",
+      "all": 247,
+      "airborne": 247,
+      "train_airborne": 197,
+      "validation_airborne": 31,
+      "test_airborne": 19
+    },
+    {
+      "group": "特殊旋转",
+      "bin": "严格零旋",
+      "all": 0,
+      "airborne": 0,
+      "train_airborne": 0,
+      "validation_airborne": 0,
+      "test_airborne": 0
+    },
+    {
+      "group": "旋转方向",
+      "bin": "x 轴 -1 方向，轴夹角≤15°",
+      "all": 466,
+      "airborne": 386,
+      "train_airborne": 302,
+      "validation_airborne": 40,
+      "test_airborne": 44
+    },
+    {
+      "group": "旋转方向",
+      "bin": "x 轴 +1 方向，轴夹角≤15°",
+      "all": 453,
+      "airborne": 374,
+      "train_airborne": 308,
+      "validation_airborne": 35,
+      "test_airborne": 31
+    },
+    {
+      "group": "旋转方向",
+      "bin": "y 轴 -1 方向，轴夹角≤15°",
+      "all": 487,
+      "airborne": 476,
+      "train_airborne": 380,
+      "validation_airborne": 44,
+      "test_airborne": 52
+    },
+    {
+      "group": "旋转方向",
+      "bin": "y 轴 +1 方向，轴夹角≤15°",
+      "all": 516,
+      "airborne": 335,
+      "train_airborne": 274,
+      "validation_airborne": 32,
+      "test_airborne": 29
+    },
+    {
+      "group": "旋转方向",
+      "bin": "z 轴 -1 方向，轴夹角≤15°",
+      "all": 460,
+      "airborne": 395,
+      "train_airborne": 305,
+      "validation_airborne": 45,
+      "test_airborne": 45
+    },
+    {
+      "group": "旋转方向",
+      "bin": "z 轴 +1 方向，轴夹角≤15°",
+      "all": 463,
+      "airborne": 393,
+      "train_airborne": 320,
+      "validation_airborne": 42,
+      "test_airborne": 31
+    },
+    {
+      "group": "穿越结果",
+      "bin": "球心在门框矩形内",
+      "all": 18046,
+      "airborne": 18046,
+      "train_airborne": 14373,
+      "validation_airborne": 1851,
+      "test_airborne": 1822
+    },
+    {
+      "group": "穿越结果",
+      "bin": "球心在门框矩形外",
+      "all": 23687,
+      "airborne": 23687,
+      "train_airborne": 18994,
+      "validation_airborne": 2328,
+      "test_airborne": 2365
+    },
+    {
+      "group": "穿越结果",
+      "bin": "过线时球心离接地高度不足5cm",
+      "all": 481,
+      "airborne": 481,
+      "train_airborne": 389,
+      "validation_airborne": 44,
+      "test_airborne": 48
+    }
+  ],
+  "joint_train_speed_spin": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      2,
+      29,
+      192,
+      230,
+      8
+    ],
+    [
+      16,
+      524,
+      3747,
+      3778,
+      117
+    ],
+    [
+      28,
+      671,
+      4911,
+      4993,
+      124
+    ],
+    [
+      24,
+      667,
+      5027,
+      4921,
+      140
+    ],
+    [
+      7,
+      183,
+      1529,
+      1454,
+      45
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "joint_speed_edges": [
+    0,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    100
+  ],
+  "joint_spin_edges": [
+    0,
+    10,
+    30,
+    60,
+    90,
+    120
+  ],
+  "observation_ranges_airborne": {
+    "min": [
+      [
+        0.8889295831977292,
+        -0.6124688038773936,
+        0.13395731636903616
+      ],
+      [
+        1.7554603773983486,
+        -1.2540261277756826,
+        0.15200616560040078
+      ]
+    ],
+    "max": [
+      [
+        1.7404258872148188,
+        0.6127506348737531,
+        0.7109866603775965
+      ],
+      [
+        3.4617311001469777,
+        1.250235744365662,
+        1.3164472075524458
+      ]
+    ]
+  }
+}
