@@ -57,7 +57,7 @@ def main():
                 all_rows.append({'case_id':cid,'match_id':match,'frame_id':frame,'timestamp_utc':ts,'t_s':round(n*.04,2),'x_m':xyz[0],'y_m':xyz[1],'z_m':xyz[2],'role':'input' if n<3 else 'held_out'})
             manifest.append({'case_id':cid,'frame_start':window[0][0],'frame_end':window[-1][0],'n_frames':len(window),'duration_s':round((len(window)-1)*.04,2),'min_z_m':min(p[1][2] for p in window),'max_z_m':max(p[1][2] for p in window),'displacement_m':round(dist(window[0][1],window[-1][1]),3),'contact_status':'unknown','event_type':'unknown'})
             if sum(1 for m in manifest if m['case_id'].startswith(match+'_'))>=20: break
-    for name,data in [('positions.csv',all_rows),('segments.csv',manifest)]:
+    for name,data in [('positions_candidates.csv',all_rows),('segments_candidates.csv',manifest)]:
         with (OUT/name).open('w',encoding='utf-8',newline='') as f:
             w=csv.DictWriter(f,fieldnames=list(data[0])); w.writeheader(); w.writerows(data)
     (OUT/'source_hashes.json').write_text(json.dumps(sources,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

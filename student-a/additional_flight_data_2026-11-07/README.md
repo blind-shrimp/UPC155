@@ -1,25 +1,30 @@
-# DFL 真实比赛足球：新增空中轨迹候选
+# DFL 比赛足球空中轨迹：保守筛选结果
 
-整理日期：2026-11-07。这里从已下载的 DFL 德国职业比赛追踪数据中额外筛选了 **60 个候选片段、1,352 个位置点**（三个下半场各 20 段），并非新找到的独立数据源。每段前 3 点标为 input，共 180 点；后续 1,172 点标为 held_out。片段每段 16–25 点、0.60–0.96 s，相邻点 0.04 s。它们不与此前两条 DFL 点球案例的帧区间重叠。
+筛选日期：2026-11-07。原来的 60 段经过运动质量与事件日志筛查后，当前目录保留 **11 段、254 个位置点**（每段前三点共 33 个输入点，221 个后续对照点）。其余 49 段已从当前目录的轨迹数据中移除；[逐段审计](screening_audit.csv)保留所有原始 case ID、指标、排除理由和邻近事件，便于复核。Git 历史中仍存在筛选前版本。
 
-**状态：自动筛选的空中运动候选，不是已经人工确认的无接触飞行真值。** 事件类型、接触时刻、具体踢球、初始自转和风况未知；有些可能包含头球、触球、异常追踪或其他动作。时间间隔筛选不证明片段一定是独立踢球。使用前应结合视频或事件和质量检查，排除接触或重建异常；不能把 60 段称为 60 次真实点球，也不能仅凭本筛选数据宣称模型验证通过。
+**11 段仅适合标记为探索性轨迹对照，不能确认是无接触飞行，也不能称为独立点球实测验证集。** 比赛事件存在漏标、时间偏差，且未取得这些片段的同步视频；无邻近事件和运动平滑都不能证明没有头球、触球或追踪异常。事件类型、准确离脚时刻、旋转、风况未知。通过筛选只代表未触发下面的检查，并不是人工核验结论。请勿由这些数据声称模型已被全面验证。
 
-## 入口与字段
+## 筛选方法及结果
 
-- [positions.csv](positions.csv)：原始球场坐标、UTC 时间戳、帧号、相对片段起点时间与 input/held_out 标记。每个片段从中途追踪帧开始，t=0 不是已知的离脚时刻；单位米、秒。
-- [segments.csv](segments.csv)：逐段帧范围、点数、持续时间、最高最低高度、位移、事件和接触状态。
-- [source_hashes.json](source_hashes.json)：提取所用的本地中间 CSV 哈希。它们是从下述原始 XML 的足球 FrameSet 转换得到，并非原始整场文件的哈希。
-- [extract.py](extract.py)：筛选脚本。需将本目录放在包含 `B_standard_ball_trajectories/processed/` 的工作区根目录下，并准备对应三个 `*_secondHalf_ball_native.csv` 中间文件；这些中间文件没有包含在本包中。
+1. 核查连续帧、UTC 时间间隔 0.04 s、有限坐标、离地高度至少 0.5 m、速度 3–40 m/s。
+2. 对完整轨迹的三个坐标分别拟合二次曲线，要求三维位置残差 RMS ≤0.08 m、最大残差 ≤0.18 m，拟合竖直加速度在 −20 至 −1 m/s²、水平加速度模 ≤15 m/s²。这些是保守工程筛查阈值，不是测量精度标准或足球全部真实运动的边界。拟合用到了后续点，因此不是预测结果。
+3. 核对 DFL 同场事件 XML。以片段开始前 1 s 至结束后 1 s 为保守窗口，若存在 Play、OtherBallAction、TacklingGame、ThrowIn、BallClaiming、FreeKick、ShotAtGoal、GoalKick、CornerKick、KickOff、BallDeflection、Penalty 或 RefereeBall，则排除。此规则可能把启动动作、只是附近发生的事件误排除，故排除不代表确定发生中途接触；也无法排除窗口外实际发生的接触。
 
-## 来源及许可
+49 段触发邻近球事件规则；其中一段还触发速度下限。其余 11 段没有触发以上规则。每段均已核对逐帧坐标和时间与源 CSV 一致。筛选会偏向平滑、近似抛物线的轨迹，可能误排真实弧线，且用了整段后续观测；**在此筛选集上的良好成绩不能无偏地代表全部真实射球的表现**。不要再用这些轨迹调参后称它们是独立测试。
 
-Bassek, M., Rein, R., Weber, H. & Memmert, D., “An integrated dataset of spatiotemporal and event data in elite soccer”, *Scientific Data* 12, 195 (2025), [论文 DOI](https://doi.org/10.1038/s41597-025-04505-y)；[原始数据集 DOI](https://doi.org/10.6084/m9.figshare.28196177.v1)。来源数据授权 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。本包从原比赛球追踪中截取片段、增加相对时间与角色标记，保留位置数值和帧标识。
+## 文件
 
-各场原始位置文件：[J03WMX](https://ndownloader.figshare.com/files/51643514)、[J03WOH](https://ndownloader.figshare.com/files/51643520)、[J03WR9](https://ndownloader.figshare.com/files/51643532)。本地整理此前只下载原 XML 尾部字节并提取完整下半场 BALL FrameSet，没有下载完整 XML；上述链接是发布者原文件。多摄像机追踪数据的坐标为系统估计，并非无误差真值；球高度及球心约定未独立标定，数据的数值精度不等于实测准确度。
+- [positions.csv](positions.csv)：仅含保留的 11 段，原始球场坐标、UTC 时间戳、帧号、相对片段起点时间与 input/held_out。t=0 为所选追踪帧，不是已知离脚时刻；单位米、秒。
+- [segments.csv](segments.csv)：保留片段的帧范围、高度、位移和未知事件及接触状态。
+- [screening_audit.csv](screening_audit.csv)：全部 60 段的筛选结果及邻近事件；不含被删除片段的逐帧轨迹。
+- [extract.py](extract.py)、[screen_quality.py](screen_quality.py)：复现原候选筛选及二次筛查的脚本，使用 Python 标准库。需要本地 `B_standard_ball_trajectories/processed/` 三个完整下半场球 CSV 和 `raw/dfl/` 三个比赛事件 XML；它们不包含在本目录。运行 `extract.py` 会在本地生成原始候选文件，再运行 `screen_quality.py` 生成筛选结果；不应把中间候选文件当作已验证数据。
+- [source_hashes.json](source_hashes.json)：源下半场中间 CSV 的 SHA-256；[event_hashes.json](event_hashes.json)：用于二次筛选的事件 XML SHA-256。
 
-## 选择规则与验证建议
+## 来源、许可和限制
 
-按每场原始时间顺序筛选：球状态字段为 1、Z≥0.5 m、帧连续；相邻位置速度不超过 40 m/s，相邻速度矢量变化不超过 1.6 m/s；连续至少 16 帧，取每段前最多 25 帧，首尾三维位移至少 4 m。不同候选片段之间至少间隔 125 帧（5 s），每场最多取最早满足条件的 20 段。阈值只是剔除部分明显不合理数据的工程筛查，不能证明轨迹无接触，亦不是数据提供者质量认证。未按与仿真的拟合好坏筛选。时间、帧号与点数已核查。
+Bassek, M., Rein, R., Weber, H. & Memmert, D., “An integrated dataset of spatiotemporal and event data in elite soccer”, *Scientific Data* 12, 195 (2025), [论文 DOI](https://doi.org/10.1038/s41597-025-04505-y)；[原始数据集 DOI](https://doi.org/10.6084/m9.figshare.28196177.v1)，[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。本包从原比赛球追踪截取、筛选并添加相对时间及数据用途标记。
 
-建议先固定模型和参数，用每段前 3 帧估计初始状态，在后续时间逐点比较三维位置误差并逐段报告；若某些片段用于调整参数，须单独标为开发集，不得同时作为独立测试集。此前两次点球和这些候选来自同一数据源，部分来自同一场比赛，不应作为完全独立的数据来源。25 Hz 的观测不是题目 0.05 s 间隔，未知的离脚时刻和球门标签也限制直接用于题面点球终点验证。
+原始位置文件：[J03WMX](https://ndownloader.figshare.com/files/51643514)、[J03WOH](https://ndownloader.figshare.com/files/51643520)、[J03WR9](https://ndownloader.figshare.com/files/51643532)。此前本地只下载 XML 尾部字节并提取完整下半场 BALL FrameSet，不是下载完整 XML。原始事件 XML 来自同一数据集，具体文件名和哈希见 event_hashes.json。坐标是多摄像机追踪系统的估计，球高度约定和绝对精度没有独立标定。
+
+初选规则为有效状态、连续帧、Z≥0.5 m、速度≤40 m/s、相邻速度变化≤1.6 m/s、至少 16 帧、首尾位移≥4 m，每段最多 25 帧，段间至少间隔 125 帧，每场按时间最多选 20 段。间隔不证明独立踢球。该数据与此前 DFL 点球案例同源，有些来自同一场比赛。25 Hz 不是题目的 20 Hz，不能当作题目观测时刻的精确复现；无球门交点标签。
 
