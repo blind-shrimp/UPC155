@@ -3,14 +3,15 @@
 Source: A -> B handoff v2 (`handoff/A到B_v2_2026-11-07/03_仿真器自检用例.md`,
 machine-readable values in `selftest_case.json`).
 
-One deviation from A's document is intentional: A's section 3 writes the lift
-direction as ``w_hat - v_hat (w_hat . v_hat)``, which is 90 deg away from the
-physical Magnus direction ``w_hat x v_hat`` that produced the quoted spin axis
-under A's own inversion convention ``a_perp = k CL |v|^2 (w_hat x v_hat)``.
-With the physical direction, constant (CD, CL) reproduces the posed case points
-to 1.4 mm / 2.6 mm, so the ``"constant coefficients cannot fit both points"``
-conclusion in A's section 3 does not hold. The comparison is kept in
-`对A自检用例的核对.md`; here we assert the physical reference values.
+The lift direction in A's section 3 is written as ``w_hat - v_hat (w_hat . v_hat)``,
+which is 90 deg away from the physical Magnus direction ``w_hat x v_hat`` that
+produced the quoted spin axis under A's own inversion convention
+``a_perp = k CL |v|^2 (w_hat x v_hat)``. A reviewed the evidence and confirmed
+the correction (2026-11-07): the integration self-test uses
+``unit(w_hat x v_hat)`` and handles the zero-cross-product case. With this
+direction, constant (CD, CL) reproduces the posed case points to 1.4 mm /
+2.6 mm, so the ``"constant coefficients cannot fit both points"`` conclusion in
+A's section 3 is withdrawn. See `对A自检用例的核对.md`.
 """
 import json
 import unittest
@@ -18,7 +19,7 @@ from pathlib import Path
 
 import numpy as np
 
-from physics import Config, simulate, quadratic_baseline
+from physics import Config, acceleration, simulate, quadratic_baseline
 
 SELF = Path(__file__).with_name("selftest_case.json")
 EPS = 1e-12
@@ -120,6 +121,27 @@ class SelfTestCase(unittest.TestCase):
         expected /= np.linalg.norm(expected)
         np.testing.assert_allclose(self.a_perp / np.linalg.norm(self.a_perp),
                                    expected, atol=1e-3)
+
+    # -- 7. zero cross product must give zero lift (A's request) -----------
+    def test_zero_cross_product_gives_no_lift(self):
+        """omega parallel to v (or zero spin) -> no lift, no division by zero.
+
+        A approved ``unit(w_hat x v_hat)`` with an explicit zero-cross case:
+        when the cross product vanishes this test requires the lift to be 0.
+        A near-parallel spin (numerically ~1e-12 relative) must behave the same.
+        """
+        k = self.rho * np.pi * self.radius**2 / (2 * self.mass)
+        speed = np.linalg.norm(self.v)
+        expected = np.array([0.0, 0.0, -9.81]) - k * 0.3 * speed * self.v
+        cfg = Config(fixed_cl=0.2105, density=self.rho)
+        for omega in (np.zeros(3),
+                      self.vhat * 40.0,          # spin axis parallel to velocity
+                      -self.vhat * 40.0,         # and antiparallel
+                      self.vhat * 40.0 + np.array([1e-10, 0.0, 0.0])):  # near-parallel
+            theta = np.r_[self.v, omega, .3][None, :]
+            acc = acceleration(self.v[None, :], theta, 0.0, cfg)[0]
+            self.assertTrue(np.all(np.isfinite(acc)))
+            np.testing.assert_allclose(acc, expected, atol=1e-9)
 
 
 if __name__ == "__main__":

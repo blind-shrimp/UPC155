@@ -37,11 +37,16 @@ def acceleration(v, theta, t, cfg):
     omega = theta[:, 3:6] * np.exp(-t / cfg.spin_decay)
     cross = np.cross(omega, u)
     norm = np.linalg.norm(cross, axis=1)
+    # Rotational speed product: |omega| |u|. Used to detect the zero-cross
+    # case (omega parallel to u, or zero spin/velocity): the lift direction is
+    # undefined there, and the lift must be exactly zero (no 0/0, no blow-up).
+    scale = np.linalg.norm(omega, axis=1) * speed
+    valid = norm > 1e-9 * scale
     # |omega x u| / |u| is the transverse spin magnitude.
-    S = cfg.radius * norm / np.maximum(speed**2, 1e-24)
+    S = cfg.radius * np.where(valid, norm, 0.) / np.maximum(speed**2, 1e-24)
     cl = (cfg.fixed_cl if cfg.fixed_cl is not None
           else cfg.lift_scale * np.minimum(1.4 * S, .30))
-    direction = cross / np.maximum(norm[:, None], 1e-24)
+    direction = np.where(valid[:, None], cross / np.maximum(norm[:, None], 1e-24), 0.)
     k = cfg.density * np.pi * cfg.radius**2 / (2 * cfg.mass)
     cd = theta[:, 6] if cfg.fixed_cd is None else np.full(len(theta), cfg.fixed_cd)
     return (-k * cd[:, None] * speed[:, None] * u

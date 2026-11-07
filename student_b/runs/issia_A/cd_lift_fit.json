@@ -4,6 +4,7 @@
   "prefix_frames": 6,
   "lift_model": "a = g - k CD |v| v + L * unit(z - v_hat (z . v_hat)); L in m/s^2",
   "fit_scope": "initial state + dynamics parameters fitted on the 6-frame prefix only; later frames held out",
+  "interpretation_caveat": "Forecast-error reduction only means the vertical-force extension is worth considering. A near-zero CD-L correlation or a normal Jacobian condition number does not prove unique physical identification: the vertical force may absorb tracking/reconstruction or other model error. Do not use these fits as evidence that C_D(v) is necessary, and do not quote the fitted C_D as a calibration value.",
   "arcs": [
     {
       "file": "seg_0608_0627.csv",

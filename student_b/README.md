@@ -61,7 +61,7 @@ $py = 'C:/Users/pc/miniconda3/envs/mujoco/python.exe'
 | 文件 | 用途 |
 |---|---|
 | `params.json` | **唯一有效参数表**（A→B 口径定稿 v2）；`pending` 字段不再使用 |
-| `selftest_case.json` / `test_selftest_case.py` | A 的仿真器自检用例（机器可读 + 6 项单元测试）；13/13 全过 |
+| `selftest_case.json` / `test_selftest_case.py` | A 的仿真器自检用例（机器可读 + 7 项单元测试，含"零叉积→升力为 0"）；14/14 全过 |
 | `check_issia_arcs.py` | ISSIA 两段零旋转 6 帧前缀外推（结果 `runs/issia_A/arc_forecasts.json`） |
 | `case_cd_prior.py` | 案例 C_D 先验上限敏感性：50%/95% HDR 面积对比（`runs/case_cd_prior/`） |
 | `fit_issia_cd_lift.py` | ISSIA 两段：加竖直净升力后的 (C_D, L) 可辨识性（`runs/issia_A/cd_lift_fit.json`） |
@@ -71,4 +71,12 @@ $py = 'C:/Users/pc/miniconda3/envs/mujoco/python.exe'
 | `ISSIA_CD_L拟合检验.md` | (C_D, L) 检验报告与结论 |
 
 `physics.py` 新增 `Config.fixed_cl`（仅自检用）、`inference.py` 新增 `posterior(..., cd_upper=)`（先验上限敏感性用）。
-原有 7 项测试 + 新增 6 项 = 13 项，`python -m unittest discover -s student_b -v` 全部通过。
+`physics.acceleration` 对零叉积（ω∥v 或零自旋）显式返回升力 0（相对阈值 `|ω×v| ≤ 1e-9|ω||v|`），不出现 0/0。
+原有 7 项测试 + 新增 7 项 = 14 项，`python -m unittest discover -s student_b -v` 全部通过。
+
+## A 第三轮确认后的口径（2026-11-07）
+
+A 已确认：自检积分用 `unit(ω̂×v̂)` 并处理零叉积；撤回"案例残差证明必须写 C_D(v)"；
+面积敏感性论文写法为"在本次模型和两组先验下，后验均值移动约 2 cm，三次重复的区域面积差异小于种子间波动"；
+ISSIA 竖直净升力结果只说明"模型扩展值得考虑"，**不作为 C_D(v) 必要性证据**。详见
+`handoff/A到B_第三轮回复记录_2026-11-07.md`。

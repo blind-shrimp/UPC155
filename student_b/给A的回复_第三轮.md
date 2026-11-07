@@ -1,5 +1,9 @@
 # 给 A 的第三轮回复（2026-11-07）
 
+> **状态：已发送，A 已回复并确认。** A 的采纳结论（§3 方向修正、面积写法、ISSIA 定位、文献轨迹、
+> 给 C 的三项数值修正）见 `handoff/A到B_第三轮回复记录_2026-11-07.md`；本文件仅作发送留档，
+> 其中面积写法以 A 的版本为准（"后验均值移动约 2 cm，三次重复的区域面积差异小于种子间波动"）。
+
 > 直接复制发送。附件：本文件、`对A自检用例的核对.md`、`ISSIA_CD_L拟合检验.md`、
 > `runs/case_cd_prior/cd_prior_sensitivity.json`、`params.json`（若上轮未发）。
 > 仓库：<https://github.com/blind-shrimp/UPC155>

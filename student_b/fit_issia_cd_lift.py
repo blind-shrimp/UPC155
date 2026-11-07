@@ -19,6 +19,13 @@ the first 6 frames (0-0.20 s), score all later frames held out. Reported are
 prefix/forecast RMSE, parameter standard errors from the Jacobian, the CD-L
 correlation and the Jacobian condition number.
 
+Interpretation boundary (A's review, 2026-11-07): a reduced forecast error only
+means that this model extension is worth considering. A small CD-L correlation
+or a normal condition number does NOT prove that the physical parameters are
+uniquely identified; the vertical force may absorb tracking/reconstruction or
+other model error. These results must NOT be used as evidence that C_D(v) is
+necessary, and the fitted C_D is not a calibration value.
+
 Usage (from repo root):
     python student_b/fit_issia_cd_lift.py
 """
@@ -130,6 +137,12 @@ def main():
     result = {"k_rhoA_2m": K, "fps": FPS, "prefix_frames": PREFIX,
               "lift_model": "a = g - k CD |v| v + L * unit(z - v_hat (z . v_hat)); L in m/s^2",
               "fit_scope": "initial state + dynamics parameters fitted on the 6-frame prefix only; later frames held out",
+              "interpretation_caveat": (
+                  "Forecast-error reduction only means the vertical-force extension is worth considering. "
+                  "A near-zero CD-L correlation or a normal Jacobian condition number does not prove unique "
+                  "physical identification: the vertical force may absorb tracking/reconstruction or other "
+                  "model error. Do not use these fits as evidence that C_D(v) is necessary, and do not quote "
+                  "the fitted C_D as a calibration value."),
               "arcs": []}
     for name, last in ARCS:
         path = DATA / name
