@@ -11,3 +11,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# P0 experiment checkpoints (reproducible from scripts)
+student_b/experiments/results/checkpoints/

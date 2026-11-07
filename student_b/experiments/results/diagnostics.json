@@ -1,0 +1,375 @@
+{
+  "generated_at": "2026-11-07 19:57:46",
+  "data": "runs\\canonical50k\\data.npz",
+  "checkpoint": "runs\\literature50k\\mdn.pt",
+  "dataset": {
+    "n": 50000,
+    "status_counts": {
+      "0": 0,
+      "1": 41733,
+      "2": 8267
+    },
+    "finite_observations": 49368,
+    "valid_airborne": 41733,
+    "split_counts": {
+      "0": 40000,
+      "1": 5000,
+      "2": 5000
+    },
+    "valid_by_split": {
+      "0": 33367,
+      "1": 4179,
+      "2": 4187
+    },
+    "nan_observations": 632,
+    "manifest": {
+      "n": 50000,
+      "seed": 42,
+      "config": {
+        "mass": 0.43,
+        "radius": 0.11,
+        "density": 1.2,
+        "gravity": 9.81,
+        "goal": 11.0,
+        "dt": 0.002,
+        "horizon": 1.5,
+        "wind_y": 0.0,
+        "spin_decay": null,
+        "lift_scale": 1.0,
+        "fixed_cd": null,
+        "fixed_cl": null
+      },
+      "prior_low": [
+        18.0,
+        -12.0,
+        0.5,
+        -60.0,
+        -60.0,
+        -60.0,
+        0.15
+      ],
+      "prior_high": [
+        35.0,
+        12.0,
+        12.0,
+        60.0,
+        60.0,
+        60.0,
+        0.3
+      ],
+      "status_counts": {
+        "0": 0,
+        "1": 41733,
+        "2": 8267
+      },
+      "lift_law": "CL=min(1.4*R*omega_transverse/U, 0.30)",
+      "nominal_cd": 0.22,
+      "disclaimer": "Literature-informed sensitivity prior; no real-trajectory calibration or validation. MDN is conditional on airborne crossing, not all kicks."
+    }
+  },
+  "baseline_residual": {
+    "n": 4187,
+    "invalid": 0,
+    "dy_mean": -0.0004893557953809054,
+    "dy_std": 0.09879686379619745,
+    "dz_mean": 0.025074872118487617,
+    "dz_std": 0.08040270249472876,
+    "norm_median": 0.08978512326380991,
+    "norm_p90": 0.20347735517668902,
+    "norm_p99": 0.3555111186996207,
+    "frac_norm_gt_0_5m": 0.0021495103893002148,
+    "frac_norm_gt_1m": 0.0,
+    "corr_dy_dz": 0.03274164063049536,
+    "dy_quantiles": {
+      "q01": -0.25464133742734907,
+      "q05": -0.14987670991528038,
+      "q25": -0.055152714574194794,
+      "q50": 0.0001844938185473488,
+      "q75": 0.05466793040471796,
+      "q95": 0.15942700192463927,
+      "q99": 0.25398669405193697
+    },
+    "dz_quantiles": {
+      "q01": -0.1656699367524866,
+      "q05": -0.09683214615713363,
+      "q25": -0.025331332924755423,
+      "q50": 0.020911433769738696,
+      "q75": 0.07072623400036365,
+      "q95": 0.1613525227456182,
+      "q99": 0.24622128879598676
+    }
+  },
+  "baseline_by_sigma": {
+    "2mm": {
+      "sigma_m": 0.002,
+      "n": 4187,
+      "invalid": 0,
+      "median_error": 0.19032233706325288,
+      "p90_error": 0.4782010048779053,
+      "mean_error": 0.2397783878525446
+    },
+    "5mm": {
+      "sigma_m": 0.005,
+      "n": 4184,
+      "invalid": 3,
+      "median_error": 0.4353004259748636,
+      "p90_error": 1.1197583754933151,
+      "mean_error": 0.560304191301242
+    },
+    "10mm": {
+      "sigma_m": 0.01,
+      "n": 4099,
+      "invalid": 88,
+      "median_error": 0.8566526014707034,
+      "p90_error": 2.1692569357456226,
+      "mean_error": 1.1036104361222487
+    },
+    "15mm": {
+      "sigma_m": 0.015,
+      "n": 3955,
+      "invalid": 232,
+      "median_error": 1.2177906681349007,
+      "p90_error": 3.0924255619764023,
+      "mean_error": 1.5613018065243431
+    }
+  },
+  "legacy_mdn": {
+    "2mm": {
+      "sigma_m": 0.002,
+      "n": 4187,
+      "seconds": 0.7890245000016876,
+      "latency_forward_ms": 0.214440999989165,
+      "error": {
+        "median": 0.16516771227025517,
+        "mean": 0.2124539848146719,
+        "p90": 0.4410505045554939,
+        "p99": 0.7893380786342281,
+        "max": 1.2283167207285945,
+        "goal_ece": 0.010202710771435418,
+        "goal_brier": 0.024255567158438695,
+        "goal_rate": 0.43515643658944353
+      },
+      "nll_mean": -1.0553594827651978,
+      "coverage50": 0.5724862670169573,
+      "coverage95": 0.9806544064962981,
+      "area50": 0.15852396190166473,
+      "area95": 0.7417199611663818,
+      "energy_mean": 0.1464072032477153
+    },
+    "5mm": {
+      "sigma_m": 0.005,
+      "n": 4187,
+      "seconds": 0.8146769000013592,
+      "latency_forward_ms": 0.214440999989165,
+      "error": {
+        "median": 0.32243454895439166,
+        "mean": 0.3761604716321056,
+        "p90": 0.6977181370612505,
+        "p99": 1.1346300736961514,
+        "max": 1.8336523381289374,
+        "goal_ece": 0.010276413601624061,
+        "goal_brier": 0.04330330632995358,
+        "goal_rate": 0.43515643658944353
+      },
+      "nll_mean": 0.2049838751554489,
+      "coverage50": 0.5156436589443516,
+      "coverage95": 0.9644136613326965,
+      "area50": 0.42779961228370667,
+      "area95": 1.8896130323410034,
+      "energy_mean": 0.2615110344304135
+    },
+    "10mm": {
+      "sigma_m": 0.01,
+      "n": 4187,
+      "seconds": 0.8089311000076123,
+      "latency_forward_ms": 0.214440999989165,
+      "error": {
+        "median": 0.47882950432703353,
+        "mean": 0.5252772254618878,
+        "p90": 0.9231016392341019,
+        "p99": 1.4383091243786887,
+        "max": 2.177703273006454,
+        "goal_ece": 0.013278171274182,
+        "goal_brier": 0.06517400256426374,
+        "goal_rate": 0.43515643658944353
+      },
+      "nll_mean": 0.8930205702781677,
+      "coverage50": 0.5330785765464533,
+      "coverage95": 0.9785048961069979,
+      "area50": 0.8505856394767761,
+      "area95": 3.4799916744232178,
+      "energy_mean": 0.3660834888400772
+    },
+    "15mm": {
+      "sigma_m": 0.015,
+      "n": 4187,
+      "seconds": 0.8484714000078384,
+      "latency_forward_ms": 0.214440999989165,
+      "error": {
+        "median": 0.5531022889005189,
+        "mean": 0.593530732195373,
+        "p90": 1.0027265659412101,
+        "p99": 1.4951682811404747,
+        "max": 2.3198810000498553,
+        "goal_ece": 0.010691575113446383,
+        "goal_brier": 0.07051417694929991,
+        "goal_rate": 0.43515643658944353
+      },
+      "nll_mean": 1.0773913860321045,
+      "coverage50": 0.46548841652734657,
+      "coverage95": 0.9711010269882971,
+      "area50": 0.944892942905426,
+      "area95": 3.4586880207061768,
+      "energy_mean": 0.40880071368587884
+    }
+  },
+  "coverage_estimator": {
+    "rule": "HDR: threshold = quantile of 512 mixture samples at 1-alpha; coverage = fraction of truths with log_prob >= threshold; area = mean(1[logp>=thr] * exp(-logp)) over 1024 independent samples",
+    "n_threshold_samples": 512,
+    "n_area_samples": 1024,
+    "n_goal_samples": 512,
+    "note": "Identical estimator used for every arm and for the legacy MDN; no quantile heuristic with 200 samples."
+  },
+  "mixture_weights": {
+    "k": 3,
+    "mean_pi": [
+      0.12005537003278732,
+      0.121170774102211,
+      0.7587741613388062
+    ],
+    "median_pi": [
+      0.08364231139421463,
+      0.07975514978170395,
+      0.828113853931427
+    ],
+    "max_pi_mean": 0.7682191729545593,
+    "frac_max_pi_gt_0_9": 0.3374731311201338,
+    "entropy_mean": 0.5984500646591187,
+    "entropy_max": 1.0986122886681098,
+    "collapsed_components": 0
+  },
+  "features": {
+    "2mm": {
+      "sigma_m": 0.002,
+      "finite_frac": 1.0,
+      "rank_standardized": 12,
+      "rank_raw": 13,
+      "condition_standardized": 5095266649234.173,
+      "condition_raw_cov": 4.862833279227116e+16,
+      "max_abs_corr": 1.0,
+      "max_corr_pair": [
+        "ax",
+        "aa_x"
+      ],
+      "eig_min": -6.242628312799887e-17,
+      "eig_max": 5.095266649234173,
+      "cd_app_mean": 0.22492486930928,
+      "cd_app_std": 0.06593453766861504,
+      "cd_app_rmse_vs_true": 0.04988258850746133,
+      "cd_app_corr_true": 0.6539471090758174,
+      "cl_app_mean": 0.2361101437312428,
+      "cl_app_std": 0.08728357093936208,
+      "cl_app_rmse_vs_true": 0.048661429880839706,
+      "cl_app_corr_true": 0.8341595886162368,
+      "a_perp_mean": 9.797416382187313,
+      "a_perp_std": 4.209030322063824,
+      "t_goal_finite_frac": 1.0
+    },
+    "5mm": {
+      "sigma_m": 0.005,
+      "finite_frac": 0.99895,
+      "rank_standardized": 12,
+      "rank_raw": 13,
+      "condition_standardized": 4440610198235.458,
+      "condition_raw_cov": 2.5710063150204573e+17,
+      "max_abs_corr": 1.0,
+      "max_corr_pair": [
+        "ay",
+        "aa_y"
+      ],
+      "eig_min": -2.744589379503329e-16,
+      "eig_max": 4.440610198235458,
+      "cd_app_mean": 0.22367522459305308,
+      "cd_app_std": 0.13052446150871774,
+      "cd_app_rmse_vs_true": 0.12341681275050116,
+      "cd_app_corr_true": 0.3256197088660111,
+      "cl_app_mean": 0.26735845190016516,
+      "cl_app_std": 0.12787057048954392,
+      "cl_app_rmse_vs_true": 0.11774710844250746,
+      "cl_app_corr_true": 0.49800338258164273,
+      "a_perp_mean": 10.935979043734088,
+      "a_perp_std": 5.230790259494188,
+      "t_goal_finite_frac": 1.0
+    },
+    "10mm": {
+      "sigma_m": 0.01,
+      "finite_frac": 0.98175,
+      "rank_standardized": 12,
+      "rank_raw": 13,
+      "condition_standardized": 4094854121945.523,
+      "condition_raw_cov": 2.2490840274745274e+17,
+      "max_abs_corr": 1.0,
+      "max_corr_pair": [
+        "ax",
+        "aa_x"
+      ],
+      "eig_min": -5.939481143439175e-16,
+      "eig_max": 4.094854121945523,
+      "cd_app_mean": 0.21274203614981368,
+      "cd_app_std": 0.23799549741218978,
+      "cd_app_rmse_vs_true": 0.23455505330180598,
+      "cd_app_corr_true": 0.17646081968745153,
+      "cl_app_mean": 0.363785659430808,
+      "cl_app_std": 0.2078508999868069,
+      "cl_app_rmse_vs_true": 0.241060157898513,
+      "cl_app_corr_true": 0.28355261763457423,
+      "a_perp_mean": 14.574918144470908,
+      "a_perp_std": 7.418484939577856,
+      "t_goal_finite_frac": 1.0
+    },
+    "15mm": {
+      "sigma_m": 0.015,
+      "finite_frac": 0.9453,
+      "rank_standardized": 12,
+      "rank_raw": 13,
+      "condition_standardized": 4088634966707.79,
+      "condition_raw_cov": 1.6177245640211569e+18,
+      "max_abs_corr": 1.0,
+      "max_corr_pair": [
+        "ax",
+        "aa_x"
+      ],
+      "eig_min": -7.566958984437112e-17,
+      "eig_max": 4.08863496670779,
+      "cd_app_mean": 0.18112015679527782,
+      "cd_app_std": 0.3270040551059806,
+      "cd_app_rmse_vs_true": 0.32777775999412967,
+      "cd_app_corr_true": 0.11438831194288612,
+      "cl_app_mean": 0.47743273326811053,
+      "cl_app_std": 0.28782157273671494,
+      "cl_app_rmse_vs_true": 0.37622460594289897,
+      "cl_app_corr_true": 0.20409670518356676,
+      "a_perp_mean": 19.144270710531558,
+      "a_perp_std": 9.9928335063957,
+      "t_goal_finite_frac": 1.0
+    }
+  },
+  "blocked": {
+    "pi_res_mdn": {
+      "status": "BLOCKED",
+      "reason": "pi_res_mdn.py was not found in the repository, the working directory, Documents, Downloads or Desktop on this machine.",
+      "needed": "The critic's script (or a zip/path) to run 1.1, 1.2 and the PI-ResMDN column of 1.4."
+    },
+    "simulator_diff": {
+      "status": "BLOCKED",
+      "reason": "Requires pi_res_mdn.py's generator; only one simulator is available locally (student_b/physics.py).",
+      "known_differences_from_todo": [
+        "rho 1.225 vs 1.20 kg/m^3",
+        "C_D prior [0.15,0.26]/[0.26,0.38] vs [0.15,0.30]",
+        "C_L=0.38S/(0.18+S) vs min(1.4S,0.30)",
+        "spin decay present vs none",
+        "different initial-state ranges"
+      ]
+    }
+  }
+}
