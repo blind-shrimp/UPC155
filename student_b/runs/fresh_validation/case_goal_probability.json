@@ -1,0 +1,48 @@
+{
+  "sigma_m": 0.005,
+  "n": 40000,
+  "seed": 8047,
+  "mode_yz_m": [
+    2.6523798998912347,
+    2.0610853006817877
+  ],
+  "mean_yz_m": [
+    2.69773279924424,
+    1.9864879140794072
+  ],
+  "ess": 2893.044525524149,
+  "airborne_probability": 0.9999999999999991,
+  "goal_center_in_rectangle_probability": 0.9630117647736521,
+  "hdr_area_m2": [
+    0.21936240715724825,
+    0.8084764347819311
+  ],
+  "diagnostics": [
+    {
+      "stage": 0,
+      "ess": 2.389118905013018,
+      "max_weight": 0.6092542483543579,
+      "best_sample_observation_rmse_m": 0.005084918435325768
+    },
+    {
+      "stage": 1,
+      "ess": 28.995234089897515,
+      "max_weight": 0.17494014536529823,
+      "best_sample_observation_rmse_m": 0.0024078692347069865
+    },
+    {
+      "stage": 2,
+      "ess": 171.3606868198615,
+      "max_weight": 0.06679031620441746,
+      "best_sample_observation_rmse_m": 0.0020908174843397593
+    },
+    {
+      "stage": 3,
+      "ess": 2893.0445255241543,
+      "max_weight": 0.006978840919899209,
+      "best_sample_observation_rmse_m": 0.0022962037400904127
+    }
+  ],
+  "note": "Derived from inference.posterior(n=40000, sigma=0.005, seed=8047, observations=CASE); reproduces case_regions.json (ESS 2893.04, mean [2.6977,1.9865], areas [0.2194,0.8085]); the grid mode may differ from case_regions.json by about 1 cm because the KDE grid bounds are drawn from a resample, so case_regions.json remains authoritative for the published mode. Probability is the weighted fraction of posterior endpoints with |Y|<3.66 m and 0<Z<2.44 m, conditional on airborne crossing; it refers to the ball centre and ignores ball radius and woodwork.",
+  "definition": "center_in_goal_rectangle_probability_conditional_airborne"
+}
