@@ -1,0 +1,4 @@
+case,model,sigma_mm,error_cm,assessment
+Fig3,fresh,10,52.26117934281045,Held-out cohort: Asai anchors excluded from this training run
+Sample05,fresh,10,46.47281955639435,Held-out cohort: Asai anchors excluded from this training run
+Sample12,fresh,10,60.56712310747614,Held-out cohort: Asai anchors excluded from this training run

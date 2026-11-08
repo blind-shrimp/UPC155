@@ -1,0 +1,36 @@
+{
+  "seed": 900001,
+  "n": 4000,
+  "sets": {
+    "asai": {
+      "n": 4000,
+      "sha256": "8a3141e0a5927fc1b4648ea3b800b36e728233cdb39fca0d7ed8b0b1f95b27b2",
+      "crossings": 3989
+    },
+    "dfl_penalty": {
+      "n": 4000,
+      "sha256": "852dbf6141d51550a8814a9ea95452d298b38086343b37a4f37ee870a8eda9c7",
+      "crossings": 3199
+    },
+    "dfl_extra": {
+      "n": 4000,
+      "sha256": "a6bd600532001c12188afa407e204d083d96bf7c3cf3c10461cdfa49a0ebbee7",
+      "crossings": 3554
+    },
+    "issia": {
+      "n": 4000,
+      "sha256": "3ca6096ff46564268816f4b95b6a538f758caf4516fc9b2c48344d9e2604dfd4",
+      "crossings": 3599
+    },
+    "barber": {
+      "n": 4000,
+      "sha256": "a414517f649f8f39340c71fe7f319da0bae5d33e6c3e89ca89165c9c1ef4dd86",
+      "crossings": 2850
+    },
+    "canonical": {
+      "n": 4000,
+      "sha256": "d6061d2d818a78b09ae739d50e15ec69d86fa2943040cd5e2d9b1043c9d19100",
+      "crossings": 3301
+    }
+  }
+}

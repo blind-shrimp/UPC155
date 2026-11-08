@@ -1,0 +1,4 @@
+case,model,sigma_mm,error_cm,assessment
+Fig3,fresh,10,22.664686784926406,Retrospective; trial contributed to fresh simulation prior
+Sample05,fresh,10,37.992637882737434,Held-out trial: this Asai anchor excluded from training
+Sample12,fresh,10,28.480173040472533,Retrospective; trial contributed to fresh simulation prior
