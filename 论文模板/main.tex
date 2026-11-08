@@ -70,6 +70,8 @@ At an assumed coordinate noise of $5\,\mathrm{mm}$, the calibrated MDN places th
 
 After model selection and calibration, we generated a fresh simulation set with $5{,}036$ airborne crossings. The MDN's median error at $5\,\mathrm{mm}$ is $0.290\,\mathrm{m}$. Across four noise levels, its calibrated $50\%$ and $95\%$ regions cover $47.6$--$49.1\%$ and $94.5$--$95.2\%$ of endpoints. A $3\,\mathrm{m\,s^{-1}}$ crosswind reduces $50\%$ coverage from $48.7\%$ to $40.9\%$ on matched flights. Tracked penalties and other airborne arcs give case-level checks of the physical model. The coverage figures apply to simulations from the stated launch and measurement assumptions.
 
+An information-limit analysis shows that at $5\,\mathrm{mm}$ the two observations and the physical prior leave an irreducible median crossing spread of about $0.26\,\mathrm{m}$; the frozen network is within about $15\%$ of this local bound, and a third $5\,\mathrm{mm}$ position would roughly halve it. A single deterministic forecast is therefore incomplete at this noise level, and the probability regions are an intrinsic part of the answer.
+
 \clearpage
 \tableofcontents
 \clearpage
@@ -86,6 +88,8 @@ Two properties make this inverse problem difficult. First, the trajectory is dri
 The aerodynamics of a football are well studied. Wind-tunnel work gives a subcritical drag coefficient near $0.43$, a supercritical value near $0.15$, and a critical Reynolds number of $2.2$--$3.0\times10^5$ \cite{asai2007,asai2013}; trajectory analyses of free kicks report effective drag coefficients of $0.25$--$0.30$ \cite{bray2003}, and lift coefficients of $0.2$--$0.3$ at moderate spin parameters \cite{goff2010}. More recent work recovers drag and lift curves directly from tracked trajectories \cite{goff2017}. These ranges, rather than a single calibrated value, define our prior. Public tracking datasets make real ball trajectories available: the ISSIA-3D annotations distributed with SoccerNet-v3D provide calibrated, multi-view ball positions for broadcast matches \cite{soccernetv3d}, and league-wide spatiotemporal data are now published for the German Bundesliga \cite{dfl2025}. Neither source observes spin, and neither marks the instant of foot contact.
 
 We first quantify how uncertainty in the two observed positions propagates into the predicted crossing. We then compare a transparent Bayesian inverse calculation and a fast mixture density network \cite{bishop1994}. They share the same forward model and launch prior. Controlled comparisons test which parts of the network help. A separate calibration fold and fresh simulations measure how often the forecast regions contain the true endpoint. Tracked flights provide external checks on the physical assumptions.
+
+Finally, Appendix~\ref{app:limits} derives the information limit of this measurement design: the two early positions and the physical prior leave an irreducible crossing spread, so the most informative answer is a probability distribution rather than a single point.
 
 \section{Materials and Methods}
 \subsection{Assumptions and Approximations}
@@ -374,9 +378,11 @@ The Bayesian sampler exposes dependence on launch and aerodynamic assumptions, w
 
 All network endpoint metrics condition on airborne goal-plane crossing. For arbitrary kicks, the geometric in-frame probability would require multiplying $P(E\mid\mathbf{y}_1,\mathbf{y}_2,\sigma)$ by the conditional in-frame probability. The goal rectangle applies to the centre and ignores the ball radius in the in-frame criterion, contact with the frame and goalkeeper intervention. These distinctions separate a geometric forecast from a match scoring probability. The limited DFL, ISSIA and figure-read cases cannot establish real-penalty coverage. The PFF World Cup release \cite{pff2022} is a possible source for further case audits.
 
+Appendix~\ref{app:limits} quantifies the information limit of the measurement design. At $\sigma=5\,\mathrm{mm}$ the two positions and the physical prior leave an irreducible median crossing spread of about $0.26\,\mathrm{m}$, and the frozen network is within about $15\%$ of that local bound. Further point-accuracy gains therefore require an improved measurement design rather than a larger model; the same calculation shows that a single additional $5\,\mathrm{mm}$ position would lower the bound by a factor of about two.
+
 \section{Conclusion and Outlook}
 
-Two early observations and a known start support a probabilistic forecast of the crossing location. At $5\,\mathrm{mm}$, the calibrated MDN answers the posed case with mode $(2.62,2.15)\,\mathrm{m}$, joint areas $0.177$ and $0.775\,\mathrm{m^2}$, and a $97.3\%$ conditional in-frame probability. The final MDN has a median error of $0.290\,\mathrm{m}$ on the independent $5\,\mathrm{mm}$ test. Calibrated coverage is close to nominal under the simulation assumptions and degrades under physical shifts.
+Two early observations and a known start support a probabilistic forecast of the crossing location. At $5\,\mathrm{mm}$, the calibrated MDN answers the posed case with mode $(2.62,2.15)\,\mathrm{m}$, joint areas $0.177$ and $0.775\,\mathrm{m^2}$, and a $97.3\%$ conditional in-frame probability. The final MDN has a median error of $0.290\,\mathrm{m}$ on the independent $5\,\mathrm{mm}$ test, within about $15\%$ of the local information floor of the two-position design derived in Appendix~\ref{app:limits}. Calibrated coverage is close to nominal under the simulation assumptions and degrades under physical shifts.
 
 The next step is to collect high-rate, three-dimensional penalty tracks with independently characterised timing and tracking error. A sealed evaluation set should include misses, low-speed and low-spin shots, and early ground contact. A separate event model could then predict airborne crossing before the conditional location forecast is applied.
 
@@ -429,6 +435,172 @@ whose component variance is $(1+4)\sigma^2=5\sigma^2$. Hence
   \sigma_a=\frac{\sqrt{5}\,\sigma}{\Delta t^2}.
 \end{equation}
 If the start is also noisy, the third error enters with unit weight and the variance becomes $6\sigma^2$, giving the conservative factor $\sqrt{6}$. At $\sigma=5\,\mathrm{mm}$ and $\Delta t=0.05\,\mathrm{s}$, $\sigma_a=4.47\,\mathrm{m\,s^{-2}}$ for a fixed start. For a fixed forecast time near $0.4\,\mathrm{s}$, the acceleration term alone corresponds to a displacement scale of several tenths of a metre. The full crossing uncertainty also involves velocity errors and uncertainty in crossing time. This calculation motivates propagating the observation model through to the endpoint \cite{gum2008}.
+
+\section{Information Limits of the Early-Flight Forecast}
+\label{app:limits}
+
+Appendix~\ref{app:noise} shows that two position measurements constrain the
+acceleration far more weakly than they constrain the position. This section turns
+that observation into quantitative lower bounds on the crossing forecast. The
+bounds depend on the measurement design and on the physical prior, not on a
+particular network, and they are compared below with the measured errors of the
+kinematic baseline and of the frozen P1 model.
+
+\subsection{Kinematic amplification of the unregularised extrapolation}
+
+The constant-acceleration baseline is a second-order Lagrange extrapolation of the
+exact start and the two observed positions. Writing the crossing time as
+$T=n\Delta t$, the extrapolant at the goal plane is
+\begin{equation}
+  \mathbf{r}(T)=L_0(n)\,\mathbf{r}(0)+L_1(n)\,\mathbf{r}(\Delta t)
+  +L_2(n)\,\mathbf{r}(2\Delta t),
+\end{equation}
+with the Lagrange weights
+\begin{equation}
+  L_0(n)=\frac{(n-1)(n-2)}{2},\qquad
+  L_1(n)=-n(n-2),\qquad
+  L_2(n)=\frac{n(n-1)}{2}.
+\end{equation}
+Because $\mathbf{r}(0)$ is exact, the two measured positions enter the crossing
+prediction with weights $L_1(n)$ and $L_2(n)$. For independent, isotropic
+per-coordinate errors of variance $\sigma^2$, every Cartesian component of the
+crossing point then has variance $\Lambda^2(n)\sigma^2$ with
+\begin{equation}
+  \Lambda(n)=\sqrt{L_1(n)^2+L_2(n)^2}.
+\end{equation}
+The $(Y,Z)$ error is therefore an isotropic two-dimensional Gaussian with per-axis
+standard deviation $\Lambda(n)\sigma$, whose Euclidean median is
+\begin{equation}
+  \bar e_{\mathrm{kin}}(n)=\sqrt{2\ln 2}\,\Lambda(n)\,\sigma
+  \approx 1.177\,\Lambda(n)\,\sigma .
+  \label{eq:kinematic-median}
+\end{equation}
+Flights drawn from the launch prior of Table~\ref{tab:prior} reach the goal plane
+with a median arrival time of $0.441\,\mathrm{s}$ and a mean of
+$0.459\,\mathrm{s}$, i.e.\ $n=8.8$ and $n=9.2$, giving $\Lambda=69$ and $77$.
+The arrival time varies between flights, so $\Lambda$ ranges from about $35$ to
+$220$ across the prior; the median of the per-flight weights is $69$.  Table~\ref{tab:kinematic-bound}
+compares Eq.~\eqref{eq:kinematic-median} with the median error measured for the
+quadratic baseline on the held-out flights.  The two agree to about $6\%$ at
+$\sigma=5\,\mathrm{mm}$ and to better than $1\%$ at $15\,\mathrm{mm}$; at
+$2\,\mathrm{mm}$ the measured baseline is $16\%$ larger than the bound, the
+residual being traceable to the crossing-time nonlinearity that Eq.~\eqref{eq:kinematic-median}
+neglects.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Kinematic extrapolation bound for the unregularised quadratic baseline.
+  The bound is the median of Eq.~\eqref{eq:kinematic-median} over $3{,}332$
+  airborne flights drawn from the launch prior (fixed start, two observations at
+  $0.05$ and $0.10\,\mathrm{s}$); the measured baseline combines the same
+  estimator with the full simulation pipeline.}
+  \label{tab:kinematic-bound}
+  \begin{tabular}{lccc}
+    \toprule
+    $\sigma$ (mm) & Kinematic bound (m) & Measured baseline (m) & Difference \\
+    \midrule
+    2  & 0.163 & 0.190 & $+16\%$ \\
+    5  & 0.407 & 0.432 & $+6\%$  \\
+    10 & 0.814 & --    & --      \\
+    15 & 1.222 & 1.217 & $-0.4\%$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Equation~\eqref{eq:kinematic-median} explains why a deterministic extrapolation
+cannot be accurate at this noise level: at $\sigma=5\,\mathrm{mm}$ it already
+predicts a median error of about $0.41$--$0.45\,\mathrm{m}$ before any modelling
+error, so the failure of the constant-acceleration baseline is a property of the
+observation design rather than of the fit.
+
+\subsection{Local Bayesian floor under the physical prior}
+
+Regularisation by the physical prior can reduce this uncertainty, but not below a
+limit set by the information content of the two positions.  To estimate that
+limit, collect the unknown launch state and aerodynamic coefficients into
+$\boldsymbol{\theta}=(\mathbf{v}_0,\boldsymbol{\omega},C_D)$ and let the two
+observations be $\mathbf{h}(\boldsymbol{\theta})$ with Gaussian noise covariance
+$\sigma^2\mathbf{I}_6$; the goal-plane crossing is
+$\mathbf{g}(\boldsymbol{\theta})=(Y,Z)$.  Linearising around a sampled true
+trajectory with Jacobians $J_h=\partial\mathbf{h}/\partial\boldsymbol{\theta}$ and
+$J_g=\partial\mathbf{g}/\partial\boldsymbol{\theta}$, and approximating the
+independent uniform prior of Table~\ref{tab:prior} by a Gaussian with diagonal
+covariance $\Sigma_{\mathrm{prior}}=\mathrm{diag}\left[(\theta_{\max}-\theta_{\min})^2/12\right]$,
+the posterior covariance of the parameters and of the crossing point is
+\begin{equation}
+  \Sigma_{\mathrm{post}}
+  =\left(J_h^{\!\top}\Sigma_{\mathrm{obs}}^{-1}J_h
+  +\Sigma_{\mathrm{prior}}^{-1}\right)^{-1},
+  \qquad
+  \mathrm{Cov}(\mathbf{g})=J_g\,\Sigma_{\mathrm{post}}\,J_g^{\!\top}.
+  \label{eq:bayes-floor}
+\end{equation}
+For a two-dimensional Gaussian, the median Euclidean error follows from
+$\mathrm{Cov}(\mathbf{g})$.  Evaluating Eq.~\eqref{eq:bayes-floor} per flight and
+taking the median gives the local Bayesian floor in Table~\ref{tab:info-floor}.
+Without the prior, the same calculation with only the likelihood term is
+essentially the kinematic bound (median error $0.421\,\mathrm{m}$ at
+$\sigma=5\,\mathrm{mm}$), so the physical prior is responsible for roughly a
+factor-of-two reduction of the attainable error at that noise level.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Information limits and the frozen P1 model. The kinematic bound is
+  Eq.~\eqref{eq:kinematic-median}; the local Bayesian floor is the median of
+  Eq.~\eqref{eq:bayes-floor} over $3{,}332$ airborne prior flights; the third
+  column repeats the floor when a third position at $0.15\,\mathrm{s}$ with the
+  same noise is also available (a measurement-design variant, not additional
+  input in the problem). The P1 column is the frozen model on the independent
+  test set. Ratios in the last column are P1\,/\,floor.}
+  \label{tab:info-floor}
+  \begin{tabular}{lccccc}
+    \toprule
+    $\sigma$ (mm) & Kinematic bound & Bayesian floor & Floor, 3 positions & P1 (m) & P1\,/\,floor \\
+    \midrule
+    2  & 0.163 & 0.119 & 0.045 & 0.130 & 1.09 \\
+    5  & 0.407 & 0.255 & 0.103 & 0.290 & 1.14 \\
+    10 & 0.814 & 0.386 & 0.188 & 0.466 & 1.21 \\
+    15 & 1.222 & 0.443 & 0.251 & 0.566 & 1.28 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{../student_b/runs/information_limit/error_limits.png}
+  \caption{(a) Median Euclidean crossing error against position noise. Grey
+  circles: kinematic bound of Eq.~\eqref{eq:kinematic-median}; blue squares:
+  local Bayesian floor of Eq.~\eqref{eq:bayes-floor}; cyan diamonds: floor with an
+  additional position at $0.15\,\mathrm{s}$; red crosses: measured quadratic
+  baseline; green triangles: frozen P1 on the independent test set; orange
+  triangles: the earlier $50$k-flight MDN. (b) Ratio of the P1 median error to the
+  local Bayesian floor at the four evaluation noise levels.}
+  \label{fig:info-limits}
+\end{figure}
+
+\subsection{Interpretation for the measurement design}
+
+Three conclusions follow from Table~\ref{tab:info-floor} and Fig.~\ref{fig:info-limits}.
+First, the frozen P1 network is within $9\%$--$28\%$ of the local Bayesian floor at
+the four noise levels, and its error grows with noise more slowly than that of the
+kinematic baseline. Second, at $\sigma=5\,\mathrm{mm}$ the irreducible median
+spread of the crossing location is about $0.26\,\mathrm{m}$: a point prediction
+cannot be sharp at this noise level, which is the physical reason for forecasting a
+full density and joint highest-density regions instead of a single crossing point.
+Third, the measurement design dominates the attainable accuracy: adding one more
+$5\,\mathrm{mm}$ position at $0.15\,\mathrm{s}$ would lower the floor from
+$0.26$ to $0.10\,\mathrm{m}$, whereas additional network capacity cannot recover
+information that the two positions do not contain.  The same bound explains why
+the low-noise forecasts approach the floor most closely: as $\sigma$ decreases,
+the gap in Table~\ref{tab:info-floor} is dominated by model and prior mismatch
+rather than by the observation noise.
+
+The floor is a local, model-conditional diagnostic rather than a proof of global
+optimality. It uses a Gaussianised uniform prior and a first-order propagation
+around sampled true trajectories, and it assumes that the simulator is the true
+model. Real tracks may also contain timing, tracking and wind errors
+(Sections~3.7 and~3.8), so the measured case-level errors can exceed the floor
+shown here.
 
 % ---------------------------------------------------------------------------
 % Report on the Use of AI (official requirement, must be the last section).

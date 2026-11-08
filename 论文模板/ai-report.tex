@@ -3420,6 +3420,50 @@ Current DSH file policy: danger-full-access. The DSH file sandbox does not restr
 Approval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`).
 \end{Verbatim}
 
+\paragraph{Complete output 11.1.}
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\scriptsize,frame=single,framesep=2pt]
+两件事都做了：**新数据的三块分析全部跑完**（包括 Codex 额度耗尽时卡住没做完的那块），**换机交接包也整理好了**。
+
+## 一、"根据新数据做的进化"：做完了
+
+三份 xlsx（Fig3 / Sample05 / Sample12，Asai 2020 实测三球）一共做了三块：
+
+| 分析 | 状态 | 关键结果 |
+|---|---|---|
+| 冻结 P1 三球复演 | ✅ 之前已完成 | P1 高度平移后 11 m 虚拟截面误差 54.49 / 49.87 / 59.57 cm；canonical 物理后验 55.17 / 52.36 / 61.92 cm；全段回拟合 RMSE 0.20 / 1.12 / 0.65 cm |
+| 2×3×2 因子对照（MAP vs MAP） | ✅ 之前已完成 | 无先验 26.00 → 仅幅值先验 22.30 → **手册方向先验 10.63** → 留一 22.45 cm；方向约束是主因，但先验中心是人工常数，**不能当泛化提升**；Sample12 改善但另两球变差 |
+| **方向先验外推 + MAP/后验匹配** | ✅ **这次补完**（Codex 断在这里） | 见下 |
+
+**补跑这块时发现 Codex 停机不全是环境问题，有一个真实数值 bug**：`endpoint_draws` 在"这一步没触地"时仍算了负的地面分数，导致上升段过截面被误判为触地而丢弃 → 后验截面质量统计失真。另两个自检错误（对齐期望轨道、RMSE 括号）是检查逻辑问题。修复后 **6 项自检 + 归档复现检查 + 12 项契约测试全部通过**。
+
+结果（从仓库根目录 `student_b/runs/asai_transfer/README.md` 可看完整表）：
+
+- **方向先验不能外推**：2 场 DFL 点球 + 2 段 ISSIA 的留出帧 RMSE——无先验 **30.09 cm**，手册方向先验 46.53，pooled 43.50。11 段补充 DFL 上平均略好但逐例混杂。→ Asai 上 10.63 cm 属"对这三球的样本内正则化"。
+- **旧差距很大一部分是估计量定义**：同一模型/同一先验/同一基下，MAP 8.55–13.32 cm，但**后验均值 51–54 cm**、KDE 众数 5.9–19.8 cm。→ 这正好回答你之前问的"手册 11.39 vs canonical 50–60"：主要是 MAP vs 后验均值 + 先验方向，不是新数据让模型变准。
+
+**正式 P1、训练集、论文主表都没动**；这些是 exploratory/appendix-level 证据。论文正文我没改——是否把因子/迁移结果写进 Appendix 由 C 定（可作为可选 P1，见交接包§5）。
+
+## 二、换机交接包：已整理好（仓库 `main` 最新 `b02edd5`）
+
+- **交接文档**：[handoff/继续跑_交接包_2026-11-08.md](UPC155/handoff/继续跑_交接包_2026-11-08.md) —— 现状总览、必须带走的东西、环境、常用命令、剩余待办、给下一个 AI 的启动 prompt、口径与坑。
+- **三份工作簿**已入仓：[handoff/asai_workbooks_2026-11-08/](UPC155/handoff/asai_workbooks_2026-11-08/README.md)（Asai 2020, CC BY 4.0，sha256 与桌面原件一致）。
+- **实验实现/测试/运行脚本**：[deliverables/asai_transfer/](UPC155/deliverables/asai_transfer/README.md)（`README` + `test_asai_transfer.py` + `run.ps1`），结果和自动生成报告在 `student_b/runs/asai_transfer/`。
+- **换机器最省事的方式**：`git clone` 仓库 → 装 Python（numpy/scipy/torch/openpyxl/pandas）+ TeX Live → 跑 `python -m unittest discover -s student_b` 和 asai 的三条命令即可；若要在新机器刷新 AI 披露，把本机 `~/.codex/thread_history_1.sqlite` 和 `~/.dsh/sessions/` 一起拷过去，或保留现有 AI 报告只补 Section C。
+
+## 三、交接/提交前只剩这些
+
+1. ⚠ **补 `论文模板/ai-report-team.tex`**（唯一硬缺口）：A/C 同学用过的其他 AI 工具，按"系统 + 原始提问原文 + 完整输出"补；没有就写一句声明。
+2. 提交前重跑 `tools/build_ai_report.ps1`（我已把 AI 报告刷新到 98 条提问/203 段输出，**155B.pdf 现在是 77 页 = 正文 15 + AI 报告 62**，无身份信息、每页 Team 155）。
+3. 人工过一遍图表 → 邮件提交 `[email redacted]`，截止 **北京时间 11-09 09:00**（现在约 19 小时）。
+
+**问一句**：你说的"根据新数据做的进化"如果指的是"**用这三条实测轨迹去升级/重训模型**"，那没有做、也不建议在截止前做（n=3 且三条都已看过，会破坏 P1 独立性）；如果你希望我把 Asai 因子/迁移结果补进论文 Appendix（作为诊断证据），我可以现在起草一页给 C 审。
+\end{Verbatim}
+
+\paragraph{Query 12 (exact wording).}
+\begin{Verbatim}[breaklines=true,breakanywhere=true,fontsize=\scriptsize,frame=single,framesep=2pt]
+gemini给的建议，参考一下。我的想法是：现在还有相对充裕的时间，能不能根据asai教授的数据重新生成更好的仿真数据集，然后丢给台式机去训练？能不能把理论误差极限的分析加入论文也作为我们的亮点？对照之前给你的往年获奖作品，我们离获大奖还差些什么？
+\end{Verbatim}
+
 \subsection*{C. Additional generative-AI tools used by other team members}
 \input{ai-report-team}
 

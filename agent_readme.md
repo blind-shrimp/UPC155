@@ -4,7 +4,7 @@
 
 ## 2026-11-08 13:10：提交版已就绪（待补队员 AI 记录）
 
-- **提交文件**：[论文模板/155B.pdf](论文模板/155B.pdf)，77 页 = 英文正文 15 页 + AI 使用披露 62 页；每页页眉 Team 155；Summary 212 词（≤300）。
+- **提交文件**：[论文模板/155B.pdf](论文模板/155B.pdf)，77 页 = 英文正文 15 页 + AI 使用披露 62 页；每页页眉 Team 155；Summary 279 词（≤300）。
 - **AI 使用披露（官方硬性要求）已完成主体**：[ai-report.tex](论文模板/ai-report.tex) 逐字收录 OpenAI ChatGPT/Codex（2 个会话）与 DeepSeek Harness（7 个会话）的 98 条原始提问和 203 段完整输出；日志处理见 [tools/ai_usage](tools/ai_usage/README.md)。
 - **仍待补**：`论文模板/ai-report-team.tex` 目前是占位段落，需要 A/C 同学按"系统 + 原始提问 + 完整输出"补充其他 AI 工具记录（若没有则改成一句话声明）。
 - **丢失风险已处理**：Codex 额度中断前未提交的本地工作（通用化 `physics.py` 接口、P1–P5/AsAI 实验脚本与运行结果）已备份并合并进 `main`（提交 `dbb2ded`），`main` 与远端同步。
@@ -19,6 +19,7 @@
   - 外部 4 例（2 场 DFL 点球 + 2 段 ISSIA）留出帧 RMSE：无先验 **30.09** / 手册方向先验 46.53 / pooled 43.50 cm → **方向先验不能外推**，Asai 上的 10.63 属于样本内正则化，不能写成通用物理先验。
   - Asai 上同模型/同先验/同基：MAP 8.55–13.32 cm，但后验均值 51–54 cm、KDE 众数 5.9–19.8 cm → **旧表"手册 11.39 vs canonical 50–60"的差距很大一部分是估计量定义（MAP vs 后验均值）**；两条后验均值种子不稳定处已标出。
   - 归档复现检查通过（none 26.00、manual 10.63 与 factorial 一致，差 < 0.5 cm）；6 项自检 + 12 项契约测试全过。
+- **信息极限 Appendix B（新增亮点）**：`student_b/experiments/information_limit.py` 计算两帧观测的二阶外推放大律（Λ(n)=√(L1²+L2²)，瑞利中位 1.177Λσ）与局部贝叶斯下限；在 5 mm 下不可约中位误差 0.255 m，冻结 P1 为 0.290 m（距下限 14%），第三帧 0.15 s 设计变体可把下限降到 0.103 m。已写入论文 Appendix B、Discussion/Conclusion 前向引用与 Fig. 5。/ Table 10；正文页数 17，提交版 155B.pdf 79 页。
 - **论文正文未改**：以上属 exploratory/appendix-level 证据，是否写入 Appendix 由 C 决定；正式 P1、训练集、主表均未动。
 - **换机继续跑**：见 [handoff/继续跑_交接包_2026-11-08.md](handoff/继续跑_交接包_2026-11-08.md)（环境、数据、命令、剩余待办、给下一个 AI 的启动 prompt、口径与坑）。
 - **AI 披露提醒**：换机器继续与 AI 交互后，提交前重跑 `tools/build_ai_report.ps1`，并补 `论文模板/ai-report-team.tex`。
