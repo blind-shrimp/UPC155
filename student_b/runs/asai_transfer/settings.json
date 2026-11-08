@@ -1,0 +1,82 @@
+{
+  "settings": {
+    "generated_utc": "2026-11-08T05:40:22+00:00",
+    "runtime_s": 454.1988229751587,
+    "script_sha256": "a1e2f14cb45d0ba0c1c357beb9ae961d3e67472b694cfc415f10943341de8a82",
+    "law": "canon",
+    "cd": 0.27,
+    "sigma_dfl_m": 0.015,
+    "sigma_issia_m": 0.03,
+    "sigma_asai_m": 0.01,
+    "dr0_bound_m": 0.05,
+    "c_bound_transfer": 0.8,
+    "c_bound_estimator": 0.3,
+    "goal_m": 11.0,
+    "asai_observation_times_s": [
+      0.0,
+      0.05,
+      0.1
+    ],
+    "pooled_prior": {
+      "source": "F:\\Program Files\\upc\\UPC155\\student_b\\runs\\asai_factorial\\results.json",
+      "sha256": "b9e687bcc2db2e05057e3b8cc12b25f1f42caf2acc9cd291c9f219142fa2c17c",
+      "members": [
+        "Fig3",
+        "Sample05",
+        "Sample12"
+      ],
+      "fits": {
+        "Fig3": {
+          "cl_mag": 0.18415675743898965,
+          "c_vert": 0.06444253247487297,
+          "c_lat": -0.17251339460652854,
+          "cd": 0.2735518631184031,
+          "fit_rmse_cm": 1.4860976823723961
+        },
+        "Sample05": {
+          "cl_mag": 0.20062702838422528,
+          "c_vert": -0.01987617907024059,
+          "c_lat": -0.19964003111563688,
+          "cd": 0.28598468057076715,
+          "fit_rmse_cm": 1.7652282116023938
+        },
+        "Sample12": {
+          "cl_mag": 0.18945917467130058,
+          "c_vert": 0.05431037923966642,
+          "c_lat": -0.1815080206877205,
+          "cd": 0.275546764578755,
+          "fit_rmse_cm": 1.629856937235739
+        }
+      },
+      "archived_rmse_cm": {
+        "Fig3": 1.486,
+        "Sample05": 1.765,
+        "Sample12": 1.63
+      },
+      "note": "pooled prior uses all three Asai full-track fits; SD floors .08/.06; the held-out external clips never enter it"
+    },
+    "stage": "all",
+    "samples": 8000,
+    "seeds": [
+      8047,
+      20261107
+    ],
+    "escalate_to": 32000,
+    "ess_floor": 200.0,
+    "estimator_priors": [
+      "none",
+      "manual",
+      "pooled"
+    ],
+    "selected_by_held_out": false
+  },
+  "hashes": {
+    "F:\\Program Files\\upc\\UPC155\\student-a\\flight_trajectory_validation_2026-11-07\\inputs_only.csv": "15c7d59a3b8136d0707bce570866827bbc5bec254f027ee651a3a56000891927",
+    "F:\\Program Files\\upc\\UPC155\\student-a\\flight_trajectory_validation_2026-11-07\\held_out.csv": "946f7d0ace80656739d27461c267e56033ce714e780224fc08ea569b6fedc08a",
+    "F:\\Program Files\\upc\\UPC155\\student-a\\flight_trajectory_validation_2026-11-07\\case_config.json": "3dd014e5aaf5a098b7d935f37c1db3ed25819d78c25c6fd2afa8e4c7241ccb55",
+    "F:\\Program Files\\upc\\UPC155\\student-a\\additional_flight_data_2026-11-07\\positions.csv": "9b1be051f425e0978cf32a0990a4eb0b24791860d9b20e4b41baf14eea0f3948",
+    "F:\\Program Files\\upc\\UPC155\\student_b\\runs\\issia_A\\seg_0608_0627.csv": "b8a16ae96645857acb70a6ac81914c57d86740d2c49a9634f0c9de2268384e3f",
+    "F:\\Program Files\\upc\\UPC155\\student_b\\runs\\issia_A\\seg_1144_1172.csv": "0530afe283c474b5656d5eaa97d612cb793cf9894d28fb6fb17a7799273f5964",
+    "F:\\Program Files\\upc\\UPC155\\student_b\\runs\\asai_factorial\\results.json": "b9e687bcc2db2e05057e3b8cc12b25f1f42caf2acc9cd291c9f219142fa2c17c"
+  }
+}

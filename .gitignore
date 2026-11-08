@@ -25,3 +25,12 @@ student-c/P1/run_log.txt
 论文模板/main.log
 论文模板/main.out
 论文模板/main.toc
+论文模板/ai-report.aux
+论文模板/ai-report.log
+论文模板/ai-report.out
+
+# Ad-hoc experiment checkpoints (regenerable)
+student_b/runs/**/*.pt
+
+# AI-use report build workspace (local session dumps; not committed)
+ai_logs/_work/

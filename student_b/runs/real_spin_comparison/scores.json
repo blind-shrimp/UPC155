@@ -1,0 +1,894 @@
+{
+  "samples_per_fit": 12000,
+  "dt_s": 0.005,
+  "records": [
+    {
+      "case": "J03WOH",
+      "prior": "zero",
+      "seed": 8047,
+      "sigma_m": 0.015,
+      "ess": 11794.648413894161,
+      "airborne_plane_probability": 1.0000000000000002,
+      "airborne_goal_mouth_probability": 1.0000000000000002,
+      "crossing_ess": 11794.648413894165,
+      "crossing_mean_yz_m": [
+        2.3665066404592654,
+        1.5146860916828262
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.364999999999993,
+        1.5150000000000001
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.1857355046794735,
+          2.5472777762390573
+        ],
+        [
+          1.3362078988746935,
+          1.693164284490959
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500724879735863,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.6463681309940731,
+      "joint_rectangle_contains_reference": false,
+      "joint_rectangle_area_m2": 0.12905482250340333
+    },
+    {
+      "case": "J03WOH",
+      "prior": "zero",
+      "seed": 8047,
+      "sigma_m": 0.03,
+      "ess": 11905.762188826506,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 1.0,
+      "crossing_ess": 11905.762188826506,
+      "crossing_mean_yz_m": [
+        2.3657997260364247,
+        1.5141165792410802
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.365,
+        1.5150000000000006
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.003543606339948,
+          2.7280558457329014
+        ],
+        [
+          1.1570390269558581,
+          1.8711941315263023
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500379484072745,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.6466769071491558,
+      "joint_rectangle_contains_reference": false,
+      "joint_rectangle_area_m2": 0.5174141140862413
+    },
+    {
+      "case": "J03WOH",
+      "prior": "component_uniform",
+      "seed": 8047,
+      "sigma_m": 0.015,
+      "ess": 10908.802943217597,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.999976811382806,
+      "crossing_ess": 10908.802943217597,
+      "crossing_mean_yz_m": [
+        2.4713987439510117,
+        1.4807769534492166
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.905000000000001,
+        1.1150000000000002
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          1.7507853866863965,
+          3.192012101215627
+        ],
+        [
+          0.773633552582478,
+          2.1879203543159553
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500061458125978,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.5397273496780549,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 2.038307920664393
+    },
+    {
+      "case": "J03WOH",
+      "prior": "component_uniform",
+      "seed": 8047,
+      "sigma_m": 0.03,
+      "ess": 11814.970910910497,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.9969815444302745,
+      "crossing_ess": 11814.970910910497,
+      "crossing_mean_yz_m": [
+        2.399327469640745,
+        1.506303059165577
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.555000000000001,
+        1.2050000000000007
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          1.572746556631682,
+          3.225908382649808
+        ],
+        [
+          0.7063211248234519,
+          2.306284993507702
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500478931392704,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.6140478779904547,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 2.64499919071708
+    },
+    {
+      "case": "J03WOH",
+      "prior": "magnitude_mixture",
+      "seed": 8047,
+      "sigma_m": 0.015,
+      "ess": 11334.900147339678,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 1.0,
+      "crossing_ess": 11334.900147339678,
+      "crossing_mean_yz_m": [
+        2.411945208947116,
+        1.5046413671317729
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.375000000000001,
+        1.5150000000000006
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          1.7191468651706256,
+          3.104743552723606
+        ],
+        [
+          0.8408556326238205,
+          2.1684271016397254
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500229816460852,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.6025105964999782,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 1.8394786299582822
+    },
+    {
+      "case": "J03WOH",
+      "prior": "magnitude_mixture",
+      "seed": 8047,
+      "sigma_m": 0.03,
+      "ess": 11852.350513281157,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.9984005333246033,
+      "crossing_ess": 11852.350513281157,
+      "crossing_mean_yz_m": [
+        2.3786725342741692,
+        1.5161028663571754
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.405000000000001,
+        1.5350000000000008
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          1.614082868148214,
+          3.1432622004001245
+        ],
+        [
+          0.7706856267708999,
+          2.261520105943451
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500439018428274,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.6367529545175554,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 2.2797532733592063
+    },
+    {
+      "case": "J03WOH",
+      "prior": "zero",
+      "seed": 20261107,
+      "sigma_m": 0.015,
+      "ess": 11804.846614274322,
+      "airborne_plane_probability": 0.9999999999999998,
+      "airborne_goal_mouth_probability": 0.9999999999999998,
+      "crossing_ess": 11804.84661427432,
+      "crossing_mean_yz_m": [
+        2.3691504419073177,
+        1.516091744312346
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.364999999999993,
+        1.5150000000000001
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.186132694507036,
+          2.5521681893075994
+        ],
+        [
+          1.336167245056151,
+          1.696016243568541
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500713794105229,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.6448443459456358,
+      "joint_rectangle_contains_reference": false,
+      "joint_rectangle_area_m2": 0.13171750622396985
+    },
+    {
+      "case": "J03WOH",
+      "prior": "zero",
+      "seed": 20261107,
+      "sigma_m": 0.03,
+      "ess": 11910.361122289576,
+      "airborne_plane_probability": 1.0000000000000002,
+      "airborne_goal_mouth_probability": 1.0000000000000002,
+      "crossing_ess": 11910.361122289583,
+      "crossing_mean_yz_m": [
+        2.371111373592367,
+        1.516674112953203
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.365,
+        1.5150000000000006
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.0044003004865956,
+          2.737822446698138
+        ],
+        [
+          1.1568717732468383,
+          1.8764764526595679
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.950017595128352,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.6434791269581724,
+      "joint_rectangle_contains_reference": false,
+      "joint_rectangle_area_m2": 0.5277740083987531
+    },
+    {
+      "case": "J03WOH",
+      "prior": "component_uniform",
+      "seed": 20261107,
+      "sigma_m": 0.015,
+      "ess": 10918.279527405242,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 1.0,
+      "crossing_ess": 10918.279527405242,
+      "crossing_mean_yz_m": [
+        2.469067890101561,
+        1.4838400563155556
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.825000000000001,
+        1.0450000000000004
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          1.7493963049422063,
+          3.188739475260915
+        ],
+        [
+          0.778693504753409,
+          2.1889866078777023
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500470550880161,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.5433741061417366,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 2.02989574612953
+    },
+    {
+      "case": "J03WOH",
+      "prior": "component_uniform",
+      "seed": 20261107,
+      "sigma_m": 0.03,
+      "ess": 11821.478544325515,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.9966363316050775,
+      "crossing_ess": 11821.478544325515,
+      "crossing_mean_yz_m": [
+        2.3999616226707254,
+        1.510070303653926
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.335000000000001,
+        1.1250000000000007
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          1.5843226513979514,
+          3.2156005939434995
+        ],
+        [
+          0.717345367214463,
+          2.3027952400933893
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500315841060436,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.6155299854406622,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 2.5863094066390357
+    },
+    {
+      "case": "J03WOH",
+      "prior": "magnitude_mixture",
+      "seed": 20261107,
+      "sigma_m": 0.015,
+      "ess": 11371.199120559433,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 1.0,
+      "crossing_ess": 11371.199120559433,
+      "crossing_mean_yz_m": [
+        2.4173441967520835,
+        1.5027005160790137
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.3650000000000007,
+        1.5150000000000006
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          1.7335155464557996,
+          3.1011728470483675
+        ],
+        [
+          0.8476331732883112,
+          2.157767858869716
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500397759491976,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.5969207048659322,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 1.7918152674949566
+    },
+    {
+      "case": "J03WOH",
+      "prior": "magnitude_mixture",
+      "seed": 20261107,
+      "sigma_m": 0.03,
+      "ess": 11862.897398068979,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.998165517701362,
+      "crossing_ess": 11862.897398068979,
+      "crossing_mean_yz_m": [
+        2.3876506253342606,
+        1.5149062037027243
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.3450000000000006,
+        1.535000000000001
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          1.6341557372147335,
+          3.141145513453788
+        ],
+        [
+          0.7857880886970752,
+          2.2440243187083735
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.950004545629092,
+      "reference_yz_m": [
+        2.918823529411765,
+        1.1789215686274508
+      ],
+      "reference_time_s": 0.3643137254901961,
+      "goal_mean_error_m": 0.6285143825186454,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 2.1975470899684084
+    },
+    {
+      "case": "J03WR9",
+      "prior": "zero",
+      "seed": 8047,
+      "sigma_m": 0.015,
+      "ess": 11838.233199535689,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.7281365720959143,
+      "crossing_ess": 11838.233199535689,
+      "crossing_mean_yz_m": [
+        3.607055200367952,
+        0.520949569741351
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.6049999999999924,
+        0.5250000000000002
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          3.415374583956306,
+          3.798735816779598
+        ],
+        [
+          0.3367660320504144,
+          0.7051331074322875
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500744796284825,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5402306015249105,
+      "joint_rectangle_contains_reference": false,
+      "joint_rectangle_area_m2": 0.14121765614990545
+    },
+    {
+      "case": "J03WR9",
+      "prior": "zero",
+      "seed": 8047,
+      "sigma_m": 0.03,
+      "ess": 11926.686191006196,
+      "airborne_plane_probability": 0.9941313711812655,
+      "airborne_goal_mouth_probability": 0.6176346479256309,
+      "crossing_ess": 11861.333269496696,
+      "crossing_mean_yz_m": [
+        3.606523484093572,
+        0.5231318466135497
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.604999999999985,
+        0.5149999999999998
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          3.2240848187229365,
+          3.9889621494642076
+        ],
+        [
+          0.16408143549166831,
+          0.8821822577354311
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500987793409799,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5399295161742393,
+      "joint_rectangle_contains_reference": false,
+      "joint_rectangle_area_m2": 0.5492590401209213
+    },
+    {
+      "case": "J03WR9",
+      "prior": "component_uniform",
+      "seed": 8047,
+      "sigma_m": 0.015,
+      "ess": 11344.798501993726,
+      "airborne_plane_probability": 0.7913919272835266,
+      "airborne_goal_mouth_probability": 0.432402868782371,
+      "crossing_ess": 9374.85565398221,
+      "crossing_mean_yz_m": [
+        3.6096230082615914,
+        0.5743710699844421
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.1349999999999913,
+        0.21499999999999997
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.875414294928774,
+          4.343831721594409
+        ],
+        [
+          0.030074000759364727,
+          1.1186681392095195
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500211231832268,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5507943223201129,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 1.5985106034662702
+    },
+    {
+      "case": "J03WR9",
+      "prior": "component_uniform",
+      "seed": 8047,
+      "sigma_m": 0.03,
+      "ess": 11867.723588061273,
+      "airborne_plane_probability": 0.8173242317752565,
+      "airborne_goal_mouth_probability": 0.44424939814748965,
+      "crossing_ess": 9752.786231071846,
+      "crossing_mean_yz_m": [
+        3.611728504862443,
+        0.6245747301303495
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.4249999999999785,
+        0.3249999999999999
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.7778028974405977,
+          4.445654112284288
+        ],
+        [
+          0.008910341131706634,
+          1.2402391191289923
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500814448574911,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5648771609927369,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 2.0536731982547693
+    },
+    {
+      "case": "J03WR9",
+      "prior": "magnitude_mixture",
+      "seed": 8047,
+      "sigma_m": 0.015,
+      "ess": 11593.048356847568,
+      "airborne_plane_probability": 0.917091927754648,
+      "airborne_goal_mouth_probability": 0.5692625794476831,
+      "crossing_ess": 10773.536489325079,
+      "crossing_mean_yz_m": [
+        3.607073875108855,
+        0.5426245988868801
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.604999999999982,
+        0.5249999999999998
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.9310845770918226,
+          4.283063173125887
+        ],
+        [
+          0.02248133103422778,
+          1.0627678667395324
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500505788845696,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5428948717561315,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 1.4064451300159986
+    },
+    {
+      "case": "J03WR9",
+      "prior": "magnitude_mixture",
+      "seed": 8047,
+      "sigma_m": 0.03,
+      "ess": 11895.074349519879,
+      "airborne_plane_probability": 0.9150716434061072,
+      "airborne_goal_mouth_probability": 0.5349957753102109,
+      "crossing_ess": 10906.833514646429,
+      "crossing_mean_yz_m": [
+        3.6063095103382015,
+        0.5697899442681462
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.624999999999977,
+        0.5349999999999998
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.864050378906157,
+          4.348568641770246
+        ],
+        [
+          -0.022787109026561447,
+          1.1623669975628539
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500454321664829,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5466554441242192,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 1.7593829155403604
+    },
+    {
+      "case": "J03WR9",
+      "prior": "zero",
+      "seed": 20261107,
+      "sigma_m": 0.015,
+      "ess": 11847.11042054564,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.7214311037656997,
+      "crossing_ess": 11847.11042054564,
+      "crossing_mean_yz_m": [
+        3.609998422356364,
+        0.5221616495788963
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.6149999999999927,
+        0.5250000000000002
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          3.4142778348922116,
+          3.8057190098205167
+        ],
+        [
+          0.33490765696375313,
+          0.7094156421940395
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500768182104534,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5432831347129495,
+      "joint_rectangle_contains_reference": false,
+      "joint_rectangle_area_m2": 0.14659784575857565
+    },
+    {
+      "case": "J03WR9",
+      "prior": "zero",
+      "seed": 20261107,
+      "sigma_m": 0.03,
+      "ess": 11930.782927519062,
+      "airborne_plane_probability": 0.9931607587137361,
+      "airborne_goal_mouth_probability": 0.6051648869218855,
+      "crossing_ess": 11854.370732312778,
+      "crossing_mean_yz_m": [
+        3.612550488964742,
+        0.5257815624983999
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.6149999999999856,
+        0.5049999999999998
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          3.224425698155456,
+          4.000675279774028
+        ],
+        [
+          0.164582822459453,
+          0.8869803025373468
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500473639662155,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5462078810761873,
+      "joint_rectangle_contains_reference": false,
+      "joint_rectangle_area_m2": 0.5607607416727758
+    },
+    {
+      "case": "J03WR9",
+      "prior": "component_uniform",
+      "seed": 20261107,
+      "sigma_m": 0.015,
+      "ess": 11368.90543726732,
+      "airborne_plane_probability": 0.7951742601066376,
+      "airborne_goal_mouth_probability": 0.44086348874710496,
+      "crossing_ess": 9440.419847241037,
+      "crossing_mean_yz_m": [
+        3.6068959345666003,
+        0.5769662381724953
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.144999999999992,
+        0.18499999999999997
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.878698762490002,
+          4.335093106643199
+        ],
+        [
+          0.037526224773864914,
+          1.1164062515711257
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500880978384316,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5486416392470999,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 1.57127476904738
+    },
+    {
+      "case": "J03WR9",
+      "prior": "component_uniform",
+      "seed": 20261107,
+      "sigma_m": 0.03,
+      "ess": 11875.817397572737,
+      "airborne_plane_probability": 0.8184429707169214,
+      "airborne_goal_mouth_probability": 0.4500159793045855,
+      "crossing_ess": 9784.52013282128,
+      "crossing_mean_yz_m": [
+        3.609801838692295,
+        0.6286455285400592
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.5149999999999793,
+        0.6349999999999997
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.781215931576851,
+          4.43838774580774
+        ],
+        [
+          0.014438086161834285,
+          1.242852970918284
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500003741963632,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5641908886861922,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 2.035694523200074
+    },
+    {
+      "case": "J03WR9",
+      "prior": "magnitude_mixture",
+      "seed": 20261107,
+      "sigma_m": 0.015,
+      "ess": 11607.185018406946,
+      "airborne_plane_probability": 0.9138508092925361,
+      "airborne_goal_mouth_probability": 0.567577042279404,
+      "crossing_ess": 10768.917014476838,
+      "crossing_mean_yz_m": [
+        3.612663724285622,
+        0.5412095777856254
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.604999999999981,
+        0.5149999999999998
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.9467774991774816,
+          4.278549949393763
+        ],
+        [
+          0.02680253445005698,
+          1.0556166211211937
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500590515302042,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5482321354491653,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 1.370146257023045
+    },
+    {
+      "case": "J03WR9",
+      "prior": "magnitude_mixture",
+      "seed": 20261107,
+      "sigma_m": 0.03,
+      "ess": 11902.1632265131,
+      "airborne_plane_probability": 0.9131651112808259,
+      "airborne_goal_mouth_probability": 0.524854757252686,
+      "crossing_ess": 10890.070028372455,
+      "crossing_mean_yz_m": [
+        3.6156307380261925,
+        0.5685212759760109
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.5849999999999755,
+        0.5249999999999998
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.8802736711828887,
+          4.350987804869496
+        ],
+        [
+          -0.01922973107165149,
+          1.1562722830236734
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500234420029401,
+      "reference_yz_m": [
+        3.0696590909090906,
+        0.4656818181818182
+      ],
+      "reference_time_s": 0.3695454545454545,
+      "goal_mean_error_m": 0.5555726716957601,
+      "joint_rectangle_contains_reference": true,
+      "joint_rectangle_area_m2": 1.728827426307068
+    }
+  ]
+}

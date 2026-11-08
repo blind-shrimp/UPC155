@@ -107,6 +107,10 @@ def make_inputs(kind, obs, sigma):
     if kind == "phys_reduced":
         # Drop the three gravity-shifted duplicates and apparent Cd/Cl.
         return physics_features(obs, sigma)[:, [0, 1, 2, 3, 4, 5, 9, 10, 11, 14, 15]]
+    if kind == "phys_reduced13":
+        # Pre-P1 13-column variant used by the P2 continuation/mirror experiments:
+        # drops the gravity-shifted duplicates only (keeps apparent Cd/Cl columns).
+        return physics_features(obs, sigma)[:, [0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15]]
     if kind == "rawbase":
         return np.column_stack([flat, sigma, baseline_endpoint(obs)])
     raise ValueError(kind)

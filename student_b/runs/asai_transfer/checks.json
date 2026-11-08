@@ -1,0 +1,80 @@
+{
+  "algebra": {
+    "passed": true,
+    "fixed_frame_matches_velocity_dependent": true,
+    "fixed_velocity_frame": true,
+    "cap_respected": true,
+    "max_abs_delta": 0.0,
+    "note": "at t=0 the fixed early velocity/basis reproduces the canonical acceleration of the factorial velocity-dependent mapping"
+  },
+  "future_invariance": {
+    "passed": true,
+    "fits_identical": true,
+    "predictions_identical": true,
+    "score_changed": true,
+    "error_before_cm": 1.1188542410643746e-07,
+    "error_after_cm": 33.060550571378386,
+    "note": "only held-out positions and the interpolated reference moved; every fitted branch and the prediction are bit-identical"
+  },
+  "alignment_invariance": {
+    "passed": true,
+    "geometry_recovered": true,
+    "fits_identical": true,
+    "scores_identical": true,
+    "rmse_cm": 9.390891956471236e-08,
+    "note": "arbitrary yaw+translation of the measurement frame recovers the same local track, fit and score"
+  },
+  "score_arithmetic": {
+    "passed": true,
+    "rmse_cm": 7.071067811865476,
+    "expected_rmse_cm": 7.071067811865476,
+    "plane_error_cm": 10.198039027185569,
+    "expected_plane_error_cm": 10.198039027185569,
+    "frames_scored": 3,
+    "note": "error_cm/plane arithmetic and the time-based plane cut"
+  },
+  "aggregate_end_to_end": {
+    "passed": true,
+    "rows_carry_error_cm": true,
+    "means_match_rows": true,
+    "every_case_present": true,
+    "n_rows": 4,
+    "means": {
+      "none": 1.1590713980725287e-07,
+      "manual": 13.233488651622572
+    },
+    "note": "rows -> per-case entries -> method means agree end to end"
+  },
+  "estimator_plumbing": {
+    "passed": true,
+    "map_cost": 5.289438950242813e-17,
+    "map_gap_to_truth_cm": 0.03634716218149964,
+    "ess": 205.52294909732595,
+    "max_weight": 0.01272942977528329,
+    "crossing_mass": 1.0,
+    "mean_error_cm": 9.31044249441801,
+    "mode_error_cm": 10.628660828674878,
+    "same_seed_weights_identical": true,
+    "draws_inside_shared_bounds": true,
+    "note": "MAP recovers the synthetic lift, weights are normalised, and MAP and draws share the same state/CL bounds"
+  },
+  "asai_reproduction": {
+    "passed": true,
+    "reproduced": {
+      "none": 25.99735526753471,
+      "manual": 10.634124028165717,
+      "pooled": 18.7785514110944
+    },
+    "archived": {
+      "none": 26.0,
+      "manual": 10.63,
+      "loocv": 22.45
+    },
+    "deltas": {
+      "none": -0.002644732465288513,
+      "manual": 0.004124028165715998
+    },
+    "tolerance_cm": 0.5,
+    "note": "re-runs the archived factorial pipeline on the three workbooks; a larger gap means the environment differs"
+  }
+}

@@ -1,0 +1,953 @@
+{
+  "samples_per_fit": 24000,
+  "step_s": 0.005,
+  "origin_m": [
+    0.0,
+    0.0,
+    0.11
+  ],
+  "times_s": [
+    0.05,
+    0.1
+  ],
+  "observed_m": [
+    [
+      1.5,
+      0.45,
+      0.44
+    ],
+    [
+      2.96,
+      0.86,
+      0.74
+    ]
+  ],
+  "priors": {
+    "zero": "zero spin",
+    "component_uniform": "each axis U[-60,60] rad/s",
+    "magnitude_mixture": "isotropic axis, magnitude U[0,15]/U[15,70]/U[70,110] rad/s, weights 45/40/15%"
+  },
+  "velocity_prior": "uniform vx,vz in (0,60], vy in [-60,60] m/s",
+  "drag_prior": "U[0.15,0.30]",
+  "noise": "iid Gaussian on the two positions; exact origin",
+  "records": [
+    {
+      "seed": 8047,
+      "prior": "zero",
+      "sigma_m": 0.005,
+      "ess": 8810.508025695837,
+      "prior_bins": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "posterior_bins": [
+        0.9999999999999973,
+        0.0,
+        0.0
+      ],
+      "magnitude_bin_tv": 1.3322676295501878e-15,
+      "prior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "posterior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "prior_prob_omega_z_positive": 0.0,
+      "posterior_prob_omega_z_positive": 0.0,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 1.0,
+      "crossing_ess": 8810.508025695837,
+      "crossing_mean_yz_m": [
+        3.2173255675989214,
+        1.9056654815389609
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.2149999999999985,
+        1.905
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          3.17904400395358,
+          3.255607131244263
+        ],
+        [
+          1.8656301884080282,
+          1.9457007746698936
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500008839812224
+    },
+    {
+      "seed": 8047,
+      "prior": "zero",
+      "sigma_m": 0.015,
+      "ess": 22687.259742939335,
+      "prior_bins": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "posterior_bins": [
+        0.9999999999999984,
+        0.0,
+        0.0
+      ],
+      "magnitude_bin_tv": 7.771561172376096e-16,
+      "prior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "posterior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "prior_prob_omega_z_positive": 0.0,
+      "posterior_prob_omega_z_positive": 0.0,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 1.0,
+      "crossing_ess": 22687.259742939335,
+      "crossing_mean_yz_m": [
+        3.217458480247891,
+        1.911304272556921
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.2149999999999963,
+        1.915
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          3.102683055929204,
+          3.332233904566578
+        ],
+        [
+          1.798533924014311,
+          2.0240746210995306
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500556223858141
+    },
+    {
+      "seed": 8047,
+      "prior": "zero",
+      "sigma_m": 0.03,
+      "ess": 23657.404503047717,
+      "prior_bins": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "posterior_bins": [
+        1.0000000000000018,
+        0.0,
+        0.0
+      ],
+      "magnitude_bin_tv": 8.881784197001252e-16,
+      "prior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "posterior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "prior_prob_omega_z_positive": 0.0,
+      "posterior_prob_omega_z_positive": 0.0,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 1.0,
+      "crossing_ess": 23657.404503047717,
+      "crossing_mean_yz_m": [
+        3.2178192804021934,
+        1.9118066715734323
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.2149999999999923,
+        1.9150000000000003
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.9883231683408833,
+          3.4473153924635036
+        ],
+        [
+          1.6888679991517912,
+          2.1347453439950734
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500165142059338
+    },
+    {
+      "seed": 8047,
+      "prior": "component_uniform",
+      "sigma_m": 0.005,
+      "ess": 1577.3526267314444,
+      "prior_bins": [
+        0.007416666666666667,
+        0.7524166666666666,
+        0.24016666666666667
+      ],
+      "posterior_bins": [
+        0.004824696918271802,
+        0.8024052628000988,
+        0.19277004028163136
+      ],
+      "magnitude_bin_tv": 0.04998859613343119,
+      "prior_mean_omega": [
+        -0.4558868647808688,
+        0.0437630376317553,
+        0.2268298753339713
+      ],
+      "posterior_mean_omega": [
+        5.88710157729596,
+        -5.552928988201837,
+        -37.893017603469744
+      ],
+      "prior_prob_omega_z_positive": 0.5037916666666666,
+      "posterior_prob_omega_z_positive": 0.01477231041252437,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.9704304140612183,
+      "crossing_ess": 1577.3526267314444,
+      "crossing_mean_yz_m": [
+        2.690317149014882,
+        1.9845789760536332
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.5749999999999953,
+        1.9450000000000007
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.270886976407472,
+          3.109747321622292
+        ],
+        [
+          1.44976677596088,
+          2.519391176146386
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500081263509963
+    },
+    {
+      "seed": 8047,
+      "prior": "component_uniform",
+      "sigma_m": 0.015,
+      "ess": 18233.25192599944,
+      "prior_bins": [
+        0.007416666666666667,
+        0.7524166666666666,
+        0.24016666666666667
+      ],
+      "posterior_bins": [
+        0.009813583947636404,
+        0.7817395465684662,
+        0.20844686948390068
+      ],
+      "magnitude_bin_tv": 0.03171979718276767,
+      "prior_mean_omega": [
+        -0.4558868647808688,
+        0.0437630376317553,
+        0.2268298753339713
+      ],
+      "posterior_mean_omega": [
+        2.565139507321076,
+        -1.6017044955257829,
+        -14.332560032358103
+      ],
+      "prior_prob_omega_z_positive": 0.5037916666666666,
+      "posterior_prob_omega_z_positive": 0.3136853324601073,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.7742579277006569,
+      "crossing_ess": 18233.25192599944,
+      "crossing_mean_yz_m": [
+        3.0299269623178726,
+        1.9395088857660376
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.6149999999999927,
+        2.445000000000001
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.204724676554384,
+          3.855129248081361
+        ],
+        [
+          1.1127133767685533,
+          2.766304394763522
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500255561570031
+    },
+    {
+      "seed": 8047,
+      "prior": "component_uniform",
+      "sigma_m": 0.03,
+      "ess": 23132.709200248286,
+      "prior_bins": [
+        0.007416666666666667,
+        0.7524166666666666,
+        0.24016666666666667
+      ],
+      "posterior_bins": [
+        0.00817182520139369,
+        0.7625875252225661,
+        0.22924064957604662
+      ],
+      "magnitude_bin_tv": 0.010926017090623286,
+      "prior_mean_omega": [
+        -0.4558868647808688,
+        0.0437630376317553,
+        0.2268298753339713
+      ],
+      "posterior_mean_omega": [
+        0.4978558387839398,
+        -0.39210244774126324,
+        -3.9673150102594104
+      ],
+      "prior_prob_omega_z_positive": 0.5037916666666666,
+      "posterior_prob_omega_z_positive": 0.45064138198154635,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.6767309655570565,
+      "crossing_ess": 23132.709200248286,
+      "crossing_mean_yz_m": [
+        3.1760023277294556,
+        1.9218636842100842
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.654999999999989,
+        1.4350000000000005
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.299998158543084,
+          4.052006496915827
+        ],
+        [
+          1.0818275717573416,
+          2.761899796662827
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.950037826460177
+    },
+    {
+      "seed": 8047,
+      "prior": "magnitude_mixture",
+      "sigma_m": 0.005,
+      "ess": 1695.4556197484683,
+      "prior_bins": [
+        0.45279166666666665,
+        0.398,
+        0.14920833333333333
+      ],
+      "posterior_bins": [
+        0.28828512529378825,
+        0.5523029091231931,
+        0.15941196558302284
+      ],
+      "magnitude_bin_tv": 0.1645065413728805,
+      "prior_mean_omega": [
+        -0.2063566979203321,
+        0.252647570686566,
+        -0.06658468700225327
+      ],
+      "posterior_mean_omega": [
+        7.320151535199424,
+        -2.554586761352252,
+        -27.169975580950442
+      ],
+      "prior_prob_omega_z_positive": 0.496,
+      "posterior_prob_omega_z_positive": 0.09082811954743307,
+      "airborne_plane_probability": 1.0000000000000002,
+      "airborne_goal_mouth_probability": 0.9885166561221824,
+      "crossing_ess": 1695.4556197484692,
+      "crossing_mean_yz_m": [
+        2.8570693601992785,
+        1.9525849264043718
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.1949999999999816,
+        1.9050000000000007
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.270302181362598,
+          3.443836539035959
+        ],
+        [
+          1.5611110261685617,
+          2.3440588266401816
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500046809708388
+    },
+    {
+      "seed": 8047,
+      "prior": "magnitude_mixture",
+      "sigma_m": 0.015,
+      "ess": 20468.610146888153,
+      "prior_bins": [
+        0.45279166666666665,
+        0.398,
+        0.14920833333333333
+      ],
+      "posterior_bins": [
+        0.506365039078101,
+        0.38287988049931465,
+        0.11075508042258386
+      ],
+      "magnitude_bin_tv": 0.05357337241143462,
+      "prior_mean_omega": [
+        -0.2063566979203321,
+        0.252647570686566,
+        -0.06658468700225327
+      ],
+      "posterior_mean_omega": [
+        1.4516227605737164,
+        -0.5660452121228574,
+        -6.549687275853951
+      ],
+      "prior_prob_omega_z_positive": 0.496,
+      "posterior_prob_omega_z_positive": 0.3998789410492667,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.9180154514653933,
+      "crossing_ess": 20468.610146888153,
+      "crossing_mean_yz_m": [
+        3.1368441146359234,
+        1.9225288510499714
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.2149999999999794,
+        1.9050000000000007
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.378139881545492,
+          3.8955483477263546
+        ],
+        [
+          1.2008113308788049,
+          2.644246371221138
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500192725164087
+    },
+    {
+      "seed": 8047,
+      "prior": "magnitude_mixture",
+      "sigma_m": 0.03,
+      "ess": 23369.453544183412,
+      "prior_bins": [
+        0.45279166666666665,
+        0.398,
+        0.14920833333333333
+      ],
+      "posterior_bins": [
+        0.4718854811906451,
+        0.39298055196313875,
+        0.13513396684620926
+      ],
+      "magnitude_bin_tv": 0.0190938145239819,
+      "prior_mean_omega": [
+        -0.2063566979203321,
+        0.252647570686566,
+        -0.06658468700225327
+      ],
+      "posterior_mean_omega": [
+        0.3174030906328638,
+        -0.027250258995070054,
+        -2.098517764014892
+      ],
+      "prior_prob_omega_z_positive": 0.496,
+      "posterior_prob_omega_z_positive": 0.4677582792198227,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.8664502502083606,
+      "crossing_ess": 23369.453544183412,
+      "crossing_mean_yz_m": [
+        3.1965703697332017,
+        1.9147398092553727
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.224999999999976,
+        1.9050000000000007
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.367599244335996,
+          4.025541495130407
+        ],
+        [
+          1.111393144044433,
+          2.7180864744663125
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500128618271291
+    },
+    {
+      "seed": 20261107,
+      "prior": "zero",
+      "sigma_m": 0.005,
+      "ess": 9093.932013650392,
+      "prior_bins": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "posterior_bins": [
+        0.9999999999999954,
+        0.0,
+        0.0
+      ],
+      "magnitude_bin_tv": 2.275957200481571e-15,
+      "prior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "posterior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "prior_prob_omega_z_positive": 0.0,
+      "posterior_prob_omega_z_positive": 0.0,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 1.0,
+      "crossing_ess": 9093.932013650392,
+      "crossing_mean_yz_m": [
+        3.2172514160824512,
+        1.9060681364363412
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.2149999999999985,
+        1.905
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          3.1784186304820805,
+          3.256084201682822
+        ],
+        [
+          1.8650380734467527,
+          1.9470981994259298
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9501454469853363
+    },
+    {
+      "seed": 20261107,
+      "prior": "zero",
+      "sigma_m": 0.015,
+      "ess": 22705.93534636853,
+      "prior_bins": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "posterior_bins": [
+        1.0000000000000024,
+        0.0,
+        0.0
+      ],
+      "magnitude_bin_tv": 1.2212453270876722e-15,
+      "prior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "posterior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "prior_prob_omega_z_positive": 0.0,
+      "posterior_prob_omega_z_positive": 0.0,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 1.0,
+      "crossing_ess": 22705.93534636853,
+      "crossing_mean_yz_m": [
+        3.217293425919605,
+        1.9118059313789741
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.214999999999996,
+        1.915
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          3.1016250770919456,
+          3.3329617747472646
+        ],
+        [
+          1.7979980418110844,
+          2.025613820946864
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500402951217976
+    },
+    {
+      "seed": 20261107,
+      "prior": "zero",
+      "sigma_m": 0.03,
+      "ess": 23659.732236847467,
+      "prior_bins": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "posterior_bins": [
+        0.9999999999999964,
+        0.0,
+        0.0
+      ],
+      "magnitude_bin_tv": 1.7763568394002505e-15,
+      "prior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "posterior_mean_omega": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "prior_prob_omega_z_positive": 0.0,
+      "posterior_prob_omega_z_positive": 0.0,
+      "airborne_plane_probability": 1.0000000000000002,
+      "airborne_goal_mouth_probability": 1.0000000000000002,
+      "crossing_ess": 23659.732236847474,
+      "crossing_mean_yz_m": [
+        3.2175334814111967,
+        1.9127177771495354
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.214999999999992,
+        1.9150000000000003
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.986517760585076,
+          3.4485492022373174
+        ],
+        [
+          1.688193176739012,
+          2.137242377560059
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500189458373404
+    },
+    {
+      "seed": 20261107,
+      "prior": "component_uniform",
+      "sigma_m": 0.005,
+      "ess": 1833.658874776733,
+      "prior_bins": [
+        0.009083333333333334,
+        0.7504166666666666,
+        0.2405
+      ],
+      "posterior_bins": [
+        0.005390378446497647,
+        0.8219039536473499,
+        0.17270566790615638
+      ],
+      "magnitude_bin_tv": 0.0714872869806813,
+      "prior_mean_omega": [
+        0.024198523712604437,
+        0.11856201802443218,
+        -0.25051790625404546
+      ],
+      "posterior_mean_omega": [
+        7.167585585114996,
+        -5.212114172724972,
+        -37.680317586668274
+      ],
+      "prior_prob_omega_z_positive": 0.49683333333333335,
+      "posterior_prob_omega_z_positive": 0.015503349777957798,
+      "airborne_plane_probability": 1.0,
+      "airborne_goal_mouth_probability": 0.9700798289779713,
+      "crossing_ess": 1833.658874776733,
+      "crossing_mean_yz_m": [
+        2.6913209112254495,
+        1.9844309695019364
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.5249999999999964,
+        1.8550000000000006
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.272118849348621,
+          3.110522973102278
+        ],
+        [
+          1.4417847712905032,
+          2.5270771677133697
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500611117912919
+    },
+    {
+      "seed": 20261107,
+      "prior": "component_uniform",
+      "sigma_m": 0.015,
+      "ess": 18222.44065106022,
+      "prior_bins": [
+        0.009083333333333334,
+        0.7504166666666666,
+        0.2405
+      ],
+      "posterior_bins": [
+        0.011857768517362727,
+        0.7772469050576888,
+        0.21089532642495468
+      ],
+      "magnitude_bin_tv": 0.029604673575048437,
+      "prior_mean_omega": [
+        0.024198523712604437,
+        0.11856201802443218,
+        -0.25051790625404546
+      ],
+      "posterior_mean_omega": [
+        3.1516791443334724,
+        -1.5169622088825279,
+        -14.829470185241904
+      ],
+      "prior_prob_omega_z_positive": 0.49683333333333335,
+      "posterior_prob_omega_z_positive": 0.3071699292152797,
+      "airborne_plane_probability": 1.0000000000000002,
+      "airborne_goal_mouth_probability": 0.7785051826690504,
+      "crossing_ess": 18222.44065106023,
+      "crossing_mean_yz_m": [
+        3.0225811307754973,
+        1.9407871334561686
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.644999999999992,
+        2.4550000000000014
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.193062317643621,
+          3.8520999439073735
+        ],
+        [
+          1.1117825717295768,
+          2.7697916951827604
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500059285615253
+    },
+    {
+      "seed": 20261107,
+      "prior": "component_uniform",
+      "sigma_m": 0.03,
+      "ess": 23109.48031671418,
+      "prior_bins": [
+        0.009083333333333334,
+        0.7504166666666666,
+        0.2405
+      ],
+      "posterior_bins": [
+        0.010007462744836078,
+        0.7600474063401702,
+        0.22994513091498847
+      ],
+      "magnitude_bin_tv": 0.010554869085008925,
+      "prior_mean_omega": [
+        0.024198523712604437,
+        0.11856201802443218,
+        -0.25051790625404546
+      ],
+      "posterior_mean_omega": [
+        1.0008312044991756,
+        -0.32279698588004996,
+        -4.493608689199971
+      ],
+      "prior_prob_omega_z_positive": 0.49683333333333335,
+      "posterior_prob_omega_z_positive": 0.44303088090821696,
+      "airborne_plane_probability": 1.0000000000000002,
+      "airborne_goal_mouth_probability": 0.6819170530701504,
+      "crossing_ess": 23109.480316714187,
+      "crossing_mean_yz_m": [
+        3.1679643659462386,
+        1.9234878052674953
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        2.60499999999999,
+        1.4850000000000005
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.2843819915390533,
+          4.051546740353424
+        ],
+        [
+          1.081351505508148,
+          2.7656241050268426
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500249622627749
+    },
+    {
+      "seed": 20261107,
+      "prior": "magnitude_mixture",
+      "sigma_m": 0.005,
+      "ess": 1805.1991115166845,
+      "prior_bins": [
+        0.4500416666666667,
+        0.4018333333333333,
+        0.148125
+      ],
+      "posterior_bins": [
+        0.2866710531044727,
+        0.558314814130259,
+        0.1550141327652671
+      ],
+      "magnitude_bin_tv": 0.16337061356219335,
+      "prior_mean_omega": [
+        0.1483309992741914,
+        -0.08781668676056385,
+        0.04030818015186032
+      ],
+      "posterior_mean_omega": [
+        6.889655030341892,
+        -2.4567106752725363,
+        -27.046894903996062
+      ],
+      "prior_prob_omega_z_positive": 0.498375,
+      "posterior_prob_omega_z_positive": 0.09208416211861149,
+      "airborne_plane_probability": 1.0000000000000002,
+      "airborne_goal_mouth_probability": 0.9877538389218186,
+      "crossing_ess": 1805.1991115166852,
+      "crossing_mean_yz_m": [
+        2.8588484738951503,
+        1.9517786866981026
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.1949999999999816,
+        1.9050000000000007
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.2795906889148494,
+          3.438106258875451
+        ],
+        [
+          1.556909647917585,
+          2.34664772547862
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500506035302791
+    },
+    {
+      "seed": 20261107,
+      "prior": "magnitude_mixture",
+      "sigma_m": 0.015,
+      "ess": 20412.24416585018,
+      "prior_bins": [
+        0.4500416666666667,
+        0.4018333333333333,
+        0.148125
+      ],
+      "posterior_bins": [
+        0.5028745534041926,
+        0.3856050945456245,
+        0.11152035205017907
+      ],
+      "magnitude_bin_tv": 0.05283288673752784,
+      "prior_mean_omega": [
+        0.1483309992741914,
+        -0.08781668676056385,
+        0.04030818015186032
+      ],
+      "posterior_mean_omega": [
+        1.7116683470283278,
+        -0.6842732993664086,
+        -6.662916510337685
+      ],
+      "prior_prob_omega_z_positive": 0.498375,
+      "posterior_prob_omega_z_positive": 0.4018764515059613,
+      "airborne_plane_probability": 0.9999999999999999,
+      "airborne_goal_mouth_probability": 0.9179546642521459,
+      "crossing_ess": 20412.244165850174,
+      "crossing_mean_yz_m": [
+        3.1356195985576782,
+        1.9247468901155462
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.2149999999999794,
+        1.915000000000001
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.3744348823326695,
+          3.896804314782687
+        ],
+        [
+          1.2116903313041005,
+          2.637803448926992
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500083103958108
+    },
+    {
+      "seed": 20261107,
+      "prior": "magnitude_mixture",
+      "sigma_m": 0.03,
+      "ess": 23361.392497774174,
+      "prior_bins": [
+        0.4500416666666667,
+        0.4018333333333333,
+        0.148125
+      ],
+      "posterior_bins": [
+        0.4687467239316508,
+        0.3967424550836018,
+        0.13451082098475386
+      ],
+      "magnitude_bin_tv": 0.018705057264980895,
+      "prior_mean_omega": [
+        0.1483309992741914,
+        -0.08781668676056385,
+        0.04030818015186032
+      ],
+      "posterior_mean_omega": [
+        0.643274455610365,
+        -0.266688625173564,
+        -2.074360941091374
+      ],
+      "prior_prob_omega_z_positive": 0.498375,
+      "posterior_prob_omega_z_positive": 0.47009154122992136,
+      "airborne_plane_probability": 1.0000000000000002,
+      "airborne_goal_mouth_probability": 0.8645823136262832,
+      "crossing_ess": 23361.392497774184,
+      "crossing_mean_yz_m": [
+        3.1968054104769426,
+        1.9185083193382242
+      ],
+      "crossing_smoothed_mode_yz_m": [
+        3.2149999999999754,
+        1.915000000000001
+      ],
+      "crossing_joint_95_rectangle_yz_m": [
+        [
+          2.359288687624882,
+          4.0343221333290025
+        ],
+        [
+          1.119120970244266,
+          2.7178956684321824
+        ]
+      ],
+      "crossing_joint_rectangle_mass": 0.9500142286336417
+    }
+  ]
+}

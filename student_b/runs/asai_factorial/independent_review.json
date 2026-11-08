@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "csv_rows": 672,
+  "script_hash_matches": true,
+  "unit_tests_passed": 7,
+  "scope": "12 factorial and 4 exploratory LOOCV configurations; no P1 update",
+  "raw_data_uploaded": false
+}

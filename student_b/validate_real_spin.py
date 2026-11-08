@@ -19,15 +19,20 @@ def advance(state, theta, start, stop, cfg):
     return state
 
 
-def sample_prefix(times, obs, axes, sigma, count, seed, rotating, cfg):
+def sample_prefix(times, obs, axes, sigma, count, seed, rotating, cfg, *, aero_draws=None):
     """Draw a Gaussian proposal for state conditional on each prior aero draw."""
     rng = np.random.default_rng(seed)
-    theta = np.zeros((count, 7))
-    theta[:, 6] = rng.uniform(.15, .30, count)
-    if rotating:
-        # Planar Barber model uses spin perpendicular to the observed x-z plane.
-        spin_axes = [1] if len(axes) == 2 else [0, 1, 2]
-        theta[:, 3+np.array(spin_axes)] = rng.uniform(-60, 60, (count, len(spin_axes)))
+    if aero_draws is None:
+        theta = np.zeros((count, 7))
+        theta[:, 6] = rng.uniform(.15, .30, count)
+        if rotating:
+            # Planar Barber model uses spin perpendicular to the observed x-z plane.
+            spin_axes = [1] if len(axes) == 2 else [0, 1, 2]
+            theta[:, 3+np.array(spin_axes)] = rng.uniform(-60, 60, (count, len(spin_axes)))
+    else:
+        theta = np.asarray(aero_draws, dtype=float)
+        if theta.shape != (count, 7) or not np.isfinite(theta).all():
+            raise ValueError('Expected finite aerodynamic draws of shape (count, 7)')
     design = np.column_stack((np.ones(len(times)), times))
     inverse = np.linalg.pinv(design)
     initial = np.zeros((count, 6))
