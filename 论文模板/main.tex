@@ -503,7 +503,7 @@ The Bayesian sampler exposes dependence on launch and aerodynamic assumptions, w
 
 All network endpoint metrics condition on airborne goal-plane crossing. For arbitrary kicks, the geometric in-frame probability would require multiplying $P(E\mid\mathbf{y}_1,\mathbf{y}_2,\sigma)$ by the conditional in-frame probability. The goal rectangle applies to the centre and ignores the ball radius in the in-frame criterion, contact with the frame and goalkeeper intervention. These distinctions separate a geometric forecast from a match scoring probability. The limited DFL, ISSIA and figure-read cases cannot establish real-penalty coverage. The PFF World Cup release \cite{pff2022} is a possible source for further case audits.
 
-Appendix~\ref{app:limits} quantifies the information limit of the measurement design. At $\sigma=5\,\mathrm{mm}$ the two positions and the physical prior leave an irreducible median crossing spread of about $0.26\,\mathrm{m}$, and the frozen network is within about $15\%$ of that local bound. Further point-accuracy gains therefore require an improved measurement design rather than a larger model; the same calculation shows that a single additional $5\,\mathrm{mm}$ position would lower the bound by a factor of about two.
+Appendix~\ref{app:limits} quantifies the information limit of the measurement design. At $\sigma=5\,\mathrm{mm}$ the two positions and the physical prior leave an irreducible median crossing spread of about $0.26\,\mathrm{m}$, and the frozen network is within about $15\%$ of that local bound. Further point-accuracy gains therefore require an improved measurement design rather than a larger model; the same calculation shows that a single additional $5\,\mathrm{mm}$ position would lower the bound by a factor of about two. A dimensionless observability ratio, defined as the ratio of the observation-noise acceleration to the prior spread of the aerodynamic acceleration, crosses unity at about $9\,\mathrm{mm}$ tracking noise for $\Delta t=50\,\mathrm{ms}$ (Appendix~\ref{app:limits}), which separates the data-limited from the prior-limited regime.
 
 A browser demonstration accompanies the paper. It uses the frozen P1 weights and computes, in local JavaScript, the crossing density, the joint regions and the conditional in-frame probability when the two observations and the noise level (four settings) are changed. For the stated case at $5\,\mathrm{mm}$ with seed 11 it returns a mode of about $(2.62,2.15)\,\mathrm{m}$, an in-frame probability of $97.3\%$ and areas of $0.178$ and $0.769\,\mathrm{m^2}$, close to the values reported here. This is a deployment consistency check: the weights and the calibrator are the same, and the agreement shows only that the exported model reproduces the paper. It is not an independent blind test and it does not validate the physical assumptions on real penalties. The paper's own figures and numbers remain the reference, and the demonstration is described anonymously in this submission.
 
@@ -667,6 +667,7 @@ standard deviation $\Lambda(n)\sigma$, whose Euclidean median is
   \approx 1.177\,\Lambda(n)\,\sigma .
   \label{eq:kinematic-median}
 \end{equation}
+We refer to Eq.~\eqref{eq:kinematic-median} as the \emph{two-point amplification law}: for a fixed $\Delta t$ the unregularised forecast error grows linearly with $\sigma$, with a geometry factor $\Lambda(n)$ that depends only on the dimensionless crossing time.
 Flights drawn from the launch prior of Table~\ref{tab:prior} reach the goal plane
 with a median arrival time of $0.441\,\mathrm{s}$ and a mean of
 $0.459\,\mathrm{s}$, i.e.\ $n=8.8$ and $n=9.2$, giving $\Lambda=69$ and $77$.
@@ -769,6 +770,42 @@ factor-of-two reduction of the attainable error at that noise level.
   local Bayesian floor at the four evaluation noise levels.}
   \label{fig:info-limits}
 \end{figure}
+
+\subsection{The observability ratio}
+
+The two bounds above suggest a dimensionless criterion for whether the data or the
+prior dominates the forecast.  Appendix~\ref{app:noise} gives the observation-noise
+level of the second-difference acceleration,
+\begin{equation}
+  \sigma_{a,\mathrm{obs}}=\frac{\sqrt{5}\,\sigma}{\Delta t^{2}},
+  \label{eq:sigma-a-obs}
+\end{equation}
+while the launch prior of Table~\ref{tab:prior} produces a lateral/vertical
+aerodynamic acceleration with a root-mean-square component spread of
+$\sigma_{a,\mathrm{prior}}\approx 7.7\,\mathrm{m\,s^{-2}}$ over the airborne
+flights (evaluated at the launch instant with gravity removed).  Define the
+\emph{observability ratio}
+\begin{equation}
+  R(\sigma)=\frac{\sigma_{a,\mathrm{obs}}}{\sigma_{a,\mathrm{prior}}}
+  =\frac{\sqrt{5}\,\sigma}{\Delta t^{2}\,\sigma_{a,\mathrm{prior}}} .
+  \label{eq:observability}
+\end{equation}
+For $\Delta t=0.05\,\mathrm{s}$ this gives $R=0.23,\,0.58,\,1.16$ and $1.74$ at
+$\sigma=2,\,5,\,10$ and $15\,\mathrm{mm}$.  The ratio crosses unity at
+\begin{equation}
+  \sigma^{*}=\frac{\Delta t^{2}\,\sigma_{a,\mathrm{prior}}}{\sqrt{5}}
+  \approx 8.6\,\mathrm{mm}.
+  \label{eq:sigma-star}
+\end{equation}
+Below $\sigma^{*}$ the two observations constrain the aerodynamic acceleration
+better than the prior does, and a meaningful point forecast is possible; above it
+the prior dominates, the crossing forecast is information-limited, and a
+probability distribution is the appropriate answer.  For the two-position
+measurement design this is a concrete tracking specification: a two-frame point
+forecast requires sub-centimetre timing and tracking accuracy, while broadcast
+tracking systems (centimetre to decimetre accuracy) are in the prior-limited
+regime.  The ratio is a scalar, Gaussianised summary of the full calculation in
+Table~\ref{tab:info-floor} and inherits its local, model-conditional caveat.
 
 \subsection{Interpretation for the measurement design}
 
