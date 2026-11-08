@@ -57,6 +57,10 @@ def clean(text):
     text = re.sub(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}', '[email redacted]', text)
     text = text.replace('SJTU', '[university]').replace('交大', '[university]')
     text = text.replace('x1shang', '[team member]')
+    text = re.sub(r'(?i)chen\s+zixuan', '[team member]', text)
+    text = text.replace('Jasonchenczx', '[team member]').replace('jasonchenczx', '[team member]')
+    text = re.sub(r'(?i)jason', '[team member]', text)
+    text = text.replace('zhu_jiahe', '[team member]').replace('Zixuan', '[team member]')
     text = text.replace('\r\n', '\n').replace('\r', '\n').replace('\x00', '')
     text = text.replace('\ufe0f', '')  # invisible emoji variation selector
     text = text.replace('\\end{Verbatim}', '\\textbackslash end\\{Verbatim\\}')

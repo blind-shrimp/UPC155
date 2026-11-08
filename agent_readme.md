@@ -4,8 +4,8 @@
 
 ## 2026-11-08 13:10：提交版已就绪（待补队员 AI 记录）
 
-- **提交文件**：[论文模板/155B.pdf](论文模板/155B.pdf)，73 页 = 英文正文 15 页 + AI 使用披露 58 页；每页页眉 Team 155；Summary 212 词（≤300）。
-- **AI 使用披露（官方硬性要求）已完成主体**：[ai-report.tex](论文模板/ai-report.tex) 逐字收录 OpenAI ChatGPT/Codex（2 个会话）与 DeepSeek Harness（7 个会话）的 94 条原始提问和 202 段完整输出；日志处理见 [tools/ai_usage](tools/ai_usage/README.md)。
+- **提交文件**：[论文模板/155B.pdf](论文模板/155B.pdf)，77 页 = 英文正文 15 页 + AI 使用披露 62 页；每页页眉 Team 155；Summary 212 词（≤300）。
+- **AI 使用披露（官方硬性要求）已完成主体**：[ai-report.tex](论文模板/ai-report.tex) 逐字收录 OpenAI ChatGPT/Codex（2 个会话）与 DeepSeek Harness（7 个会话）的 98 条原始提问和 203 段完整输出；日志处理见 [tools/ai_usage](tools/ai_usage/README.md)。
 - **仍待补**：`论文模板/ai-report-team.tex` 目前是占位段落，需要 A/C 同学按"系统 + 原始提问 + 完整输出"补充其他 AI 工具记录（若没有则改成一句话声明）。
 - **丢失风险已处理**：Codex 额度中断前未提交的本地工作（通用化 `physics.py` 接口、P1–P5/AsAI 实验脚本与运行结果）已备份并合并进 `main`（提交 `dbb2ded`），`main` 与远端同步。
 - **最后检查**：提交前用 155B.pdf 核对首页四项、匿名信息、页眉、图表、引用与文件名，然后按官方规则邮件提交（截止北京时间 2026-11-09 09:00）。
