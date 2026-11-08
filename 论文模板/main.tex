@@ -23,6 +23,7 @@
 \usepackage{fancyhdr}
 \usepackage{microtype}
 \usepackage{url}
+\usepackage{pdfpages}
 \usepackage{hyperref}
 \hypersetup{hidelinks,pdfauthor={},pdftitle={},pdfsubject={},pdfkeywords={}}
 \urlstyle{same}
@@ -429,8 +430,15 @@ whose component variance is $(1+4)\sigma^2=5\sigma^2$. Hence
 \end{equation}
 If the start is also noisy, the third error enters with unit weight and the variance becomes $6\sigma^2$, giving the conservative factor $\sqrt{6}$. At $\sigma=5\,\mathrm{mm}$ and $\Delta t=0.05\,\mathrm{s}$, $\sigma_a=4.47\,\mathrm{m\,s^{-2}}$ for a fixed start. For a fixed forecast time near $0.4\,\mathrm{s}$, the acceleration term alone corresponds to a displacement scale of several tenths of a metre. The full crossing uncertainty also involves velocity errors and uncertainty in crossing time. This calculation motivates propagating the observation model through to the endpoint \cite{gum2008}.
 
-% If required, the AI report must be the LAST section of the paper.
-% Uncomment the following line after completing ai-report.tex.
-% \input{ai-report.tex}
+% ---------------------------------------------------------------------------
+% Report on the Use of AI (official requirement, must be the last section).
+% Generated from the preserved AI-session logs by tools/build_ai_report.ps1;
+% the LaTeX source is ai-report.tex and the plain-text copy is
+% ../ai_logs/UPC155_AI_usage_log.md. The compiled pages are appended here so
+% that the English main paper can stay pdfLaTeX while the report (which
+% contains Chinese queries verbatim) is typeset with XeLaTeX.
+% ---------------------------------------------------------------------------
+\clearpage
+\includepdf[pages=-,pagecommand={\thispagestyle{cover}}]{ai-report.pdf}
 
 \end{document}
