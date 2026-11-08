@@ -1,0 +1,16 @@
+{
+  "n": 1000,
+  "seed": 1108,
+  "dt_s": 0.002,
+  "both_cross": 793,
+  "status_disagree": 32,
+  "reference_cross": 811,
+  "canonical_cross": 807,
+  "end_median_m": 0.3091434312250396,
+  "end_rms_m": 0.3594045794319017,
+  "end_gt_5cm": 0.9155107187894073,
+  "input_point_rms_m": [
+    0.004865824856707307,
+    0.019087238552384766
+  ]
+}
