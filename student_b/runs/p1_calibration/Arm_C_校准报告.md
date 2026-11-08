@@ -16,3 +16,14 @@
 各值是三个训练种子的均值，箭头从名义区域指向校准后区域。15 mm 时，50% 区域的覆盖率提高 4.1 个百分点，面积增加约 14%。95% 区域的覆盖率更接近目标，面积减少约 13%。点误差和 NLL 沿用原模型。完整数据见 [逐种子结果](scores_11_22_33.json)。
 
 冻结集此前用于 P0 模型比较，这次结果属于同一仿真分布上的开发复核。测试集仅含空中到达门平面的轨迹。它提供落点区域覆盖的证据，真实点球精度和提前触地概率需要单独验证。
+<<<<<<< HEAD
+=======
+
+## 复现
+
+从仓库根目录运行下列命令。先准备 canonical NPZ 和 C 同学的冻结 CSV。如本机无缓存，脚本会依 P0 设置训练三个种子的 Arm C。
+
+```powershell
+python student_b/experiments/p1_calibrate_arm_c.py --data student_b/runs/canonical50k/data.npz --frozen student-c/P0/data/test_canonical_4187.csv
+```
+>>>>>>> 8f742a4 (wip(resume): preserve post-6122085 work (generalized physics API, P1-P5 + AsAI experiment scripts, run artifacts))

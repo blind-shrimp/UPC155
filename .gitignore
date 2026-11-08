@@ -25,3 +25,6 @@ student-c/P1/run_log.txt
 论文模板/main.log
 论文模板/main.out
 论文模板/main.toc
+
+# Ad-hoc experiment checkpoints (regenerable)
+student_b/runs/**/*.pt

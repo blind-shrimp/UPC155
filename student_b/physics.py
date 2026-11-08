@@ -66,7 +66,7 @@ def rk4(state, theta, t, h, cfg):
     return state + h*(a+2*b+2*c+d)/6
 
 
-def simulate(theta, cfg=None):
+def simulate(theta, cfg=None, *, observation_times=(.05, .1), initial_z=None, goal_x=None):
     """status: 0 timeout, 1 airborne goal-plane crossing, 2 ground.
 
     Observation times are hit exactly. Events use linear interpolation (not
@@ -74,24 +74,31 @@ def simulate(theta, cfg=None):
     """
     cfg = cfg or Config()
     theta = np.atleast_2d(np.asarray(theta, float))
-    if cfg.dt <= 0 or cfg.horizon < .1:
-        raise ValueError('dt > 0 and horizon >= 0.1 required')
+    t1, t2 = observation_times
+    if not np.isfinite((t1, t2, cfg.dt, cfg.horizon)).all() or not (
+            cfg.dt > 0 and 0 < t1 < t2 <= cfg.horizon):
+        raise ValueError('Require positive dt and 0 < t1 < t2 <= horizon')
     n = len(theta)
-    state = np.zeros((n, 6)); state[:, 2] = cfg.radius; state[:, 3:] = theta[:, :3]
+    height = np.broadcast_to(cfg.radius if initial_z is None else initial_z, (n,))
+    plane = np.broadcast_to(cfg.goal if goal_x is None else goal_x, (n,))
+    if not np.isfinite(height).all() or not np.isfinite(plane).all() or np.any(height < cfg.radius) or np.any(plane <= 0):
+        raise ValueError('Require finite start heights at or above contact and positive goal distances')
+    state = np.zeros((n, 6)); state[:, 2] = height; state[:, 3:] = theta[:, :3]
     observations = np.full((n, 2, 3), np.nan)
     endpoint = np.full((n, 2), np.nan); arrival = np.full(n, np.nan)
     status = np.zeros(n, np.int8); active = np.ones(n, bool)
-    t = 0.; targets = [.05, .1, cfg.horizon]
-    for target in targets:
+    t = 0.; targets = [t1, t2, cfg.horizon]
+    for j, target in enumerate(targets):
         while t < target - 1e-12:
             h = min(cfg.dt, target-t)
             idx = np.flatnonzero(active)
             if len(idx):
                 old = state[idx]; new = rk4(old, theta[idx], t, h, cfg)
-                goal = (old[:, 0] < cfg.goal) & (new[:, 0] >= cfg.goal)
+                local_plane = plane[idx]
+                goal = (old[:, 0] < local_plane) & (new[:, 0] >= local_plane)
                 ground = (new[:, 2] <= cfg.radius) & (new[:, 2] < old[:, 2])
                 ag = np.full(len(idx), np.inf); az = ag.copy()
-                ag[goal] = (cfg.goal-old[goal, 0])/(new[goal, 0]-old[goal, 0])
+                ag[goal] = (local_plane[goal]-old[goal, 0])/(new[goal, 0]-old[goal, 0])
                 az[ground] = (cfg.radius-old[ground, 2])/(new[ground, 2]-old[ground, 2])
                 wins = goal & (ag < az)
                 hits = ground & ~wins
@@ -102,8 +109,7 @@ def simulate(theta, cfg=None):
                 active[idx[wins | hits]] = False
                 state[idx] = new
             t += h
-        if target in (.05, .1):
-            j = 0 if target == .05 else 1
+        if j < 2:
             observations[active, j] = state[active, :3]
     return dict(observations=observations, endpoint=endpoint, arrival=arrival, status=status)
 

@@ -63,9 +63,10 @@ def load():
     return d, parts
 
 
-def train_one(arm, seed, parts, verbose=True, *, input_kind=None, k=K, depth=DEPTH,
-              activation="SiLU", correlation=True, cosine=True, dynamic_noise=True):
-    spec = dict(ARMS[arm])
+def train_one(arm, seed, parts, verbose=True, *, spec=None, input_kind=None, k=K, depth=DEPTH,
+              activation="SiLU", correlation=True, cosine=True, dynamic_noise=True,
+              warm_start=None, mirror=False, select_validation=False):
+    spec = dict(ARMS[arm]) if spec is None else dict(spec)
     if input_kind is not None:
         spec["input"] = input_kind
     rng = np.random.default_rng(seed)
@@ -84,6 +85,8 @@ def train_one(arm, seed, parts, verbose=True, *, input_kind=None, k=K, depth=DEP
     ok_ref = np.isfinite(Y_ref).all(1)
     X_ref, Y_ref = X_ref[ok_ref], Y_ref[ok_ref]
     st = standardize_fit(X_ref, Y_ref)
+    if warm_start is not None:
+        st = warm_start["stats"]
     xm, xs = torch.tensor(st["xm"], dtype=torch.float32), torch.tensor(st["xs"], dtype=torch.float32)
     ym, ys = torch.tensor(st["ym"], dtype=torch.float32), torch.tensor(st["ys"], dtype=torch.float32)
 
@@ -99,7 +102,9 @@ def train_one(arm, seed, parts, verbose=True, *, input_kind=None, k=K, depth=DEP
 
     model = build_mdn(X_ref.shape[1], k=k, hidden=HIDDEN, depth=depth,
                       activation=activation, correlation=correlation)
-    opt = torch.optim.Adam(model.parameters(), lr=LR)
+    if warm_start is not None:
+        model.load_state_dict(warm_start["state"])
+    opt = torch.optim.Adam(model.parameters(), lr=LR if warm_start is None else LR/3)
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=EPOCHS) if cosine else None
     if not dynamic_noise:
         fixed_rng = np.random.default_rng(seed + 100000)
@@ -107,6 +112,12 @@ def train_one(arm, seed, parts, verbose=True, *, input_kind=None, k=K, depth=DEP
         fixed_obs = obs_tr + fixed_rng.normal(size=obs_tr.shape) * fixed_sigma[:, None, None]
     n_params = sum(p.numel() for p in model.parameters())
     history = []
+    best = None
+    if select_validation and warm_start is not None:
+        model.eval()
+        with torch.no_grad():
+            initial_val = float(-model(Xva).log_prob(Yva).mean()) + float(np.log(st["ys"]).sum())
+        best = (initial_val, 0, {key: value.clone() for key, value in model.state_dict().items()})
     t0 = time.perf_counter()
     for epoch in range(EPOCHS):
         perm = rng.permutation(n_tr)
@@ -119,9 +130,14 @@ def train_one(arm, seed, parts, verbose=True, *, input_kind=None, k=K, depth=DEP
                 obs_b = obs_tr[b] + rng.normal(size=obs_tr[b].shape) * sig[:, None, None]
             else:
                 sig, obs_b = fixed_sigma[b], fixed_obs[b]
+            y_b = y_tr[b]
+            if mirror:
+                signs = rng.choice((-1., 1.), size=len(b))
+                obs_b[:, :, 1] *= signs[:, None]
+                y_b[:, 0] *= signs
             X = np.nan_to_num((make_inputs(spec["input"], obs_b, sig) - st["xm"]) / st["xs"],
                               nan=0.0, posinf=0.0, neginf=0.0)
-            Y = (make_target(spec["target"], y_tr[b], obs_b) - st["ym"]) / st["ys"]
+            Y = (make_target(spec["target"], y_b, obs_b) - st["ym"]) / st["ys"]
             ok = np.isfinite(Y).all(1)
             if not ok.all():
                 X, Y = X[ok], Y[ok]
@@ -144,10 +160,16 @@ def train_one(arm, seed, parts, verbose=True, *, input_kind=None, k=K, depth=DEP
         with torch.no_grad():
             val = float(-model(Xva).log_prob(Yva).mean()) + float(np.log(st["ys"]).sum())
         history.append(dict(epoch=epoch + 1, train_nll=total / seen, val_nll_phys=val))
+        if select_validation and (best is None or val < best[0]):
+            best = (val, epoch + 1, {key: value.clone() for key, value in model.state_dict().items()})
         if verbose and (epoch + 1) % 20 == 0:
             print(f"  {arm} seed{seed} epoch {epoch+1}/{EPOCHS} train {total/seen:.3f} val {val:.3f}",
                   flush=True)
     seconds = time.perf_counter() - t0
+    if best is not None:
+        model.load_state_dict(best[2])
+        history[-1]["selected_epoch"] = best[1]
+        history[-1]["selected_val_nll"] = best[0]
     return model, st, history, seconds, n_params
 
 
