@@ -1,4 +1,5 @@
-% UPC 2026 Problem B paper. Compile with pdfLaTeX (twice for cross-references).
+% UPC 2026 Problem B paper. Compile with pdfLaTeX (twice for cross-references);
+% switch to XeLaTeX only if the Chinese AI-record section is enabled.
 % Team 155. Final network numbers trace to student-c/P1/final/.
 \documentclass[11pt,a4paper]{article}
 
@@ -12,6 +13,8 @@
   \usepackage{fontspec}
   \usepackage{xeCJK}
   \setmainfont{Latin Modern Roman}
+  % TeX Live ships the Fandol fonts, so Chinese records compile on a standard install.
+  \setCJKmainfont{FandolSong-Regular.otf}[BoldFont=FandolSong-Bold.otf]
 \fi
 \usepackage[margin=1in,headheight=15pt,headsep=20pt]{geometry}
 \usepackage{amsmath,amssymb}
@@ -65,9 +68,9 @@
 
 How much can two early positions tell us about where a penalty kick crosses the goal plane? The ball starts at a known point, with observations at $0.05$ and $0.10\,\mathrm{s}$. We propagate measurement uncertainty through a flight model with gravity, quadratic drag and a transverse Magnus force. A constant-acceleration solution gives a reference crossing. An adaptive Bayesian sampler and a noise-conditioned mixture density network (MDN) estimate distributions over the crossing point.
 
-At an assumed coordinate noise of $5\,\mathrm{mm}$, the calibrated MDN places the most likely crossing at $(Y,Z)=(2.62,2.15)\,\mathrm{m}$. Its joint $50\%$ and $95\%$ prediction regions cover $0.177$ and $0.775\,\mathrm{m^2}$, and the probability that the ball centre is inside the goal rectangle, given an airborne crossing, is $97.3\%$. The Bayesian estimate gives a mode of $(2.650,2.052)\,\mathrm{m}$ and a conditional probability of $96.3\%$.
+At an assumed coordinate noise of $5\,\mathrm{mm}$, the calibrated MDN places the most likely crossing, the density mode, at $(Y,Z)=(2.62,2.15)\,\mathrm{m}$. Its joint $50\%$ and $95\%$ prediction regions cover $0.177$ and $0.775\,\mathrm{m^2}$. Conditional on an airborne crossing, the probability that the ball centre is inside the goal rectangle is $97.3\%$. The Bayesian estimate gives a mode of $(2.650,2.052)\,\mathrm{m}$ and $96.3\%$.
 
-After model selection and calibration, we generated a fresh simulation set with $5{,}036$ airborne crossings. The MDN's median error at $5\,\mathrm{mm}$ is $0.290\,\mathrm{m}$. Across four noise levels, its calibrated $50\%$ and $95\%$ regions cover $47.6$--$49.1\%$ and $94.5$--$95.2\%$ of endpoints. A $3\,\mathrm{m\,s^{-1}}$ crosswind reduces $50\%$ coverage from $48.7\%$ to $40.9\%$ on matched flights. Tracked penalties and other airborne arcs give case-level checks of the physical model. The coverage figures apply to simulations from the stated launch and measurement assumptions.
+After model selection and calibration, we generated $5{,}036$ fresh airborne crossings. The MDN's median error at $5\,\mathrm{mm}$, computed from the mixture mean, is $0.290\,\mathrm{m}$. Across four noise levels, its calibrated $50\%$ and $95\%$ regions cover $47.6$--$49.1\%$ and $94.5$--$95.2\%$ of the independently simulated endpoints, and its conditional in-frame probability has an expected calibration error of $0.4$--$0.9$ percentage points. A $3\,\mathrm{m\,s^{-1}}$ crosswind reduces $50\%$ coverage from $48.7\%$ to $40.9\%$ on matched flights. Tracked penalties and other airborne arcs give case-level checks of the physical model. All coverage figures are independent-simulation coverage under the stated launch and measurement assumptions, not coverage for real penalties.
 
 \clearpage
 \tableofcontents
@@ -76,27 +79,38 @@ After model selection and calibration, we generated a fresh simulation set with 
 \section{Introduction}
 \subsection{Problem Restatement}
 
-A penalty kick starts $11\,\mathrm{m}$ from a goal that is $7.32\,\mathrm{m}$ wide and $2.44\,\mathrm{m}$ high \cite{ifab}. Taking the penalty spot as the origin and the goal line as the plane $x=11\,\mathrm{m}$, the ball centre begins at $\mathbf{r}(0)=(0,0,0.11)\,\mathrm{m}$, and two further positions are observed: $\mathbf{r}(0.05)$ and $\mathbf{r}(0.10)$. The task is to predict the first crossing of the goal plane: the most likely point $(Y,Z)$, joint $50\%$ and $95\%$ prediction regions, and the probability that the ball passes inside the goal. The final crossing is a label for validation only; it may not be used as an input.
+A penalty kick starts $11\,\mathrm{m}$ from a goal that is $7.32\,\mathrm{m}$ wide and $2.44\,\mathrm{m}$ high \cite{ifab}. Taking the penalty spot as the origin and the goal line as the plane $x=11\,\mathrm{m}$, the ball centre begins at $\mathbf{r}(0)=(0,0,0.11)\,\mathrm{m}$, and the task statement gives two further positions,
+\begin{equation}
+  \mathbf{r}(0.05)=(1.50,\,0.45,\,0.44)\,\mathrm{m},
+  \qquad
+  \mathbf{r}(0.10)=(2.96,\,0.86,\,0.74)\,\mathrm{m}
+  \label{eq:given}
+\end{equation}
+\cite{upc2026}. The task is to predict the first crossing of the goal plane: the most likely point $(Y,Z)$, joint $50\%$ and $95\%$ prediction regions, and the probability that the ball passes inside the goal. The final crossing is a label for validation only; it may not be used as an input.
 
-Two properties make this inverse problem difficult. First, the trajectory is driven by forces that are not observed. The launch speed is roughly $30\,\mathrm{m\,s^{-1}}$ \cite{bray2003}, the Reynolds number is of order $10^5$, and the drag coefficient of a football changes by a factor of almost three across the drag crisis \cite{asai2007}. Spin generates a Magnus force whose direction depends on the spin axis, which a tracking system does not measure. Second, the observations are only marginally informative. With the start fixed and two positions observed independently with standard deviation $\sigma$, the second difference that estimates acceleration carries noise $\sqrt{5}\,\sigma/\Delta t^2$ (Appendix~\ref{app:noise}). For $\sigma=5\,\mathrm{mm}$ and $\Delta t=0.05\,\mathrm{s}$ this is $4.47\,\mathrm{m\,s^{-2}}$, comparable to the aerodynamic accelerations themselves. A predictor that ignores this amplification will be overconfident.
+Two properties make this inverse problem difficult. First, the trajectory is driven by forces that are not observed. The launch speed is of order $30\,\mathrm{m\,s^{-1}}$ \cite{bray2003}, the Reynolds number is of order $10^5$, and the drag coefficient of a football changes by a factor of almost three across the drag crisis \cite{asai2007}. Spin generates a Magnus force whose direction depends on the spin axis, which a tracking system does not measure. Second, the observations are only marginally informative. With the start fixed and two positions observed independently with standard deviation $\sigma$, the second difference that estimates acceleration carries noise $\sqrt{5}\,\sigma/\Delta t^2$ (Appendix~\ref{app:noise}). For $\sigma=5\,\mathrm{mm}$ and $\Delta t=0.05\,\mathrm{s}$ this is $4.47\,\mathrm{m\,s^{-2}}$, comparable to the aerodynamic accelerations themselves. A predictor that ignores this amplification will be overconfident.
 
 \subsection{Background and Approach}
 
-The aerodynamics of a football are well studied. Wind-tunnel work gives a subcritical drag coefficient near $0.43$, a supercritical value near $0.15$, and a critical Reynolds number of $2.2$--$3.0\times10^5$ \cite{asai2007,asai2013}; trajectory analyses of free kicks report effective drag coefficients of $0.25$--$0.30$ \cite{bray2003}, and lift coefficients of $0.2$--$0.3$ at moderate spin parameters \cite{goff2010}. More recent work recovers drag and lift curves directly from tracked trajectories \cite{goff2017}. These ranges, rather than a single calibrated value, define our prior. Public tracking datasets make real ball trajectories available: the ISSIA-3D annotations distributed with SoccerNet-v3D provide calibrated, multi-view ball positions for broadcast matches \cite{soccernetv3d}, and league-wide spatiotemporal data are now published for the German Bundesliga \cite{dfl2025}. Neither source observes spin, and neither marks the instant of foot contact.
+The aerodynamics of a football are well studied. Wind-tunnel work on the tested non-rotating ball gives a subcritical drag coefficient near $0.43$ and a supercritical value near $0.15$, with a critical Reynolds number of $2.2$--$3.0\times10^5$ \cite{asai2007}; a later comparison of four ball types places the critical values up to about $3.3\times10^5$ \cite{asai2013}. Free-kick trajectory fits give effective drag coefficients of $0.25$--$0.30$, and the same study reports ball speeds of $23.0$--$28.3\,\mathrm{m\,s^{-1}}$ at $0.1\,\mathrm{s}$ after impact for ten free kicks (their Table~1) \cite{bray2003}. Trajectory analyses recover lift coefficients of order $0.2$--$0.3$ under some tested spin and Reynolds conditions (Figs.~6 and 7 of \cite{goff2010}); later work estimates drag and lift curves directly from tracked trajectories \cite{goff2017}. These ranges constrain the order of magnitude of the aerodynamic terms; they do not define the prior used here. The bounds in Table~\ref{tab:prior} and the lift law in \eqref{eq:lift} are choices of this study.
+
+Public tracking datasets make real ball trajectories available. The ISSIA-3D annotations, released alongside SoccerNet-v3D, provide multi-view ball positions for broadcast matches at $25\,\mathrm{fps}$ \cite{soccernetv3d,issia}. Spatiotemporal and event data are published for seven professional German matches of the 2022/23 season, two from the Bundesliga and five from the 2. Bundesliga \cite{dfl2025}. Neither source observes spin. Neither provides an independently measured instant of foot contact: the DFL release contains event timestamps and a frame number for synchronisation, which are not the same as a measured contact time.
 
 We first quantify how uncertainty in the two observed positions propagates into the predicted crossing. We then compare a transparent Bayesian inverse calculation and a fast mixture density network \cite{bishop1994}. They share the same forward model and launch prior. Controlled comparisons test which parts of the network help. A separate calibration fold and fresh simulations measure how often the forecast regions contain the true endpoint. Tracked flights provide external checks on the physical assumptions.
 
 \section{Materials and Methods}
 \subsection{Assumptions and Approximations}
 
+\emph{Scope and conventions.} Every endpoint forecast below is conditional on five things: a known start $\mathbf{r}(0)$; observations at the fixed times $0.05$ and $0.10\,\mathrm{s}$; a known or externally assumed per-coordinate noise scale $\sigma$; the uniform prior bounds of Table~\ref{tab:prior}; and, for endpoint statistics, an airborne crossing of the goal plane. Two point estimates are reported and should not be confused. For the stated kick we quote the \emph{mode} of the forecast density, because the problem asks for the most likely point. For population errors (median, 90th percentile) we use the \emph{mixture mean}, which is defined for every flight and is the point estimate minimising squared error. Coverage always refers to independently simulated flights drawn from the stated prior, not to real penalties.
+
 \begin{enumerate}
-  \item[\textbf{A1.}] \textbf{Point mass, rigid sphere.} The ball is treated as a point mass with $m=0.430\,\mathrm{kg}$ and radius $R=0.110\,\mathrm{m}$, within the IFAB ranges for mass and circumference \cite{ifab}. The cross-sectional area is $A=\pi R^2=0.038013\,\mathrm{m^2}$. Buoyancy is neglected: with a ball density of about $77\,\mathrm{kg\,m^{-3}}$, buoyancy is $1.6\%$ of the weight, smaller than the uncertainty in the aerodynamic coefficients.
+  \item[\textbf{A1.}] \textbf{Point mass, rigid sphere.} The ball is treated as a point mass with $m=0.430\,\mathrm{kg}$ and radius $R=0.110\,\mathrm{m}$, within the IFAB ranges for mass and circumference \cite{ifab}. The cross-sectional area is $A=\pi R^2=0.038013\,\mathrm{m^2}$. Buoyancy is neglected: it is $0.066\,\mathrm{N}$, or $1.6\%$ of the weight (Section~\ref{sec:forces}).
   \item[\textbf{A2.}] \textbf{Still air.} The main model uses zero wind and constant air density $\rho=1.20\,\mathrm{kg\,m^{-3}}$. A $3\,\mathrm{m\,s^{-1}}$ crosswind is used only as a stress test.
-  \item[\textbf{A3.}] \textbf{Quadratic drag with one coefficient per flight.} The drag coefficient is constant along a trajectory and drawn from $C_D\sim U[0.15,0.30]$. This range brackets the free-kick estimates of \cite{bray2003} and the supercritical wind-tunnel value of \cite{asai2007}; a wider upper limit of $0.45$ is examined as a sensitivity case.
-  \item[\textbf{A4.}] \textbf{Transverse Magnus force.} Only the spin component perpendicular to the relative velocity produces lift. The lift coefficient is $C_L=\min(1.4\,S,0.30)$ with spin parameter $S=R\,|\boldsymbol{\omega}\times\hat{\mathbf{u}}|/|\mathbf{u}|$. The slope and cap are modelling choices of this study, chosen to match the lift coefficients measured at moderate spin parameters \cite{goff2010,asai2007}. Zero spin and spin parallel to the velocity produce no lift.
-  \item[\textbf{A5.}] \textbf{No spin decay.} The main model holds spin fixed over a flight. A separate stress test applies exponential decay with a $0.5\,\mathrm{s}$ time constant.
+  \item[\textbf{A3.}] \textbf{Quadratic drag with one coefficient per flight.} The drag coefficient is constant along a trajectory and drawn from $C_D\sim U[0.15,0.30]$. This range includes the free-kick estimates of \cite{bray2003} and the supercritical wind-tunnel value of \cite{asai2007}; a wider upper limit of $0.45$ is examined as a sensitivity case.
+  \item[\textbf{A4.}] \textbf{Transverse Magnus force.} Only the spin component perpendicular to the relative velocity produces lift. The lift coefficient is $C_L=\min(1.4\,S,0.30)$ with spin parameter $S=R\,|\boldsymbol{\omega}\times\hat{\mathbf{u}}|/|\mathbf{u}|$. The slope $1.4$ and the cap $0.30$ are modelling choices of this study, chosen to match the order of the lift coefficients measured at moderate spin parameters in Figs.~6 and 7 of \cite{goff2010} and in \cite{asai2007}. Zero spin and spin parallel to the velocity produce no lift.
+  \item[\textbf{A5.}] \textbf{No spin decay.} The main model holds the spin vector fixed over a flight. This follows the short-flight argument of the 2022 Team~358 penalty-kick paper, whose Section~3.1.4 neglects the change of angular velocity on the basis of the short flight time and an order-of-magnitude estimate of exponential decay \cite{team358}. The approximation is adopted here within their model and estimation conditions. A separate stress test applies exponential decay with a $0.5\,\mathrm{s}$ time constant; the coverage loss in Section~\ref{sec:shift} is our own result and is not implied by that paper.
   \item[\textbf{A6.}] \textbf{Measurement model.} The initial position is exact. The two later positions are independent Gaussian observations with a common, known standard deviation $\sigma\in\{2,5,10,15\}\,\mathrm{mm}$ for evaluation. Because only the two later points carry noise, the acceleration uncertainty is $\sqrt{5}\,\sigma/\Delta t^2$; the conservative factor $\sqrt{6}$ applies only if all three positions are noisy (Appendix~\ref{app:noise}).
-  \item[\textbf{A7.}] \textbf{Plausibility prior.} Launch velocity, spin and drag are drawn independently from uniform bounds (Table~\ref{tab:prior}). The bounds are wide plausibility ranges chosen before calibration; they contain the free-kick speeds reported in \cite{bray2003}, but they are not a calibrated distribution of real penalty kicks.
+  \item[\textbf{A7.}] \textbf{Plausibility prior.} Launch velocity, spin and drag are drawn independently from uniform bounds (Table~\ref{tab:prior}). The bounds are wide plausibility ranges chosen before calibration. They contain the free-kick speeds measured at $0.1\,\mathrm{s}$ in Table~1 of \cite{bray2003}, but they are not a calibrated distribution of real penalty kicks.
 \end{enumerate}
 
 \begin{table}[htbp]
@@ -117,15 +131,27 @@ We first quantify how uncertainty in the two observed positions propagates into 
 \end{table}
 
 \subsection{Physical Model}
+\label{sec:forces}
 
-Let $\mathbf{u}=\mathbf{v}-\mathbf{w}$ be the ball velocity relative to the air, with $\mathbf{w}=0$ in the main model. The equations of motion are
+Let $\mathbf{u}=\mathbf{v}-\mathbf{w}$ be the ball velocity relative to the air, with $\mathbf{w}=0$ in the main model. The force balance used to build the model has four terms: weight, quadratic drag, a transverse lift and buoyancy. The gravity, drag and lift terms follow the force diagram and coefficient pages of the NASA Glenn beginner's guide to aeronautics \cite{nasaforces,nasadrag,nasalift}; buoyancy is given by Archimedes' principle \cite{archimedes}. With $V=4\pi R^3/3=5.58\times10^{-3}\,\mathrm{m^3}$, the buoyant force is $\rho V g=0.066\,\mathrm{N}$, against a weight of $4.22\,\mathrm{N}$. The complete vector equation is
+\begin{equation}
+  m\dot{\mathbf{v}}
+  = m\mathbf{g}
+  - \tfrac12\rho A C_D\,|\mathbf{u}|\,\mathbf{u}
+  + \tfrac12\rho A C_L\,|\mathbf{u}|^2\,\hat{\mathbf{n}}
+  + \rho V\mathbf{g}.
+  \label{eq:full}
+\end{equation}
+Dividing by $m$ and dropping the last term gives the equation actually integrated,
 \begin{align}
   \dot{\mathbf{r}} &= \mathbf{v}, \label{eq:kin}\\
   \dot{\mathbf{v}} &= \mathbf{g}
     - \frac{\rho A C_D}{2m}\,|\mathbf{u}|\,\mathbf{u}
     + \frac{\rho A C_L}{2m}\,|\mathbf{u}|^2\,\hat{\mathbf{n}}, \label{eq:dyn}
 \end{align}
-where $\mathbf{g}=(0,0,-9.81)\,\mathrm{m\,s^{-2}}$ and
+where $\mathbf{g}=(0,0,-9.81)\,\mathrm{m\,s^{-2}}$. The 1.6\% buoyancy is smaller than the spread of the aerodynamic coefficients in Table~\ref{tab:prior}, and its omission is listed in A1.
+
+The spin enters through the unit vector
 \begin{equation}
   \hat{\mathbf{n}}=
   \begin{cases}
@@ -136,13 +162,13 @@ where $\mathbf{g}=(0,0,-9.81)\,\mathrm{m\,s^{-2}}$ and
   C_L=\min\!\left(1.4\,\frac{R\,|\boldsymbol{\omega}\times\mathbf{u}|}{|\mathbf{u}|^2},\,0.30\right).
   \label{eq:lift}
 \end{equation}
-In the air-relative frame, the lift term is orthogonal to $\mathbf{u}$ and the drag term dissipates kinetic energy.
+Writing $\boldsymbol{\omega}=\omega\hat{\mathbf{z}}$, i.e.\ spin about the positive $z$ axis, gives the special case $\hat{\mathbf{n}}\propto\hat{\mathbf{z}}\times\mathbf{u}$ used in our first modelling discussion. The general form in \eqref{eq:lift} lets the spin vector have three independent components and is what all calculations use. When $\boldsymbol{\omega}\times\mathbf{u}=\mathbf{0}$ (zero spin, or spin parallel to the velocity) the lift is exactly zero by the convention above, with no $0/0$ limit. A vector model of this type for a direct free kick is Eq.~(1) of Bray and Kerwin \cite{bray2003}. The lift coefficient in \eqref{eq:lift} is our parameterisation; its slope and cap are not literature values, and the three-component fixed spin vector is the main-model choice of A5.
 
-The goal plane is crossed when $x$ first reaches $11\,\mathrm{m}$. The crossing time and position are obtained by linear interpolation between the two integration steps that bracket $x=11\,\mathrm{m}$. A flight ends early if the ball centre falls to $z\le R$ before reaching the plane; such trajectories are labelled ground hits and are excluded from the endpoint statistics, which are therefore conditional on airborne arrival.
+In the air-relative frame, the lift term is orthogonal to $\mathbf{u}$ and the drag term dissipates kinetic energy. The goal plane is crossed when $x$ first reaches $11\,\mathrm{m}$. The crossing time and position are obtained by linear interpolation between the two integration steps that bracket $x=11\,\mathrm{m}$. A flight ends early if the ball centre falls to $z\le R$ before reaching the plane; such trajectories are labelled ground hits and are excluded from the endpoint statistics, which are therefore conditional on airborne arrival.
 
 \subsection{Numerical Solution and Event Detection}
 
-Equations~\eqref{eq:kin}--\eqref{eq:lift} are integrated with a fixed-step fourth-order Runge--Kutta scheme using $\delta t=2\,\mathrm{ms}$ and a horizon of $1.5\,\mathrm{s}$. Halving the step to $1\,\mathrm{ms}$ changes the interpolated endpoint by less than $0.1\,\mathrm{mm}$ on a representative trajectory, well below the millimetre-scale observations. Because the step is fixed, event locations are not exact roots; the linear interpolation error is bounded by the same step-refinement check.
+Equations~\eqref{eq:kin}--\eqref{eq:lift} are integrated with a fixed-step fourth-order Runge--Kutta scheme using $\delta t=2\,\mathrm{ms}$ and a horizon of $1.5\,\mathrm{s}$. On a representative trajectory, halving the step to $1\,\mathrm{ms}$ changes the interpolated endpoint by less than $0.1\,\mathrm{mm}$, far below the millimetre-scale observations. That comparison measures the difference between two integrations of the same equations; it is not an error bound. Because the step is fixed, event locations are not exact roots but bracket points, and the crossing is the linear interpolation described above. The independent physics program used for the tracked flights in Sections~\ref{sec:issia} and~\ref{sec:dfl} integrates the same equations with SciPy's \texttt{solve\_ivp} at a maximum step of $5\,\mathrm{ms}$; the $2\,\mathrm{ms}$ RK4 scheme governs the simulated data and the stated-kick posterior.
 
 \subsection{Bayesian Inference of Launch Conditions}
 
@@ -153,41 +179,80 @@ Let $\boldsymbol{\theta}=(\mathbf{v}_0,\boldsymbol{\omega},C_D)$ and let $\mathb
    \exp\!\left[-\frac{\|\mathbf{y}_i-\mathbf{r}(t_i;\boldsymbol{\theta})\|^2}{2\sigma^2}\right].
   \label{eq:lik}
 \end{equation}
-The posterior is proportional to the product of \eqref{eq:lik} and the uniform prior of Table~\ref{tab:prior}. It is sampled with four-stage adaptive importance sampling. Every stage mixes $20\%$ prior draws with a Gaussian proposal. The first Gaussian uses an early-motion estimate, and later Gaussians use the weighted moments of the previous stage. The case study uses $40{,}000$ draws per stage. The paired benchmark starts with $6{,}000$ per stage and retries with $18{,}000$ when conditional ESS falls below 100. The importance weights include the explicit proposal correction $p(\boldsymbol{\theta})/q(\boldsymbol{\theta})$.
+The posterior is proportional to the product of \eqref{eq:lik} and the uniform prior of Table~\ref{tab:prior}. It is sampled with four-stage adaptive importance sampling. Every stage mixes $20\%$ prior draws with a Gaussian proposal. The first Gaussian uses an early-motion estimate, and later Gaussians use the weighted moments of the previous stage. Only the proposal distribution is adapted: the first three stages exist to locate the posterior region and never enter the reported estimates, which use the fourth-stage samples alone. The case study uses $40{,}000$ draws per stage. The paired benchmark starts with $6{,}000$ per stage and retries with $18{,}000$ when the conditional effective sample size (ESS) falls below $100$. The importance weights include the explicit proposal correction $p(\boldsymbol{\theta})/q(\boldsymbol{\theta})$.
 
-The last stage always uses the nominal $\sigma$; earlier stages use a widened likelihood to locate the posterior region. Effective sample size (ESS) is reported for every case, and no conclusion is drawn from a sample with low ESS.
+The last stage always uses the nominal $\sigma$; earlier stages use a widened likelihood to locate the posterior region. ESS is reported for every case, and no conclusion is drawn from a sample with low ESS.
 
-From the weighted endpoint sample we estimate the most likely crossing as the maximum of a weighted Gaussian kernel density on a $160\times160$ grid, and the joint $50\%$ and $95\%$ regions as highest-density regions (HDRs) \cite{hyndman1996} on the same grid. The grid deliberately extends beyond the goal rectangle so that off-target mass is not truncated.
+From the weighted endpoint sample we estimate the most likely crossing as the maximum of a weighted Gaussian kernel density on a $160\times160$ grid, and the joint $50\%$ and $95\%$ regions as highest-density regions (HDRs) \cite{hyndman1996} on the same grid. The grid deliberately extends beyond the goal rectangle so that off-target mass is not truncated. The mode is therefore a smoothed estimate, while the region boundaries are set by the density threshold.
 
 \subsection{Noise-Conditioned Mixture Density Network}
 
-Let $E$ denote a forward goal-plane crossing before ground contact. The network estimates $p(Y,Z\mid\mathbf{y}_1,\mathbf{y}_2,\sigma,E)$. The final input has eleven features derived from the two observations, the fixed start and $\sigma$. These are three velocity components at the midpoint, three second-difference acceleration components, speed, the signed tangential component and the normal magnitude of the estimated aerodynamic acceleration, a constant-acceleration time to the plane, and $\sigma$. Each input is standardised using training data. Apparent drag and lift coefficients and three gravity-shifted duplicates of acceleration were removed from the original sixteen features.
+Let $E$ denote a forward goal-plane crossing before ground contact. The network estimates $p(Y,Z\mid\mathbf{y}_1,\mathbf{y}_2,\sigma,E)$. The final input has eleven features derived from the two observations, the fixed start and $\sigma$: three velocity components at the midpoint, three second-difference acceleration components, speed, the signed tangential component and the normal magnitude of the estimated aerodynamic acceleration, a constant-acceleration time to the plane, and $\sigma$. Each input is standardised using training data. Apparent drag and lift coefficients and three gravity-shifted duplicates of acceleration were removed from the original sixteen features. When the constant-acceleration step has no forward solution, the time-to-plane feature is undefined; after standardisation it is set to zero. The network can therefore predict for every observation pair, including pairs on which the baseline fails. This is an input convention, not a claim that the underlying trajectory is physical.
 
-The final network has three hidden layers of 128 units with LayerNorm and GELU. Its output defines $K=3$ bivariate Gaussian components,
+The final network has three hidden layers of $128$ units with LayerNorm \cite{layernorm2016} and GELU \cite{gelu2016}, and $37{,}650$ parameters. Its output defines $K=3$ bivariate Gaussian components,
 \begin{equation}
   p(Y,Z\mid\mathbf{y}_1,\mathbf{y}_2,\sigma,E)=
   \sum_{k=1}^{K}\pi_k\,
   \mathcal{N}\!\left((Y,Z);\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k\right).
+  \label{eq:mixture}
 \end{equation}
-Each covariance is parameterised by a Cholesky factor with a bounded correlation. The target is the absolute endpoint $(Y,Z)$ and the loss is its negative log-likelihood (NLL). The model uses Adam \cite{kingma2015}, an initial learning rate of $10^{-3}$ with cosine decay, batches of 256, and 100 epochs. On each pass through the training set, every trajectory is perturbed anew. Its observation standard deviation is drawn from $U[1,20]\,\mathrm{mm}$ and shared across the six independently perturbed coordinates. The endpoint label remains unchanged.
+For $K=3$ the output layer returns $18$ numbers per forecast: for each component one logit, two means, two scales and one correlation. The weights are $\pi_k=\operatorname{softmax}(\ell_k)$. With $s_{k1},s_{k2}>0$ the scales and $\rho_k\in(-0.995,0.995)$ the correlation, each covariance is $\boldsymbol{\Sigma}_k=\mathbf{L}_k\mathbf{L}_k^{\!\top}$ with
+\begin{equation}
+  \mathbf{L}_k=
+  \begin{pmatrix}
+    s_{k1} & 0\\
+    \rho_k s_{k2} & s_{k2}\sqrt{1-\rho_k^{2}}
+  \end{pmatrix},
+  \qquad
+  s_{kj}=\operatorname{softplus}(r_{kj})+10^{-3},
+  \qquad
+  \rho_k=0.995\tanh(r_{k\rho}),
+  \label{eq:chol}
+\end{equation}
+where $r$ denotes a raw network output. The scale symbols $s_{kj}$ are deliberately distinct from the observation noise $\sigma$: the first describes the spread of the forecast, the second the spread of the measurements. The parameterisation is applied in the standardised target coordinates and mapped back to metres; areas are therefore in $\mathrm{m^2}$ and densities are quoted per $\mathrm{m^2}$. The target is the absolute endpoint $(Y,Z)$ and the loss is its negative log-likelihood (NLL). A single Gaussian ($K=1$) and a zero-correlation variant are compared in Section~\ref{sec:comparisons}; a full covariance allows each component's equal-density ellipse to tilt, while a mixture of diagonal components can still represent an overall association.
+
+The model uses Adam \cite{kingma2015}, an initial learning rate of $10^{-3}$ with cosine decay, batches of 256, and 100 epochs. On each pass through the training set, every trajectory is perturbed anew. Its observation standard deviation is drawn from $U[1,20]\,\mathrm{mm}$ and shared across the six independently perturbed coordinates. The endpoint label remains unchanged.
 
 \subsection{Data Splits, Comparisons and Calibration}
+\label{sec:splits}
 
 We generated $50{,}000$ flights with seed 42. The simulator recorded two early positions, the event type and the endpoint when the ball crossed the plane in flight. There were $41{,}733$ airborne crossings and $8{,}267$ ground hits. Splitting by trajectory before adding noise gave $33{,}367$ airborne training cases, $4{,}179$ validation cases and $4{,}187$ development test cases. We split validation again by trajectory into $2{,}090$ for model selection and $2{,}089$ for calibration. After freezing model and calibration parameters, we generated $6{,}000$ new flights with seed 155107 and evaluated their $5{,}036$ airborne crossings. Within each split and noise level, the methods received the same perturbed observations. All computations use NumPy \cite{harris2020}, SciPy \cite{virtanen2020}, PyTorch \cite{paszke2019} and Matplotlib \cite{hunter2007}.
 
-Development comparisons held architecture and data fixed while changing features and targets. Model A maps coordinates and $\sigma$ to the endpoint. B predicts its residual from a constant-acceleration estimate. C and D use sixteen physics-derived features for absolute and residual targets, respectively. E predicts residuals using coordinates, $\sigma$ and the baseline endpoint. We also retrained the alternative PI-ResMDN on the canonical data. Final screening compared 16 and 11 features, one and three mixture components, one to four hidden layers with SiLU, then four activations at the selected depth. Each controlled comparison used training seeds 11, 22 and 33. The selection score was the mean validation NLL, equally weighted across the four noise scenarios. When a simpler candidate's mean disadvantage was within one paired seed standard deviation and its mean coverage gap increased by at most 1.5 percentage points, we chose the simpler candidate.
+Development comparisons held architecture and data fixed while changing features and targets. Model A maps coordinates and $\sigma$ to the endpoint. B predicts its residual from a constant-acceleration estimate. C and D use sixteen physics-derived features for absolute and residual targets, respectively. E predicts residuals using coordinates, $\sigma$ and the baseline endpoint. We also retrained the alternative PI-ResMDN on the canonical data. Final screening compared 16 and 11 features, one and three mixture components, one to four hidden layers with SiLU \cite{silu2018}, then four activations at the selected depth. Each controlled comparison used training seeds 11, 22 and 33. The selection score was the mean validation NLL, equally weighted across the four noise scenarios. When a simpler candidate's mean disadvantage was within one paired seed standard deviation and its mean coverage gap increased by at most 1.5 percentage points, we chose the simpler candidate.
 
-The mixture mean gives the point prediction. We report its median and 90th-percentile Euclidean errors, NLL in physical units, observed coverage and mean area of joint high-density regions, and energy score for paired probabilistic forecasts \cite{gneiting2007}. For calibration, we fit one standard-deviation multiplier per noise level by NLL on the calibration fold. We then adjusted the $50\%$ and $95\%$ region thresholds using the empirical rank of each calibration endpoint within its forecast density. These threshold adjustments change the reported regions while preserving the fitted density and its mean. We report both pre- and post-calibration coverage to show the effect on new flights.
+The screening is stepwise, and its scope should be read literally. With two SiLU layers fixed, the 16-feature version scored $-0.0556$ and the 11-feature version $-0.0613$ on mean validation NLL, so the smaller feature set was kept. With 11 features and SiLU, one to four layers scored $0.0500$, $-0.0613$, $-0.0898$ and $-0.0958$; the three-to-four-layer gap ($0.0061$) was below its paired seed standard deviation ($0.0078$), so three layers were selected. At three layers, GELU scored $-0.1006$ against SiLU $-0.0898$, ReLU $-0.0722$ and Tanh $-0.0643$. Thus SiLU is the early and screening activation, and GELU is the final choice; the conclusion is limited to the tested combinations. Four-layer GELU was not included in the activation screen.
+
+The old validation set and the P1 folds have different roles. The $4{,}179$ flights were split into the $2{,}090$ selection and $2{,}089$ calibration folds. The early Legacy network and the PI-ResMDN selected their best epoch on the original full validation set, and the A--E validation curves were used for monitoring only. The $4{,}187$ development test flights and the $5{,}036$ fresh test flights are separate sets, and retraining is described separately from re-scoring.
+
+Models B, D and E predict residuals from the constant-acceleration baseline. During training, flights for which the baseline has no finite forward solution are skipped, because their residual is undefined. At test time the invalid baseline endpoints are set to zero before the residual network scores them. With the frozen D weights, $233$ of $4{,}187$ development flights and $288$ of $5{,}036$ independent flights have no baseline solution at $15\,\mathrm{mm}$, and every sample with NLL above $100$ in both sets and all three seeds falls in that subset. The tabulated NLL of $9.88$ for D at $15\,\mathrm{mm}$ is a full-set score and therefore includes the error introduced by this fallback. The same fallback applies to B and E.
+
+The mixture mean gives the point prediction. We report its median and 90th-percentile Euclidean errors, NLL in physical units, observed coverage and mean area of joint high-density regions, and the energy score for paired probabilistic forecasts \cite{gneiting2007}. The energy score is reported in loss form, so lower is better; this is the negative of the convention in Eq.~(22) of Section~4.3 of \cite{gneiting2007}, and a reader recomputing it must flip the sign.
+
+Calibration has two steps, fitted per training seed and per noise level. First, one standard-deviation multiplier is fitted by NLL on the calibration fold. Second, the $50\%$ and $95\%$ region thresholds are adjusted using the empirical rank of each calibration endpoint within its forecast density, computed from $512$ predicted samples per flight. The multiplier changes the density itself; the threshold adjustment changes only the reported region and its coverage, preserving the fitted density and its mean. This is the density-level-set construction of HPD-split \cite{hpdsplit2022}, applied here per noise level and with a sampled approximation of the density rank. One asymmetry should be stated: the calibration score uses the discrete rank among $512$ samples, while the reported regions use a contour at the fitted mass. Recomputing both with the same discrete criterion changes the reported $50\%$ coverage by only $0.07$--$0.13$ percentage points (Section~\ref{sec:blind}). A strict split-conformal guarantee would also require freezing the scale multiplier before fitting the threshold, or fitting the two on separate data; the results below retain the reported blind-test values and do not claim that guarantee.
+
+In Table~\ref{tab:modelcomparison} the Legacy, P0 A--E and PI rows use the original weights and are uncalibrated; only the final row uses the calibrated network. At $5\,\mathrm{mm}$ the uncalibrated and calibrated NLL of the final network are both $-0.219$, and the uncalibrated network already has the lowest NLL at $5$, $10$ and $15\,\mathrm{mm}$. The ranking in that table is therefore not an artefact of calibration, and the calibrated row is the one used for the regions.
+
+All reported numbers were checked against the frozen run artifacts. The SHA-256 values of the canonical data file, of the protocol and of the six frozen checkpoints were recomputed from the files and match the values recorded at freezing; the hash of the fresh data file matches its manifest. The run log records that the $6{,}000$ new flights were generated only after the configuration and the calibration were frozen. The case output, the $24$ entries of Table~\ref{tab:modelcomparison}, the $28$ entries of Table~\ref{tab:holdout}, the paired results and the shift table were compared with the frozen JSON and CSV files and agree at the reported precision. Table~\ref{tab:modelcomparison} therefore reports re-scores of models that had already been trained; no model was retrained after the fresh set was opened. A complete retraining and re-scoring of the final network is a separate protocol, described next.
+
+\subsection{Independent Reproduction}
+\label{sec:repro}
+
+A second desktop machine (Windows 11, Python 3.12.14, CPU) reran the shipped package, which contains the simulator, the generator and the evaluation code but not the full training pipeline. The packaged checks passed: SHA-256 verification of the data, the split and event counts, and a recomputation of $256$ sampled trajectories. The $14$ unit tests passed. Rebuilding $50{,}000$ flights with seed 42 gave $41{,}733$ airborne crossings, $8{,}267$ ground hits and no timeouts. The six stored arrays (\texttt{theta}, \texttt{split}, \texttt{observations}, \texttt{endpoint}, \texttt{arrival}, \texttt{status}) agree element by element with the local archive. The whole-file SHA-256 of the two data files differs even though the six arrays agree element by element. The coverage audit reproduced every value, the only difference being the recorded input path.
+
+The reproduction scope is the simulated data and the physical extrapolation, not the network training. The four measured cases ($32$ configuration rows) and the eleven screened DFL segments ($88$ configuration rows) were recomputed on the second machine and agree within an absolute or relative tolerance of $10^{-9}$; the largest absolute differences were $5.8\times10^{-11}$ and $2.6\times10^{-10}$, both in ESS fields. The P1 training and blind-test reproduction is a separate protocol: the frozen commit is \texttt{1a36725}, the training seeds are 11, 22 and 33, the six checkpoints have recorded SHA-256 values, and the fresh set was generated with seed 155107. That protocol was not rerun on the second machine.
 
 \section{Results}
 \subsection{Answer for the Stated Kick}
+\label{sec:case}
 
-For the stated observations, the constant-acceleration calculation gives $T=0.405\,\mathrm{s}$ and $(Y,Z)=(2.495,1.920)\,\mathrm{m}$. At the representative noise scenario of $5\,\mathrm{mm}$, the calibrated MDN mode is $(2.62,2.15)\,\mathrm{m}$ and the mixture mean is $(2.70,1.97)\,\mathrm{m}$. The joint regions in Fig.~\ref{fig:case} have areas of $0.177$ and $0.775\,\mathrm{m^2}$. The probability of the ball centre crossing inside the rectangle is $97.3\%$ conditional on $E$. The Bayesian mode is $(2.650,2.052)\,\mathrm{m}$, with areas of $0.219$ and $0.809\,\mathrm{m^2}$ and a conditional probability of $96.3\%$. Its effective sample size is $2{,}893$. Both estimates use the same stated coordinates and noise assumption.
+For the stated observations, the constant-acceleration calculation gives $T=0.405\,\mathrm{s}$ and $(Y,Z)=(2.495,1.920)\,\mathrm{m}$; the derivation is in Appendix~\ref{app:noise}. The fit uses the three given positions only: the midpoint velocity is $(29.6,8.6,6.3)\,\mathrm{m\,s^{-1}}$, the second difference is $(-16,-16,-12)\,\mathrm{m\,s^{-2}}$, and the smaller positive root of $x(T)=11\,\mathrm{m}$ is selected. The vertical component $-12\,\mathrm{m\,s^{-2}}$ is not gravity alone; the constant-acceleration fit absorbs gravity and the aerodynamic acceleration into one vector, so the baseline is a kinematic extrapolation rather than a force model. For flights on which the quadratic has no physically admissible root, no baseline estimate exists; the screening rules and counts are given in Appendix~\ref{app:noise}.
+
+At the representative noise scenario of $5\,\mathrm{mm}$, the calibrated MDN mode is $(2.62,2.15)\,\mathrm{m}$ and the mixture mean is $(2.70,1.97)\,\mathrm{m}$ \cite{upc2026}. The joint regions in Fig.~\ref{fig:case} have areas of $0.177$ and $0.775\,\mathrm{m^2}$. The probability of the ball centre crossing inside the rectangle is $97.3\%$ conditional on $E$. The Bayesian mode is $(2.650,2.052)\,\mathrm{m}$, with areas of $0.219$ and $0.809\,\mathrm{m^2}$ and a conditional probability of $96.3\%$. Its effective sample size is $2{,}893$. Both estimates use the same stated coordinates and noise assumption.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{../student-c/P1/final/figures/case_regions.png}
-  \caption{Calibrated MDN crossing densities for the stated kick at $2$, $5$ and $15\,\mathrm{mm}$ observation noise. The white and cyan contours mark the nominal joint $50\%$ and $95\%$ regions. The dashed rectangle is the goal opening. The white cross marks the density mode.}
+  \caption{Calibrated MDN crossing densities for the stated kick at $2$, $5$ and $15\,\mathrm{mm}$ observation noise. The white and cyan contours mark the nominal joint $50\%$ and $95\%$ regions. The dashed rectangle is the goal opening. The white cross marks the density mode. The densities are the scale-adjusted mixtures, and the contour levels are the high-density thresholds fitted on the calibration fold. The $97.3\%$ figure quoted in the text comes from sampling the scale-adjusted density; the threshold adjustment changes only the drawn contours, not that probability.}
   \label{fig:case}
 \end{figure}
 
@@ -207,17 +272,47 @@ For the stated observations, the constant-acceleration calculation gives $T=0.40
   \end{tabular}
 \end{table}
 
-\subsection{Feature, Target and Architecture Comparisons}
+The two models are close in their marginals and differ in how they place the mass near the crossbar. The $5$--$95\%$ width of the $Y$ marginal is $0.61\,\mathrm{m}$ for the MDN and $0.60\,\mathrm{m}$ for the Bayesian posterior; the $Z$ widths are $0.83$ and $0.83\,\mathrm{m}$. The in-frame probabilities differ by one percentage point, and almost all of the difference comes from above the crossbar: the MDN leaves $2.7\%$ of the mass above $z=2.44\,\mathrm{m}$ and the Bayesian posterior $3.7\%$. Both leave at most $0.01\%$ beyond the posts. Fig.~\ref{fig:decomposition} makes this visible. Panel~(a) shows the calibrated MDN density, whose upper lobe reaches the crossbar. Panel~(b) shows the physics posterior, coloured by the vertical Magnus acceleration at $0.05\,\mathrm{s}$: the high-$Z$ mass is the warm, upward-lifted part of the cloud and the low-$Z$ mass is the cool, downward part. The early observations therefore support two qualitatively different flights: a nearly non-spinning arc that drops to about $1.85\,\mathrm{m}$, and a back-spinning arc whose upward Magnus force adds a few tenths of a metre of height by the plane.
 
-For the same launch parameters, the original alternative simulator and our canonical model produced a $0.240\,\mathrm{m}$ RMS endpoint difference on jointly airborne cases. Retraining the alternative on the canonical data made the comparison in Table~\ref{tab:modelcomparison} possible. At $5\,\mathrm{mm}$, the direct physical-feature model C improves on the coordinate model A. Model D is best by NLL at $2\,\mathrm{mm}$, but reaches an NLL of $9.88$ at $15\,\mathrm{mm}$ on the fresh set. In the development test, roughly $3\%$ of its predictions at that noise level assigned very low density to the true endpoint (NLL above 100). The constant-acceleration calculation can be unstable or have no forward crossing when applied to noisy coordinates. These observations favour direct prediction across the range of measurement scenarios.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{../student-c/P1/final/figures/case_decomposition.png}
+  \caption{Physical interpretation of the stated case at $\sigma=5\,\mathrm{mm}$. (a) Calibrated MDN density with the $50\%$ (white) and $95\%$ (cyan) contours; dashed lines mark the crossbar and the right post. (b) Physics posterior draws, weighted-resampled, coloured by the vertical Magnus acceleration at $0.05\,\mathrm{s}$; the circles labelled A, B and C are the three trajectories of Table~\ref{tab:traj}. Thin lines repeat the MDN contours for reference. (c, d) Vertical and lateral motion of A, B and C. The three launch states produce observations within $5\,\mathrm{mm}$ of the same two points yet cross the plane at different heights and lateral positions.}
+  \label{fig:decomposition}
+\end{figure}
 
-The 11-feature version kept performance close to the 16-feature version on validation (NLL $-0.0613$ and $-0.0556$). With 11 features and two SiLU layers, using one rather than three Gaussian components changed mean validation NLL from $-0.0613$ to $0.1205$. With SiLU, one to four layers gave scores of $0.0500$, $-0.0613$, $-0.0898$ and $-0.0958$. The three-to-four-layer difference ($0.0061$) was below the paired seed standard deviation ($0.0078$), so we selected three layers. At that depth, GELU led with $-0.1006$, followed by SiLU ($-0.0898$), ReLU ($-0.0722$) and Tanh ($-0.0643$). The sequential screen fixes width at 128 and compares activations at the selected depth.
-
-Three further validation comparisons changed one setting at a time. Removing component correlation, using a fixed learning rate and reusing a single noise realisation per trajectory yielded mean NLL values of $-0.0245$, $0.0298$ and $0.0010$, respectively, compared with $-0.1006$ for the final recipe.
+Three sampled trajectories show how this happens. In Table~\ref{tab:traj}, draws A, B and C reproduce the two stated observations to $3.25$, $3.93$ and $4.97\,\mathrm{mm}$ root-mean-square, i.e.\ all three are compatible with the same data. Their vertical Magnus accelerations at $0.05\,\mathrm{s}$ are $-1.22$, $+5.34$ and $+1.48\,\mathrm{m\,s^{-2}}$, and their crossings are $(2.64,1.86)$, $(2.64,2.14)$ and $(3.01,1.98)\,\mathrm{m}$. Draw A is almost non-spinning about $y$ and falls to the low lobe; draw B is back-spinning and rises to the upper lobe; draw C keeps the height but has a weak lateral spin, so it drifts to the right. The same pattern holds over the whole posterior: grouping the draws by quartiles of the vertical Magnus acceleration gives mean $Z$ values of $1.60$, $1.87$, $2.10$ and $2.36\,\mathrm{m}$, while grouping by $C_D$ gives $1.979$, $1.988$ and $1.988\,\mathrm{m}$. The vertical structure is carried by spin, not by drag. Details, including the component responsibilities and the full diagnostics, are in Appendix~\ref{app:decomp}.
 
 \begin{table}[htbp]
   \centering
-  \caption{Models scored on the same $5{,}036$ fresh airborne crossings at $5\,\mathrm{mm}$. Point forecasts are mixture means. Each value averages three training seeds except the legacy MDN, which uses its original checkpoint. Lower values are better.}
+  \small
+  \caption{Three posterior draws compatible with the stated observations ($5\,\mathrm{mm}$). Position RMSE is over the two observed positions. The Magnus acceleration is evaluated at $0.05\,\mathrm{s}$; responsibility is the MDN component weight evaluated at the draw's crossing point.}
+  \label{tab:traj}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Draw & RMSE (mm) & Crossing $(Y,Z)$ (m) & $C_D$ & $a_{\mathrm{M},y}$ & $a_{\mathrm{M},z}$ & Responsibility \\
+    \midrule
+    A & 3.25 & (2.64, 1.86) & 0.269 & $-9.62$ & $-1.22$ & (0.08, 0.89, 0.02) \\
+    B & 3.93 & (2.64, 2.14) & 0.263 & $-10.57$ & $+5.34$ & (0.06, 0.24, 0.71) \\
+    C & 4.97 & (3.01, 1.98) & 0.264 & $-3.84$ & $+1.48$ & (0.99, 0.01, 0.00) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The shape of the MDN density is partly a representation effect, and the evidence for the dynamics must be separated from it. At fixed $Y=2.62\,\mathrm{m}$ the seed-11 profile has two local maxima, at $Z=1.86$ and $2.16\,\mathrm{m}$, separated by a shallow valley about $9\%$ below the larger peak, which is why the $50\%$ contour stays connected. The three training seeds all show two profile maxima (seeds 22 and 33 at $1.68/2.15$ and $1.76/2.17\,\mathrm{m}$), but their marginal $Z$ densities are unimodal, with maxima at $1.89$, $2.05$ and $2.04\,\mathrm{m}$. The bimodality is therefore a property of a slice through a three-component mixture, not a robust feature of the marginal forecast. The physics posterior gives one broad maximum near $2.05\,\mathrm{m}$ with a shoulder near $1.85\,\mathrm{m}$, and the prominence of that shoulder depends on the smoothing bandwidth. What the data support is a continuum of compatible trajectories whose vertical Magnus force spans roughly $-15$ to $+15\,\mathrm{m\,s^{-2}}$; the two-lobe appearance is how three Gaussians approximate that continuum. The left flank of the lateral distribution is also close to physical bounds: the prior restricts each spin component to $[-60,60]\,\mathrm{rad\,s^{-1}}$, and $58\%$ of the weight with $Y<2.45\,\mathrm{m}$ has $|\omega_z|>55\,\mathrm{rad\,s^{-1}}$. At the same time $9.5\%$ of the total posterior weight sits at the $C_L=0.30$ cap. Both the spin bound and the lift saturation could limit the left tail, and separating their contributions would require perturbing the spin prior and the lift cap independently, which we did not do; we report both as candidate causes rather than attributing the asymmetry to one.
+
+\subsection{Feature, Target and Architecture Comparisons}
+\label{sec:comparisons}
+
+For the same launch parameters, the original alternative simulator and our canonical model produced a $0.240\,\mathrm{m}$ RMS endpoint difference on jointly airborne cases. Retraining the alternative on the canonical data made the comparison in Table~\ref{tab:modelcomparison} possible. At $5\,\mathrm{mm}$, the direct physical-feature model C improves on the coordinate model A. Model D is best by NLL at $2\,\mathrm{mm}$ ($-1.709$ against $-1.682$ for the final network), but reaches an NLL of $9.88$ at $15\,\mathrm{mm}$ on the fresh set. In the development test, roughly $3\%$ of its predictions at that noise level assigned very low density to the true endpoint (NLL above $100$). The constant-acceleration calculation can be unstable or have no forward crossing when applied to noisy coordinates; the counts and the fallback rule are given in Section~\ref{sec:splits}. These observations favour direct prediction across the range of measurement scenarios.
+
+The 11-feature version kept performance close to the 16-feature version on validation (NLL $-0.0613$ and $-0.0556$). With 11 features and two SiLU layers, using one rather than three Gaussian components changed mean validation NLL from $-0.0613$ to $0.1205$. With SiLU, one to four layers gave scores of $0.0500$, $-0.0613$, $-0.0898$ and $-0.0958$. The three-to-four-layer difference ($0.0061$) was below the paired seed standard deviation ($0.0078$), so we selected three layers. At that depth, GELU led with $-0.1006$, followed by SiLU ($-0.0898$), ReLU ($-0.0722$) and Tanh ($-0.0643$). The sequential screen fixes width at 128 and compares activations at the selected depth.
+
+Three further validation comparisons changed one setting at a time. Removing component correlation, using a fixed learning rate and reusing a single noise realisation per trajectory yielded mean NLL values of $-0.0245$, $0.0298$ and $0.0010$, respectively, compared with $-0.1006$ for the final recipe. The zero-correlation result shows that a full covariance matters for a single component's tilt; it does not mean that the joint region is elliptical, because a mixture of tilted components remains non-elliptical.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Models scored on the same $5{,}036$ fresh airborne crossings at $5\,\mathrm{mm}$. Point forecasts are mixture means. Each value averages three training seeds except the legacy MDN, which uses its original checkpoint. Lower values are better. The Legacy, P0 A--E and PI rows use their original, uncalibrated weights; only the final row is calibrated.}
   \label{tab:modelcomparison}
   \begin{tabular}{lrrr}
     \toprule
@@ -236,6 +331,7 @@ Three further validation comparisons changed one setting at a time. Removing com
 \end{table}
 
 \subsection{Blind-Test Accuracy and Calibration}
+\label{sec:blind}
 
 The final MDN has the lowest NLL among the compared networks at $5$, $10$ and $15\,\mathrm{mm}$. At $5\,\mathrm{mm}$ its median endpoint error is within $3\,\mathrm{mm}$ of model C and nearly tied with D. The constant-acceleration estimate has a median error of $0.439\,\mathrm{m}$ over the $5{,}030$ cases in which it produces a crossing. It fails on the other six, and on $288$ cases at $15\,\mathrm{mm}$.
 
@@ -249,6 +345,29 @@ The final MDN has the lowest NLL among the compared networks at $5$, $10$ and $1
 
 At $15\,\mathrm{mm}$, the empirical $50\%$ coverage rises from $45.3\%$ to $47.6\%$ after calibration. The $95\%$ coverage moves from $96.9\%$ to $94.5\%$ while the mean area shrinks from $3.162$ to $2.804\,\mathrm{m^2}$. The $50\%$ coverage at $5\,\mathrm{mm}$ moves slightly away from target. Across the four scenarios, post-calibration $50\%$ coverage ranges from $47.6\%$ to $49.1\%$ and $95\%$ coverage from $94.5\%$ to $95.2\%$ (Fig.~\ref{fig:calibration}).
 
+The two calibration steps behave differently, and neither fully removes the low $50\%$ coverage. Table~\ref{tab:calsteps} separates them. The scalar multiplier is fitted to the NLL of the whole density and moves the coverage by at most $0.4$ percentage points in either direction. The density-rank threshold is fitted so that the nominal $50\%$ region covers $50.89\%$ and $50.71\%$ of the calibration fold at $2$ and $5\,\mathrm{mm}$; the fitted threshold therefore shrinks those regions, and the blind-test coverage at $5\,\mathrm{mm}$ falls from $48.31\%$ to $47.79\%$. At $10$ and $15\,\mathrm{mm}$ the thresholds expand the regions, and the calibrated coverage is $1.60$ and $2.36$ percentage points above the raw forecasts, still below nominal. At $15\,\mathrm{mm}$ the inner region under-covers and the outer region originally over-covered, so coverage and area have to be read together: the $95\%$ region loses area while its coverage falls toward nominal.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Effect of the two calibration steps on the three-seed mean $50\%$ coverage (percent) over $5{,}036$ fresh crossings. ``Scale'' is the NLL-fitted standard-deviation multiplier alone; ``Both'' adds the density-rank threshold. The last column is a $95\%$ paired bootstrap interval over trajectories for the final coverage, holding the fitted calibrator fixed and resampling the three seeds of a trajectory together.}
+  \label{tab:calsteps}
+  \begin{tabular}{rrrrr}
+    \toprule
+    Noise (mm) & Raw & Scale only & Both & Final coverage, $95\%$ interval \\
+    \midrule
+    2  & 49.94 & 50.06 & 49.12 & 47.85--50.40 \\
+    5  & 48.25 & 48.31 & 47.79 & 46.55--49.13 \\
+    10 & 47.22 & 47.37 & 48.82 & 47.64--50.02 \\
+    15 & 45.27 & 44.94 & 47.63 & 46.39--48.83 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Part of the residual gap is finite-sample variation, and part is a property of the calibration fold. With the same fitted calibrator, the $5\,\mathrm{mm}$ calibration also under-covers on the selection fold and on the old development holdout. Repeating the seed-11 evaluation with six independent observation-noise realisations moves the nominal-mass coverage of the $5\,\mathrm{mm}$ case to an average of $49.23\%$ on the calibration fold and $49.37\%$ on the blind set, so the size of the shortfall varies with the noise realisation. The $15\,\mathrm{mm}$ case averages $47.26\%$ and $46.66\%$ on the two folds, and with the original thresholds its six blind replications span $47.86$--$49.38\%$. Recomputing the density ranks of the seed-11 $5$ and $15\,\mathrm{mm}$ forecasts with a denser quasi-Monte-Carlo sample leaves the under-coverage in place. The bootstrap intervals in Table~\ref{tab:calsteps} therefore quantify the sampling of the blind set under a fixed calibrator; they do not cover the variation of the calibrator itself. As noted in Section~\ref{sec:splits}, using the same discrete rank criterion for fitting and testing would recover only $0.07$--$0.13$ percentage points, so the calibration procedure is not the main source of the gap.
+
+The calibration of the joint regions does not automatically calibrate the conditional in-frame probability, so we score the latter separately. On the same $5{,}036$ airborne crossings, the three-seed mean expected calibration error of the conditional in-frame probability is $0.0041$, $0.0093$, $0.0079$ and $0.0089$ at $2$, $5$, $10$ and $15\,\mathrm{mm}$. The corresponding Brier scores are $0.0179$, $0.0384$, $0.0579$ and $0.0671$. The scores use only flights that crossed in flight, and the realised in-frame fraction is $43.5\%$ in all four cases. The in-frame probability is therefore well calibrated even where the $50\%$ geometric region is slightly small; the two targets are different, and the region result should not be used as evidence about the probability.
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{../student-c/P1/final/figures/coverage_fresh.png}
@@ -258,15 +377,16 @@ At $15\,\mathrm{mm}$, the empirical $50\%$ coverage rises from $45.3\%$ to $47.6
 
 \subsection{Paired Comparison with the Physics Posterior}
 
-We sampled 32 fresh airborne flights at $5\,\mathrm{mm}$ for a paired benchmark. Two Bayesian runs remained below conditional ESS 100 after retry, leaving 30 common cases. The median endpoint errors are $0.379\,\mathrm{m}$ for constant acceleration, $0.314\,\mathrm{m}$ for the Bayesian sampler, $0.324\,\mathrm{m}$ for the legacy MDN and $0.340\,\mathrm{m}$ for the final MDN (seed 11). The Bayesian and final MDN median energy scores are $0.210$ and $0.211$. On the same CPU, their median inference-plus-sampling times are $2.04\,\mathrm{s}$ and $1.02\,\mathrm{ms}$. The small, ESS-filtered subset limits the accuracy ranking.
+We sampled 32 fresh airborne flights at $5\,\mathrm{mm}$ for a paired benchmark. Two Bayesian runs remained below conditional ESS 100 after retry, leaving 30 common cases. The median endpoint errors are $0.379\,\mathrm{m}$ for constant acceleration, $0.314\,\mathrm{m}$ for the Bayesian sampler, $0.324\,\mathrm{m}$ for the legacy MDN and $0.340\,\mathrm{m}$ for the final MDN (seed 11). The Bayesian and final MDN median energy scores are $0.210$ and $0.211$. On the same CPU, their median inference-plus-sampling times are $2.04\,\mathrm{s}$ and $1.02\,\mathrm{ms}$; the Bayesian time includes $4{,}096$ importance draws and one scoring pass, and the network time includes one forward pass. The small, ESS-filtered subset limits the accuracy ranking. The paired result describes seed 11 only; the three-seed summary in Table~\ref{tab:holdout} is the population statement.
 
 \subsection{Distribution Shift}
+\label{sec:shift}
 
-For each perturbation we keep the trained network and calibration fixed. We simulate the same initial parameters and compare trajectories that cross in flight under both the nominal and perturbed model. Evaluation uses the same observation perturbations at $5\,\mathrm{mm}$. In a $3\,\mathrm{m\,s^{-1}}$ crosswind ($5{,}001$ paired flights), $50\%$ coverage falls from $48.7\%$ to $40.9\%$ and $95\%$ coverage from $94.3\%$ to $92.6\%$. With exponential spin decay of time constant $0.5\,\mathrm{s}$ ($5{,}003$ pairs), $50\%$ coverage falls from $48.2\%$ to $36.3\%$ even as median point error falls from $0.293$ to $0.263\,\mathrm{m}$. Wind and spin decay change the event label of 70 and 94 flights, respectively, among the $6{,}000$ fresh launch states.
+For each perturbation we keep the trained network and calibration fixed. We simulate the same initial parameters and compare trajectories that cross in flight under both the nominal and perturbed model. Evaluation uses the same observation perturbations at $5\,\mathrm{mm}$. In a $3\,\mathrm{m\,s^{-1}}$ crosswind ($5{,}001$ paired flights), $50\%$ coverage falls from $48.7\%$ to $40.9\%$ and $95\%$ coverage from $94.3\%$ to $92.6\%$. With exponential spin decay of time constant $0.5\,\mathrm{s}$ ($5{,}003$ pairs), $50\%$ coverage falls from $48.2\%$ to $36.3\%$ even as median point error falls from $0.293$ to $0.263\,\mathrm{m}$. Wind and spin decay change the event label of 70 and 94 flights, respectively, among the $6{,}000$ fresh launch states; the paired tables contain only flights that are airborne under both models. The two perturbations are stress tests of the stated model, not calibrated physical scenarios.
 
 \subsection{Sensitivity to the Drag Prior}
 
-Because the drag coefficient is the least constrained aerodynamic input, the case was re-run with the upper prior limit raised from $0.30$ to $0.45$. Three independent seeds were used at each setting, with $40{,}000$ samples per stage (Table~\ref{tab:cdprior}). The $50\%$ area changes by $+1.1\%$ and the $95\%$ area by $-0.5\%$, both smaller than the spread between seeds, and the posterior mean moves by about $2\,\mathrm{cm}$. Within this model, the reported regions are therefore insensitive to the upper drag limit; this does not establish insensitivity to other aerodynamic assumptions.
+Because the drag coefficient is the least constrained aerodynamic input, the case was re-run with the upper prior limit raised from $0.30$ to $0.45$. Three independent seeds were used at each setting, with $40{,}000$ samples per stage (Table~\ref{tab:cdprior}). The $50\%$ area changes by $+1.1\%$ and the $95\%$ area by $-0.5\%$, both smaller than the spread between seeds, and the posterior mean moves by about $2\,\mathrm{cm}$. Within this model, the reported regions are therefore insensitive to the upper drag limit; this does not establish insensitivity to other aerodynamic assumptions, such as the lift law or the spin prior.
 
 \begin{table}[htbp]
   \centering
@@ -289,9 +409,10 @@ Because the drag coefficient is the least constrained aerodynamic input, the cas
   \label{fig:cdprior}
 \end{figure}
 
-\subsection{Model-Form Check on Tracked Free-Kick Arcs}
+\subsection{Model-Form Check on Tracked Arcs}
+\label{sec:issia}
 
-The statistical evaluation above is entirely simulation-based. As an external check of the model form, we used two airborne arcs from the ISSIA-3D annotations \cite{soccernetv3d}, tracked at $25\,\mathrm{fps}$: frames 608--622 and 1144--1172, with the first six frames used to fit the initial state and the remaining frames held out. The arcs are free kicks and long passes, not penalties, and they carry centimetre-level reconstruction error; they can test the trajectory model but not the penalty prior.
+The statistical evaluation above is entirely simulation-based. As an external check of the model form, we used two airborne segments of the ISSIA-3D annotations \cite{soccernetv3d}, tracked at $25\,\mathrm{fps}$: frames 608--622 and 1144--1172, with a frame interval of $0.04\,\mathrm{s}$ \cite{issia}. The segments were selected as match flight fragments by a screen that required at least two cameras, at least eight consecutive frames, a height of at least $0.30\,\mathrm{m}$ and a per-frame median reprojection error below $10$ pixels. Pixel error is a screening criterion and cannot be converted into an absolute three-dimensional accuracy, which was not independently calibrated. No video event check was available, so we do not assign an action type. The first six frames are used to fit the initial state and the remaining frames are held out. These arcs can test the trajectory model but not the penalty prior.
 
 Table~\ref{tab:issia} shows the held-out forecast RMSE. Gravity alone is clearly inadequate ($0.697$ and $2.179\,\mathrm{m}$). Adding quadratic drag with $C_D=0.22$ reduces the error to $0.489$ and $1.546\,\mathrm{m}$; $C_D=0.45$ gives $0.469$ and $1.584\,\mathrm{m}$, so the larger drag is not better on both arcs. A vertical net-lift term fitted on the prefix reduces the error further, to $0.188$ and $1.084\,\mathrm{m}$, with fitted $L=5.76\pm4.99$ and $6.89\pm3.83\,\mathrm{m\,s^{-2}}$ and fitted $C_D=0.363\pm0.169$ and $0.328\pm0.167$. This is evidence that a vertical force term is worth considering, but the fitted parameters are not identifiable at the precision needed for calibration, and the lift term may absorb tracking or reconstruction error. We therefore use these arcs only as a model-form check, not as a calibration set.
 
@@ -312,8 +433,11 @@ Table~\ref{tab:issia} shows the held-out forecast RMSE. Gravity alone is clearly
 \end{table}
 
 \subsection{Prefix Forecasts on Tracked Flights}
+\label{sec:dfl}
 
-For two tracked DFL penalties \cite{dfl2025}, a separate physical inference uses the first three measured positions at the actual frame times and predicts the held-out portion in local coordinates. Table~\ref{tab:dfl} compares drag with zero spin against the same drag prior and unknown spin. The assumed per-coordinate noise is $15\,\mathrm{mm}$ and the table averages two seeds. Rotation improves the first penalty's gate estimate and slightly worsens the second's. In two further checks, adding spin changes held-out RMSE from $0.338$ to $0.366\,\mathrm{m}$ on an ISSIA segment and from $2.266$ to $2.301\,\mathrm{m}$ on the two-dimensional reconstruction of the Barber and Carr\'e figure \cite{barber2010} (at its $67\,\mathrm{mm}$ sensitivity setting).
+For two tracked DFL penalties \cite{dfl2025}, a separate physical inference uses the first three measured positions at the actual frame times ($0$, $0.04$ and $0.08\,\mathrm{s}$) and predicts the held-out portion in local coordinates. Table~\ref{tab:dfl} compares drag with zero spin against the same drag prior and unknown spin. The assumed per-coordinate noise is $15\,\mathrm{mm}$ and the table averages two seeds. Rotation improves the first penalty's gate estimate and slightly worsens the second's. The two cases begin at tracking frames 128955 (\texttt{J03WOH}) and 176244 (\texttt{J03WR9}) and correspond to penalty events 18232100000995 and 18242100001386; both events are recorded as penalties and both balls entered the goal. \texttt{J03WOH} and \texttt{J03WR9} are match and case identifiers in the DFL release, not model labels.
+
+In further checks, adding spin changes held-out RMSE from $0.338$ to $0.366\,\mathrm{m}$ on the ISSIA segment covering frames 2972--2991, and from $2.266$ to $2.301\,\mathrm{m}$ on the two-dimensional reconstruction of the Barber and Carr\'e figure \cite{barber2010}. That reconstruction uses camera-measured markers digitised from Fig.~5 of \cite{barber2010}; the $67\,\mathrm{mm}$ is our digitisation sensitivity setting, and $2.266$ and $2.301\,\mathrm{m}$ are our held-out prediction errors, not measurements reported by the authors.
 
 \begin{table}[htbp]
   \centering
@@ -331,7 +455,9 @@ For two tracked DFL penalties \cite{dfl2025}, a separate physical inference uses
   \end{tabular}
 \end{table}
 
-Across 11 additional screened DFL match segments, unknown spin lowers held-out RMSE in 7 of 11 segments at each of the $15$ and $30\,\mathrm{mm}$ assumptions. The paired median improvements are $0.027$ and $0.011\,\mathrm{m}$. These segments have no goal-plane endpoint labels, and screening on smooth flight and uncertain contact status limits generalisation. The tracked examples assess physical extrapolation on a case basis. They do not calibrate the MDN.
+Across 11 additional screened DFL match segments, unknown spin lowers held-out RMSE in 7 of 11 segments at each of the $15$ and $30\,\mathrm{mm}$ assumptions. The paired median improvements are $0.027$ and $0.011\,\mathrm{m}$. The screening started from 60 candidate segments and kept 11 after motion and event checks: consecutive frames at $0.04\,\mathrm{s}$ intervals, finite coordinates, a height of at least $0.5\,\mathrm{m}$, speeds of $3$--$40\,\mathrm{m\,s^{-1}}$, a one-dimensional quadratic fit with three-dimensional RMS residual at most $0.08\,\mathrm{m}$ and maximum residual at most $0.18\,\mathrm{m}$, a fitted vertical acceleration between $-20$ and $-1\,\mathrm{m\,s^{-2}}$, a fitted horizontal acceleration magnitude of at most $15\,\mathrm{m\,s^{-2}}$, and no nearby ball event in the match event file within $1\,\mathrm{s}$ before or after the segment. The 11 segments contain $254$ positions, $33$ of them used as input and $221$ held out. Forty-nine segments were excluded, one of them also for violating the speed range. The screen favours smooth, near-parabolic flights, uses later points of the same segment to fit the quadratic, and cannot prove the absence of contact outside the event window; the 11 segments have no goal-plane endpoint labels. The results on them are case-level, not population estimates.
+
+Two further penalties are excluded from the scored comparisons because the current model does not apply. \texttt{J03WMX} is a low shot with possible contact and an uncertain height baseline, and the PFF case starts at $0.07\,\mathrm{m}$, below the ball radius assumed by the model. They are listed as applicability limits, not as failures of the model.
 
 \section{Discussion}
 
@@ -341,42 +467,86 @@ The Bayesian sampler exposes dependence on launch and aerodynamic assumptions, w
 
 All network endpoint metrics condition on airborne goal-plane crossing. For arbitrary kicks, the geometric in-frame probability would require multiplying $P(E\mid\mathbf{y}_1,\mathbf{y}_2,\sigma)$ by the conditional in-frame probability. The goal rectangle applies to the centre and ignores the ball radius in the in-frame criterion, contact with the frame and goalkeeper intervention. These distinctions separate a geometric forecast from a match scoring probability. The limited DFL, ISSIA and figure-read cases cannot establish real-penalty coverage. The PFF World Cup release \cite{pff2022} is a possible source for further case audits.
 
+A browser demonstration accompanies the paper. It uses the frozen P1 weights and computes, in local JavaScript, the crossing density, the joint regions and the conditional in-frame probability when the two observations and the noise level (four settings) are changed. For the stated case at $5\,\mathrm{mm}$ with seed 11 it returns a mode of about $(2.62,2.15)\,\mathrm{m}$, an in-frame probability of $97.3\%$ and areas of $0.178$ and $0.769\,\mathrm{m^2}$, close to the values reported here. This is a deployment consistency check: the weights and the calibrator are the same, and the agreement shows only that the exported model reproduces the paper. It is not an independent blind test and it does not validate the physical assumptions on real penalties. The paper's own figures and numbers remain the reference, and the demonstration is described anonymously in this submission.
+
 \section{Conclusion and Outlook}
 
-Two early observations and a known start support a probabilistic forecast of the crossing location. At $5\,\mathrm{mm}$, the calibrated MDN answers the posed case with mode $(2.62,2.15)\,\mathrm{m}$, joint areas $0.177$ and $0.775\,\mathrm{m^2}$, and a $97.3\%$ conditional in-frame probability. The final MDN has a median error of $0.290\,\mathrm{m}$ on the independent $5\,\mathrm{mm}$ test. Calibrated coverage is close to nominal under the simulation assumptions and degrades under physical shifts.
+Two early observations and a known start support a probabilistic forecast of the crossing location. At an assumed $5\,\mathrm{mm}$ coordinate noise, the calibrated MDN answers the posed case with mode $(2.62,2.15)\,\mathrm{m}$, joint areas $0.177$ and $0.775\,\mathrm{m^2}$, and a $97.3\%$ conditional probability that the ball centre is in the goal rectangle given an airborne crossing. The final MDN has a median error of $0.290\,\mathrm{m}$ on the independent $5\,\mathrm{mm}$ test, and its conditional in-frame probability has an expected calibration error below $1$ percentage point. Calibrated $50\%$ and $95\%$ coverage is $47.6$--$49.1\%$ and $94.5$--$95.2\%$, close to nominal under the simulation assumptions, and it degrades under physical shifts: a $3\,\mathrm{m\,s^{-1}}$ crosswind lowers $50\%$ coverage to $40.9\%$. These coverage figures are independent-simulation coverage; they are not coverage for real penalties, and the $97.3\%$ is a ball-centre probability, not a match scoring probability.
 
 The next step is to collect high-rate, three-dimensional penalty tracks with independently characterised timing and tracking error. A sealed evaluation set should include misses, low-speed and low-spin shots, and early ground contact. A separate event model could then predict airborne crossing before the conditional location forecast is applied.
 
 % References are numbered in the order you put them here. Every item should
 % correspond to an actual source and be cited in the text with \cite{key}.
 \begin{thebibliography}{99}
-\bibitem{ifab} International Football Association Board, \emph{Laws of the Game 2025/26}, Laws 1 and 2 (field dimensions, penalty mark, ball). \url{https://www.theifab.com/laws/latest/}.
+\bibitem{ifab} International Football Association Board, \emph{Laws of the Game 2025/26}, Laws 1 and 2 (field dimensions, penalty mark, ball). \url{https://www.theifab.com/laws/2025-26/the-field-of-play/} and \url{https://www.theifab.com/laws/2025-26/the-ball/}.
+\bibitem{upc2026} University Physics Competition, \emph{2026 Problem B: Position prediction from an early trajectory} (problem statement), 2026. \url{https://www.uphysicsc.com/2026contest.html}.
 \bibitem{asai2007} T. Asai, K. Seo, O. Kobayashi, and R. Sakashita, ``Fundamental aerodynamics of the soccer ball,'' \emph{Sports Engineering} \textbf{10}(2), 101--109 (2007). \url{https://doi.org/10.1007/BF02844207}.
 \bibitem{asai2013} T. Asai and K. Seo, ``Aerodynamic drag of modern soccer balls,'' \emph{SpringerPlus} \textbf{2}, 171 (2013). \url{https://doi.org/10.1186/2193-1801-2-171}.
 \bibitem{goff2010} J. E. Goff and M. J. Carr\'e, ``Soccer ball lift coefficients via trajectory analysis,'' \emph{European Journal of Physics} \textbf{31}(4), 775--784 (2010). \url{https://doi.org/10.1088/0143-0807/31/4/007}.
 \bibitem{goff2017} J. E. Goff, J. Kelley, C. M. Hobson, K. Seo, T. Asai, and S. B. Choppin, ``Creating drag and lift curves from soccer trajectories,'' \emph{European Journal of Physics} \textbf{38}(4), 044003 (2017). \url{https://doi.org/10.1088/1361-6404/aa6fcd}.
-\bibitem{bray2003} K. Bray and D. Kerwin, ``Modelling the flight of a soccer ball in a direct free kick,'' \emph{Journal of Sports Sciences} \textbf{21}(2), 75--85 (2003). \url{https://doi.org/10.1080/0264041031000070994}.
+\bibitem{bray2003} K. Bray and D. G. Kerwin, ``Modelling the flight of a soccer ball in a direct free kick,'' \emph{Journal of Sports Sciences} \textbf{21}(2), 75--85 (2003). \url{https://doi.org/10.1080/0264041031000070994}.
+\bibitem{team358} Team 358, ``The best strategy for penalty kicks,'' University Physics Competition 2022, gold-medal paper, Section 3.1.4. \url{https://www.uphysicsc.com/2022-GM-B-358.pdf}.
+\bibitem{nasaforces} NASA Glenn Research Center, ``Forces on a soccer ball,'' Beginner's Guide to Aeronautics. \url{https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/forces-on-a-soccer-ball/}.
+\bibitem{nasadrag} NASA Glenn Research Center, ``Drag on a soccer ball,'' Beginner's Guide to Aeronautics. \url{https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/drag-on-a-soccer-ball/}.
+\bibitem{nasalift} NASA Glenn Research Center, ``Lift equation,'' Beginner's Guide to Aeronautics. \url{https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/lift-equation/}.
+\bibitem{archimedes} NASA Glenn Research Center, ``Buoyancy: Archimedes' principle,'' Wind Tunnel Activities. \url{https://www.grc.nasa.gov/www/k-12/WindTunnel/Activities/buoy_Archimedes.html}.
 \bibitem{kingma2015} D. P. Kingma and J. Ba, ``Adam: A method for stochastic optimization,'' in \emph{Proceedings of the 3rd International Conference on Learning Representations} (ICLR, 2015); arXiv:1412.6980.
-\bibitem{soccernetv3d} M. Guti\'errez-P\'erez and A. Agudo, ``SoccerNet-v3D: Leveraging sports broadcast replays for 3D scene understanding,'' arXiv:2504.10106 (2025). \url{https://arxiv.org/abs/2504.10106}.
-\bibitem{dfl2025} M. Bassek, R. Rein, H. Weber, and D. Memmert, ``An integrated dataset of spatiotemporal and event data in elite soccer,'' \emph{Scientific Data} \textbf{12} (2025). \url{https://doi.org/10.1038/s41597-025-04505-y}.
-\bibitem{barber2010} S. Barber and M. J. Carr\'e, "The effect of surface geometry on soccer ball trajectories," \emph{Sports Engineering} \textbf{13}(1), 47--55 (2010). \url{https://doi.org/10.1007/s12283-010-0048-x}.
-\bibitem{pff2022} PFF FC, ``Enhanced 2022 World Cup dataset'' (2023). \url{https://www.blog.fc.pff.com/blog/enhanced-2022-world-cup-dataset}.
-\bibitem{bishop1994} C. M. Bishop, ``Mixture density networks,'' Technical Report NCRG/94/004, Aston University (1994).
-\bibitem{gum2008} Joint Committee for Guides in Metrology, \emph{Evaluation of Measurement Data---Guide to the Expression of Uncertainty in Measurement}, JCGM 100:2008.
+\bibitem{soccernetv3d} M. Guti\'errez-P\'erez and A. Agudo, ``SoccerNet-v3D: Leveraging sports broadcast replays for 3D scene understanding,'' in \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops} (CVPRW, 2025), pp. 6024--6033; arXiv:2504.10106. \url{https://openaccess.thecvf.com/content/CVPR2025W/CVSPORTS/html/Gutierrez-Perez_SoccerNet-v3D_Leveraging_Sports_Broadcast_Replays_for_3D_Scene_Understanding_CVPRW_2025_paper.html}.
+\bibitem{issia} ISSIA-CNR, \emph{Soccer video sequences and annotations: download page} (acquisition description, 25 fps). Istituto di Studi sui Sistemi Intelligenti per l'Automazione, Consiglio Nazionale delle Ricerche. \url{https://pspagnolo.jimdofree.com/download/}.
+\bibitem{dfl2025} M. Bassek, R. Rein, H. Weber, and D. Memmert, ``An integrated dataset of spatiotemporal and event data in elite soccer,'' \emph{Scientific Data} \textbf{12}, 195 (2025). \url{https://doi.org/10.1038/s41597-025-04505-y}; dataset: \url{https://doi.org/10.6084/m9.figshare.28196177}.
+\bibitem{barber2010} S. Barber and M. J. Carr\'e, ``The effect of surface geometry on soccer ball trajectories,'' \emph{Sports Engineering} \textbf{13}(1), 47--55 (2010). \url{https://doi.org/10.1007/s12283-010-0048-x}.
+\bibitem{pff2022} PFF FC, ``Get free access to our enhanced 2022 World Cup dataset!'' (2025-02-13). \url{https://www.blog.fc.pff.com/blog/enhanced-2022-world-cup-dataset}.
+\bibitem{bishop1994} C. M. Bishop, ``Mixture density networks,'' Technical Report NCRG/94/004, Aston University (1994). \url{https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/bishop-ncrg-94-004.pdf}.
+\bibitem{gum2008} Joint Committee for Guides in Metrology, \emph{Evaluation of Measurement Data---Guide to the Expression of Uncertainty in Measurement}, JCGM 100:2008, Section 5.1.2. \url{https://doi.org/10.59161/JCGM100-2008E}.
+\bibitem{layernorm2016} J. L. Ba, J. R. Kiros, and G. E. Hinton, ``Layer normalization,'' arXiv:1607.06450 (2016). \url{https://arxiv.org/abs/1607.06450}.
+\bibitem{gelu2016} D. Hendrycks and K. Gimpel, ``Gaussian error linear units (GELUs),'' arXiv:1606.08415 (2016). \url{https://arxiv.org/abs/1606.08415}.
+\bibitem{silu2018} S. Elfwing, E. Uchibe, and K. Doya, ``Sigmoid-weighted linear units for neural network function approximation in reinforcement learning,'' \emph{Neural Networks} \textbf{107}, 3--11 (2018). \url{https://doi.org/10.1016/j.neunet.2017.12.012}.
 \bibitem{hyndman1996} R. J. Hyndman, ``Computing and graphing highest density regions,'' \emph{The American Statistician} \textbf{50}(2), 120--126 (1996). \url{https://doi.org/10.1080/00031305.1996.10474359}.
 \bibitem{gneiting2007} T. Gneiting and A. E. Raftery, ``Strictly proper scoring rules, prediction, and estimation,'' \emph{Journal of the American Statistical Association} \textbf{102}(477), 359--378 (2007). \url{https://doi.org/10.1198/016214506000001437}.
+\bibitem{hpdsplit2022} R. Izbicki, G. Shimizu, and R. B. Stern, ``HPD-split: Efficient reliable prediction sets for high-dimensional data,'' \emph{Journal of Machine Learning Research} \textbf{23}(130), 1--45 (2022). \url{https://www.jmlr.org/papers/v23/20-797.html}.
 \bibitem{harris2020} C. R. Harris et al., ``Array programming with NumPy,'' \emph{Nature} \textbf{585}, 357--362 (2020). \url{https://doi.org/10.1038/s41586-020-2649-2}.
 \bibitem{virtanen2020} P. Virtanen et al., ``SciPy 1.0: fundamental algorithms for scientific computing in Python,'' \emph{Nature Methods} \textbf{17}, 261--272 (2020). \url{https://doi.org/10.1038/s41592-019-0686-2}.
-\bibitem{paszke2019} A. Paszke et al., ``PyTorch: An imperative style, high-performance deep learning library,'' in \emph{Advances in Neural Information Processing Systems} \textbf{32}, 8024--8035 (2019).
+\bibitem{paszke2019} A. Paszke et al., ``PyTorch: An imperative style, high-performance deep learning library,'' in \emph{Advances in Neural Information Processing Systems} \textbf{32}, 8024--8035 (2019). \url{https://proceedings.neurips.cc/paper_files/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html}.
 \bibitem{hunter2007} J. D. Hunter, ``Matplotlib: A 2D graphics environment,'' \emph{Computing in Science \& Engineering} \textbf{9}(3), 90--95 (2007). \url{https://doi.org/10.1109/MCSE.2007.55}.
 \end{thebibliography}
 \addcontentsline{toc}{section}{References}
 
 \appendix
-\section{Propagation of Position Noise to Acceleration}
+\section{Constant-Acceleration Baseline and Noise Propagation}
 \label{app:noise}
 
-Let the start $\mathbf{r}_0$ be exact and let the two observations be
+\subsection{Baseline from the Three Given Positions}
+
+Let $\mathbf{r}_0=(0,0,0.11)$, $\mathbf{r}_1=(1.50,0.45,0.44)$ and $\mathbf{r}_2=(2.96,0.86,0.74)\,\mathrm{m}$ be the start and the two observations, with $\Delta t=0.05\,\mathrm{s}$. A quadratic through the three points gives the midpoint velocity and the constant acceleration,
+\begin{equation}
+  \mathbf{v}(0.05)=\frac{\mathbf{r}_2-\mathbf{r}_0}{2\Delta t}=(29.6,\,8.6,\,6.3)\,\mathrm{m\,s^{-1}},
+  \qquad
+  \mathbf{a}=\frac{\mathbf{r}_2-2\mathbf{r}_1+\mathbf{r}_0}{\Delta t^{2}}=(-16,\,-16,\,-12)\,\mathrm{m\,s^{-2}}.
+  \label{eq:baseline}
+\end{equation}
+The vertical component is not $g$: the fit absorbs gravity and the aerodynamic acceleration into one vector, which is why the baseline is a kinematic extrapolation. Writing $\tau=T-0.05\,\mathrm{s}$ and $x(0.05)=1.50\,\mathrm{m}$, the first forward crossing of $x=11\,\mathrm{m}$ is the smaller positive root of
+\begin{equation}
+\begin{aligned}
+  &\tfrac12 a_x\tau^{2}+v_x\tau+1.50-11=0
+  \;\Longrightarrow\;
+  -8\tau^{2}+29.6\tau-9.5=0,\\
+  &\tau=\frac{29.6-\sqrt{29.6^{2}-4\cdot8\cdot9.5}}{2\cdot8}=0.355\,\mathrm{s},
+\end{aligned}
+  \label{eq:tau}
+\end{equation}
+where the smaller root is chosen because it is the first crossing after the second observation. Hence $T=0.405\,\mathrm{s}$ and
+\begin{equation}
+  Y=0.45+8.6\tau-8\tau^{2}=2.495\,\mathrm{m},
+  \qquad
+  Z=0.44+6.3\tau-6\tau^{2}=1.920\,\mathrm{m}.
+  \label{eq:baselineYZ}
+\end{equation}
+
+A valid forward solution requires all of the following: the quadratic is non-degenerate; its discriminant is non-negative; at least one root satisfies $\tau>0$; the crossing time lies within the $1.5\,\mathrm{s}$ horizon; and $z(T)>R$, so the ball does not hit the ground before the plane. If any condition fails, the baseline returns no estimate for that flight. Such flights are excluded from the baseline statistics; for models B, D and E they are skipped in training and treated with the fallback of Section~\ref{sec:splits} at test time. On the $5{,}036$ fresh crossings the baseline fails for $0$, $6$, $111$ and $288$ flights at $2$, $5$, $10$ and $15\,\mathrm{mm}$.
+
+\subsection{Propagation of Position Noise to the Endpoint}
+
+Let the start be exact and let the two observations be
 \begin{equation}
   \mathbf{r}_1=\mathbf{r}_0+\mathbf{v}\Delta t+\tfrac12\mathbf{a}\Delta t^2+\boldsymbol{\varepsilon}_1,
   \qquad
@@ -390,11 +560,48 @@ with independent errors of variance $\sigma^2$ per component. Eliminating $\math
 whose component variance is $(1+4)\sigma^2=5\sigma^2$. Hence
 \begin{equation}
   \sigma_a=\frac{\sqrt{5}\,\sigma}{\Delta t^2}.
+  \label{eq:sigmaa}
 \end{equation}
-If the start is also noisy, the third error enters with unit weight and the variance becomes $6\sigma^2$, giving the conservative factor $\sqrt{6}$. At $\sigma=5\,\mathrm{mm}$ and $\Delta t=0.05\,\mathrm{s}$, $\sigma_a=4.47\,\mathrm{m\,s^{-2}}$ for a fixed start. For a fixed forecast time near $0.4\,\mathrm{s}$, the acceleration term alone corresponds to a displacement scale of several tenths of a metre. The full crossing uncertainty also involves velocity errors and uncertainty in crossing time. This calculation motivates propagating the observation model through to the endpoint \cite{gum2008}.
+If the start is also noisy, the third error enters with unit weight and the variance becomes $6\sigma^2$, giving the conservative factor $\sqrt{6}$ (A6). At $\sigma=5\,\mathrm{mm}$ and $\Delta t=0.05\,\mathrm{s}$, $\sigma_a=4.47\,\mathrm{m\,s^{-2}}$. The variance propagation follows Section~5.1.2 of \cite{gum2008} for uncorrelated inputs.
+
+The acceleration alone does not determine the endpoint: the crossing time is also random, and the velocity error enters. We therefore propagated the two independent Gaussian errors through the full quadratic solve with $150{,}000$ draws per noise level. The results are in Table~\ref{tab:noise}. The sample median at $5\,\mathrm{mm}$ reproduces the deterministic baseline, $(2.495,1.920)\,\mathrm{m}$, as it should.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Monte-Carlo propagation of two independent Gaussian observation errors (exact start, $150{,}000$ draws per level). $T$ is the crossing time, $(Y,Z)$ the crossing point; intervals are $5$--$95\%$. Discarded draws have no admissible forward solution (no positive root, horizon exceeded, or ground contact before the plane).}
+  \label{tab:noise}
+  \begin{tabular}{rrrrrrr}
+    \toprule
+    $\sigma$ (mm) & Discarded & s.d.\ $T$ (ms) & s.d.\ $Y$ (m) & s.d.\ $Z$ (m) & $Y$ 5--95\% (m) & $Z$ 5--95\% (m) \\
+    \midrule
+    2  & 0     & 4.8  & 0.115 & 0.115 & 2.31--2.68 & 1.73--2.11 \\
+    5  & 0     & 12.3 & 0.290 & 0.289 & 2.02--2.97 & 1.45--2.40 \\
+    15 & 5{,}955 & 41.6 & 0.933 & 0.871 & 1.02--4.04 & 0.62--3.48 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+At $15\,\mathrm{mm}$, $2{,}083$ of the discarded draws have no positive root and $3{,}872$ hit the ground before the plane. The closed-form estimate $\tfrac12\sigma_a\tau^{2}$ with $\tau=T-0.05=0.355\,\mathrm{s}$ gives $0.283\,\mathrm{m}$ at $5\,\mathrm{mm}$, close to the Monte-Carlo value $0.290\,\mathrm{m}$; using $T$ in place of $\tau$ gives $0.366\,\mathrm{m}$ and overstates the acceleration contribution by about $30\%$, because the displacement is measured from the second observation, not from the start. The acceleration term alone also omits the velocity term and the randomness of $T$.
+
+Two different quantities happen to be $0.290\,\mathrm{m}$ at $5\,\mathrm{mm}$: the standard deviation of the baseline prediction in Table~\ref{tab:noise}, and the median Euclidean error of the trained MDN's mixture mean in Table~\ref{tab:holdout}. The first measures how much the answer moves when the observations are re-drawn; the second measures how far the network's point forecast is from the truth. They are not interchangeable.
+
+\section{Case Decomposition Details}
+\label{app:decomp}
+
+The weighted posterior used here contains $22{,}583$ draws from the four-stage sampler at $40{,}000$ draws per stage (seed 8047, ESS $2{,}893$). The three representative trajectories of Table~\ref{tab:traj} were chosen from those draws so that each lies near a different MDN component mean, subject to an early-position RMSE below $5\,\mathrm{mm}$; their zero-based indices in the saved array are 6953 (A), 2827 (B) and 18017 (C). The component responsibilities in Table~\ref{tab:traj} map the draws to components 2, 3 and 1 respectively.
+
+The attribution uses several independent statistics. Grouping the draws by quartiles of the vertical Magnus acceleration gives mean crossing heights of $1.60$, $1.87$, $2.10$ and $2.36\,\mathrm{m}$, a monotone increase of $0.76\,\mathrm{m}$ across the quartiles, while grouping by $C_D$ gives $1.979$, $1.988$ and $1.988\,\mathrm{m}$, a change of $0.009\,\mathrm{m}$. The weighted correlations are $-0.911$ between $\omega_y$ and $Z$, $+0.908$ between $\omega_z$ and $Y$, and $-0.046$ between $C_D$ and $Y$. The spin components themselves are nearly uncorrelated in the posterior (correlation $+0.17$), so the two mechanisms act on different axes: $\omega_y$ sets the height and $\omega_z$ sets the lateral position. Draw C illustrates the lateral case: its vertical Magnus force is small and it crosses at almost the same height as the others, but its weak lateral spin lets the ball drift $0.37\,\mathrm{m}$ further right.
+
+The bounds on the posterior are worth recording. Nine and a half percent of the weight sits at the $C_L=0.30$ cap, and $58\%$ of the weight with $Y<2.45\,\mathrm{m}$ has $|\omega_z|>55\,\mathrm{rad\,s^{-1}}$ against a prior bound of $60$. Overall, $12\%$ of the weight has $|\omega_z|>55$ and $52\%$ has $|\boldsymbol{\omega}|>55$. A left tail pressed against the spin bound and a lift coefficient at its cap are therefore both plausible contributors to the lateral asymmetry. Distinguishing them would require two separate perturbations, one raising the spin bound and one raising the lift cap, and the response of the left tail to each; we did not run that pair, and report the two candidates without choosing between them.
+
+The profile diagnostics come from the calibrated mixture. At fixed $Y=2.62\,\mathrm{m}$ the seed-11 profile has maxima at $Z=1.86$ and $2.16\,\mathrm{m}$ with a valley $9\%$ below the larger maximum at $Z=2.00\,\mathrm{m}$; the same slice for seeds 22 and 33 peaks at $1.68/2.15$ and $1.76/2.17\,\mathrm{m}$. Marginalising over $Y$ gives single-peaked $Z$ densities for all three seeds, with maxima at $1.89$, $2.05$ and $2.04\,\mathrm{m}$. The physics posterior's vertical profile at $Y\approx2.65\,\mathrm{m}$ is broad, with a maximum near $2.05\,\mathrm{m}$ and a shoulder near $1.85\,\mathrm{m}$ whose prominence changes with the histogram bin width or kernel bandwidth. The two-peak appearance in the slice is thus a property of the three-component approximation, while the underlying continuum of compatible trajectories, and the vertical-spin origin of its spread, is supported by the physics posterior.
 
 % If required, the AI report must be the LAST section of the paper.
-% Uncomment the following line after completing ai-report.tex.
+% It is not enabled yet: ai-report.tex still contains placeholders that the
+% team must replace with the verbatim records, and the Unicode records require
+% compiling with XeLaTeX. Uncomment the next line only after filling the file.
 % \input{ai-report.tex}
 
 \end{document}
+
