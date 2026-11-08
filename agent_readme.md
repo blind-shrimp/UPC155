@@ -10,6 +10,19 @@
 - **丢失风险已处理**：Codex 额度中断前未提交的本地工作（通用化 `physics.py` 接口、P1–P5/AsAI 实验脚本与运行结果）已备份并合并进 `main`（提交 `dbb2ded`），`main` 与远端同步。
 - **最后检查**：提交前用 155B.pdf 核对首页四项、匿名信息、页眉、图表、引用与文件名，然后按官方规则邮件提交（截止北京时间 2026-11-09 09:00）。
 
+## 2026-11-08 14:20：新数据（Asai 三球）分析完成，可交接
+
+- **数据**：数据提供方转来的三份工作簿（Fig3 / Sample05 / Sample12）已收进 [handoff/asai_workbooks_2026-11-08](handoff/asai_workbooks_2026-11-08/README.md)（来源 Asai et al. 2020, CC BY 4.0；sha256 与桌面原件一致）。
+- **冻结 P1 三球复演** ✅：[asai_replay](student_b/runs/asai_replay/README.md)。P1 高度平移后 11 m 虚拟截面误差 54.49 / 49.87 / 59.57 cm（Fig3 / Sample05 / Sample12）；canonical 物理后验 55.17 / 52.36 / 61.92 cm；全段回拟合 RMSE 0.20 / 1.12 / 0.65 cm。
+- **2×3×2 因子对照** ✅：[asai_factorial](student_b/runs/asai_factorial/README.md)。12 组因子、672 次拟合：无先验 26.00 cm、仅幅值先验 22.30、**手册方向先验 10.63**、手册升力律 11.80、留一先验 22.45。**方向约束（带符号竖直分量）是主因，但先验中心是人工常数，不能当泛化提升**；Sample12 从 50.15 降到 23.37，另两球反而变差。
+- **方向先验外推 + MAP/后验匹配** ✅（Codex 中断时未完成的部分，DSH 修复 3 个自检问题后跑完）：[asai_transfer](student_b/runs/asai_transfer/README.md)。
+  - 外部 4 例（2 场 DFL 点球 + 2 段 ISSIA）留出帧 RMSE：无先验 **30.09** / 手册方向先验 46.53 / pooled 43.50 cm → **方向先验不能外推**，Asai 上的 10.63 属于样本内正则化，不能写成通用物理先验。
+  - Asai 上同模型/同先验/同基：MAP 8.55–13.32 cm，但后验均值 51–54 cm、KDE 众数 5.9–19.8 cm → **旧表"手册 11.39 vs canonical 50–60"的差距很大一部分是估计量定义（MAP vs 后验均值）**；两条后验均值种子不稳定处已标出。
+  - 归档复现检查通过（none 26.00、manual 10.63 与 factorial 一致，差 < 0.5 cm）；6 项自检 + 12 项契约测试全过。
+- **论文正文未改**：以上属 exploratory/appendix-level 证据，是否写入 Appendix 由 C 决定；正式 P1、训练集、主表均未动。
+- **换机继续跑**：见 [handoff/继续跑_交接包_2026-11-08.md](handoff/继续跑_交接包_2026-11-08.md)（环境、数据、命令、剩余待办、给下一个 AI 的启动 prompt、口径与坑）。
+- **AI 披露提醒**：换机器继续与 AI 交互后，提交前重跑 `tools/build_ai_report.ps1`，并补 `论文模板/ai-report-team.tex`。
+
 | 工作 | 当前结果与入口 |
 |---|---|
 | 物理仿真 | 使用重力、二次阻力和横向马格努斯力，RK4 主步长 2 ms。50,000 条中 41,733 空中过门，8,267 提前触地。[实际参数](student_b/params.json) |

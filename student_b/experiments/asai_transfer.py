@@ -59,9 +59,19 @@ from scipy.ndimage import gaussian_filter
 from scipy.optimize import least_squares
 
 HERE = Path(__file__).resolve()
-EXPERIMENTS = HERE.parent                 # integration/student_b/experiments
-SB = HERE.parents[1]                      # integration/student_b
-ROOT = HERE.parents[3]                    # repository root
+EXPERIMENTS = HERE.parent
+SB = EXPERIMENTS.parent
+
+
+def _find_repo_root(start):
+    """Works both in the repository root layout and in a git worktree clone."""
+    for candidate in (start, *start.parents):
+        if (candidate / 'student_b' / 'physics.py').is_file():
+            return candidate
+    return SB
+
+
+ROOT = _find_repo_root(HERE)
 DEPS = ROOT / 'deliverables/asai_official/read_deps'
 for _p in (str(EXPERIMENTS), str(SB), str(DEPS)):
     if _p not in sys.path:
@@ -87,6 +97,21 @@ V_HIGH = np.array([60., 60., 60.])
 ESTIMATOR_SEEDS = ((0., 0.), (.21, .21), (.21, -.21), (-.21, .21),
                    (-.21, -.21), (.06, -.24), (.24, 0.))
 TRANSFER_METHODS = ('none', 'manual', 'pooled')
+
+
+def _first_existing(*paths):
+    """Default data paths: first existing candidate, else the first candidate."""
+    for path in paths:
+        candidate = Path(path)
+        if candidate.exists():
+            return candidate
+    return Path(paths[0])
+
+
+DFL_DIR = _first_existing(ROOT / 'student-a/flight_trajectory_validation_2026-11-07',
+                          ROOT / 'integration/student-a/flight_trajectory_validation_2026-11-07')
+EXTRA_DFL = _first_existing(ROOT / 'student-a/additional_flight_data_2026-11-07/positions.csv',
+                            ROOT / 'integration/student-a/additional_flight_data_2026-11-07/positions.csv')
 
 TRANSFER_FIELDS = (
     'method', 'prior', 'case', 'cohort', 'sigma_m', 'target_x_m', 'error_cm',
@@ -824,8 +849,11 @@ def endpoint_draws(r0, v0, theta, target, cfg):
                   where=np.abs(span) > 1e-12)
         ground_fraction = np.full(len(index), np.inf)
         drop = new[:, 2] - old[:, 2]
+        # A step without a ground hit must not produce a (negative) candidate
+        # ground fraction: leave np.inf so that only an actual ground event can
+        # disqualify a plane crossing within the same step.
         np.divide(cfg.radius - old[:, 2], drop, out=ground_fraction,
-                  where=np.abs(drop) > 1e-12)
+                  where=ground & (np.abs(drop) > 1e-12))
         wins = cross & (fraction <= ground_fraction)
         goal[index[wins]] = (old[wins, 1:3]
                              + fraction[wins, None] * (new[wins, 1:3] - old[wins, 1:3]))
@@ -1139,28 +1167,41 @@ def check_future_invariance():
 
 
 def check_alignment_invariance():
-    local = synth_case(name='local', align=False)
-    global_case = synth_case(name='global', align=True)
+    world = synth_case(name='world', align=False)
+    combined = np.vstack((world['fit_points'], world['future_points']))
+    times = np.r_[world['fit_times'], world['future_times']]
     angle = .7
     rotation = np.array([[np.cos(angle), -np.sin(angle)],
                          [np.sin(angle), np.cos(angle)]])
-    raw_prefix = np.column_stack((local['fit_points'][:, :2] @ rotation.T
-                                  + np.array([3., -2.]), local['fit_points'][:, 2]))
-    raw_future = np.column_stack((local['future_points'][:, :2] @ rotation.T
-                                  + np.array([3., -2.]), local['future_points'][:, 2]))
-    recovered = align_track(np.vstack((raw_prefix, raw_future)), 3)
-    expected = np.vstack((local['fit_points'], local['future_points']))
+    raw = combined.copy()
+    raw[:, :2] = combined[:, :2] @ rotation.T + np.array([3., -2.])
+    recovered = align_track(raw, 3)
+    expected = align_track(combined, 3)
     geometry = bool(np.allclose(recovered, expected, rtol=0, atol=1e-9))
-    fit_a = fit_prefix(global_case['fit_times'], global_case['fit_points'],
-                       global_case['sigma'], 'none')
-    fit_b = fit_prefix(local['fit_times'], local['fit_points'],
-                       local['sigma'], 'none')
-    same_fit = json.dumps(AF.jsonable(fit_a['rows']), sort_keys=True) \
-        == json.dumps(AF.jsonable(fit_b['rows']), sort_keys=True)
-    score_a = score_case(global_case, predict_case(global_case, fit_a))
-    score_b = score_case(local, predict_case(local, fit_b))
-    same_score = (score_a['heldout_rmse_cm'] == score_b['heldout_rmse_cm']
-                  and score_a['plane_error_cm'] == score_b['plane_error_cm'])
+
+    def case_of(track, name):
+        return build_case(name, world['cohort'], times, track, world['sigma'],
+                          target=world['target_x'], align=False,
+                          source=dict(kind='synthetic', note='alignment invariance'))
+
+    case_a = case_of(recovered, 'recovered')
+    case_b = case_of(expected, 'expected')
+    fit_a = fit_prefix(case_a['fit_times'], case_a['fit_points'], case_a['sigma'], 'none')
+    fit_b = fit_prefix(case_b['fit_times'], case_b['fit_points'], case_b['sigma'], 'none')
+    same_fit = bool(fit_a['n_converged'] == fit_b['n_converged'])
+    if same_fit and fit_a['best'] is not None and fit_b['best'] is not None:
+        same_fit = all(
+            np.allclose(np.asarray(fit_a['best'].get(key), float),
+                        np.asarray(fit_b['best'].get(key), float),
+                        rtol=0, atol=1e-9)
+            for key in ('c_vert', 'c_lat', 'v0_m_s', 'dr0_m', 'cost'))
+    score_a = score_case(case_a, predict_case(case_a, fit_a))
+    score_b = score_case(case_b, predict_case(case_b, fit_b))
+    same_score = bool(
+        np.isclose(score_a['heldout_rmse_cm'], score_b['heldout_rmse_cm'],
+                   rtol=0, atol=1e-9)
+        and np.isclose(score_a['plane_error_cm'], score_b['plane_error_cm'],
+                       rtol=0, atol=1e-9))
     return dict(passed=bool(geometry and same_fit and same_score),
                 geometry_recovered=geometry, fits_identical=same_fit,
                 scores_identical=same_score,
@@ -1181,8 +1222,8 @@ def check_score_arithmetic():
                                         [5., .59, 1.50]],
                       crossing_yz_m=[.60, 1.52], crossing_time_s=.42)
     score = score_case(case, prediction)
-    expected_rmse = 100. * float(np.sqrt(np.mean(
-        np.sum(np.array(prediction['xyz']) - case['future_points'][:3], axis=1) ** 2)))
+    residual = np.array(prediction['xyz']) - case['future_points'][:3]
+    expected_rmse = 100. * float(np.sqrt(np.mean(np.sum(residual ** 2, axis=1))))
     expected_plane = 100. * float(np.linalg.norm(
         np.array([.60, 1.52]) - np.array([.50, 1.50])))
     return dict(passed=bool(abs(score['heldout_rmse_cm'] - expected_rmse) < 1e-9
@@ -1448,12 +1489,12 @@ def write_readme(path, transfer, estimators, checks, settings):
     add('')
     add('## 5. 复现')
     add('')
+    add('需要 NumPy / SciPy / openpyxl（团队 `.venv`），从仓库根目录运行：')
+    add('')
     add('```powershell')
-    add('& C:/Users/pc/miniconda3/envs/mujoco/python.exe '
-        'integration/student_b/experiments/asai_transfer.py --stage all '
-        '--out integration/student_b/runs/asai_transfer')
-    add('& C:/Users/pc/miniconda3/envs/mujoco/python.exe -m unittest '
-        'deliverables/asai_transfer/test_asai_transfer.py -v')
+    add('python student_b/experiments/asai_transfer.py --stage all '
+        '--out student_b/runs/asai_transfer')
+    add('python -m unittest deliverables.asai_transfer.test_asai_transfer -v')
     add('```')
     add('')
     add('检查项：' + '；'.join(f'{key}={"通过" if value.get("passed") else "未通过"}'
@@ -1515,10 +1556,8 @@ def main(argv=None):
                         help='directory holding the three Asai workbooks')
     parser.add_argument('--asai-results', type=Path,
                         default=SB / 'runs/asai_factorial/results.json')
-    parser.add_argument('--dfl', type=Path,
-                        default=ROOT / 'integration/student-a/flight_trajectory_validation_2026-11-07')
-    parser.add_argument('--extra-dfl', type=Path,
-                        default=ROOT / 'integration/student-a/additional_flight_data_2026-11-07/positions.csv')
+    parser.add_argument('--dfl', type=Path, default=DFL_DIR)
+    parser.add_argument('--extra-dfl', type=Path, default=EXTRA_DFL)
     parser.add_argument('--no-extra-dfl', action='store_true',
                         help='skip the 11 supplementary DFL clips')
     parser.add_argument('--no-asai-reference', action='store_true',
