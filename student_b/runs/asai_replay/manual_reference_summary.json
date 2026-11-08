@@ -1,0 +1,219 @@
+{
+  "policy": "Freeze 50k dataset and P1 weights; replay 3 real kicks only; strict no-future-leakage.",
+  "three_kick_mean_summary": {
+    "const_accel_0_50_100ms": {
+      "mean_err_11m_cm": 39.73,
+      "mean_post_100ms_3d_rmse_cm": 149.64
+    },
+    "physics_strict_interp_0_50_100ms": {
+      "mean_err_11m_cm": 27.43,
+      "mean_post_100ms_3d_rmse_cm": 56.33
+    },
+    "physics_unknown_spin_relaxed_0_50_100ms": {
+      "mean_err_11m_cm": 11.39,
+      "mean_post_100ms_3d_rmse_cm": 21.58
+    },
+    "physics_spin_constrained_relaxed_0_50_100ms": {
+      "mean_err_11m_cm": 12.5,
+      "mean_post_100ms_3d_rmse_cm": 22.97
+    },
+    "oracle_full_trajectory_fit": {
+      "mean_err_11m_cm": 0.63,
+      "mean_post_100ms_3d_rmse_cm": 0.99
+    }
+  },
+  "kicks": {
+    "Fig3_Sample": {
+      "valid_frames": 131,
+      "initial_height_cm": 27.27,
+      "z0_shift_for_frozen_P1_m": 0.1627,
+      "p1_aligned_input_6d": [
+        0.9579,
+        0.119,
+        0.4744,
+        1.9,
+        0.2202,
+        0.8176
+      ],
+      "gt_11m": {
+        "t_s": 0.6252,
+        "Y_m": 0.6009,
+        "Z_m": 3.1433
+      },
+      "rps_audit": {
+        "rps_used": 5.8431,
+        "note": "measured_at_<=100ms",
+        "per_frame_diff_mean": -0.0009999999999999974,
+        "per_frame_diff_std": 4.3087755261054797e-16,
+        "total_drop_pct": 1.63
+      },
+      "oracle_fitted_params": {
+        "Cd": 0.2675,
+        "Cl_mag": 0.2515
+      },
+      "const_accel_0_50_100ms": {
+        "err_11m_cm": 44.69,
+        "dt_11m_ms": 10.0,
+        "pred_11m_Y_m": 0.1942,
+        "pred_11m_Z_m": 3.3284,
+        "post_100ms_3d_rmse_cm": 122.71
+      },
+      "physics_strict_interp_0_50_100ms": {
+        "err_11m_cm": 24.26,
+        "dt_11m_ms": 1.5,
+        "pred_11m_Y_m": 0.4324,
+        "pred_11m_Z_m": 3.3178,
+        "post_100ms_3d_rmse_cm": 46.32
+      },
+      "physics_unknown_spin_relaxed_0_50_100ms": {
+        "err_11m_cm": 12.66,
+        "dt_11m_ms": -4.0,
+        "pred_11m_Y_m": 0.5846,
+        "pred_11m_Z_m": 3.0177,
+        "post_100ms_3d_rmse_cm": 22.11
+      },
+      "physics_spin_constrained_relaxed_0_50_100ms": {
+        "err_11m_cm": 12.6,
+        "dt_11m_ms": -4.0,
+        "pred_11m_Y_m": 0.6226,
+        "pred_11m_Z_m": 3.0192,
+        "post_100ms_3d_rmse_cm": 22.3
+      },
+      "oracle_full_trajectory_fit": {
+        "err_11m_cm": 0.2,
+        "dt_11m_ms": 0.2,
+        "pred_11m_Y_m": 0.5997,
+        "pred_11m_Z_m": 3.1416,
+        "post_100ms_3d_rmse_cm": 0.73
+      }
+    },
+    "Sample_05": {
+      "valid_frames": 104,
+      "initial_height_cm": 15.25,
+      "z0_shift_for_frozen_P1_m": 0.0425,
+      "p1_aligned_input_6d": [
+        1.0953,
+        0.1259,
+        0.3597,
+        2.1933,
+        0.2334,
+        0.59
+      ],
+      "gt_11m": {
+        "t_s": 0.5357,
+        "Y_m": 0.4642,
+        "Z_m": 1.5533
+      },
+      "rps_audit": {
+        "rps_used": 6.298,
+        "note": "delayed_start_at_150ms(*)",
+        "per_frame_diff_mean": -0.0020000000000000018,
+        "per_frame_diff_std": 3.8459253727671276e-16,
+        "total_drop_pct": 2.67
+      },
+      "oracle_fitted_params": {
+        "Cd": 0.2805,
+        "Cl_mag": 0.249
+      },
+      "const_accel_0_50_100ms": {
+        "err_11m_cm": 21.88,
+        "dt_11m_ms": -39.1,
+        "pred_11m_Y_m": 0.4333,
+        "pred_11m_Z_m": 1.7699,
+        "post_100ms_3d_rmse_cm": 171.98
+      },
+      "physics_strict_interp_0_50_100ms": {
+        "err_11m_cm": 9.04,
+        "dt_11m_ms": 0.7,
+        "pred_11m_Y_m": 0.4392,
+        "pred_11m_Z_m": 1.6401,
+        "post_100ms_3d_rmse_cm": 24.98
+      },
+      "physics_unknown_spin_relaxed_0_50_100ms": {
+        "err_11m_cm": 9.74,
+        "dt_11m_ms": -0.3,
+        "pred_11m_Y_m": 0.5366,
+        "pred_11m_Z_m": 1.6185,
+        "post_100ms_3d_rmse_cm": 22.55
+      },
+      "physics_spin_constrained_relaxed_0_50_100ms": {
+        "err_11m_cm": 13.23,
+        "dt_11m_ms": -0.2,
+        "pred_11m_Y_m": 0.5789,
+        "pred_11m_Z_m": 1.6192,
+        "post_100ms_3d_rmse_cm": 26.61
+      },
+      "oracle_full_trajectory_fit": {
+        "err_11m_cm": 1.01,
+        "dt_11m_ms": -0.3,
+        "pred_11m_Y_m": 0.4691,
+        "pred_11m_Z_m": 1.5445,
+        "post_100ms_3d_rmse_cm": 1.3
+      }
+    },
+    "Sample_12": {
+      "valid_frames": 125,
+      "initial_height_cm": 14.54,
+      "z0_shift_for_frozen_P1_m": 0.0354,
+      "p1_aligned_input_6d": [
+        1.0205,
+        0.1553,
+        0.4247,
+        2.0334,
+        0.2946,
+        0.707
+      ],
+      "gt_11m": {
+        "t_s": 0.5813,
+        "Y_m": 0.9012,
+        "Z_m": 2.3376
+      },
+      "rps_audit": {
+        "rps_used": 7.0435,
+        "note": "measured_at_<=100ms",
+        "per_frame_diff_mean": -0.004200000000000001,
+        "per_frame_diff_std": 1.832066273376885e-16,
+        "total_drop_pct": 5.55
+      },
+      "oracle_fitted_params": {
+        "Cd": 0.2697,
+        "Cl_mag": 0.2502
+      },
+      "const_accel_0_50_100ms": {
+        "err_11m_cm": 52.62,
+        "dt_11m_ms": -21.4,
+        "pred_11m_Y_m": 0.8268,
+        "pred_11m_Z_m": 1.8167,
+        "post_100ms_3d_rmse_cm": 154.22
+      },
+      "physics_strict_interp_0_50_100ms": {
+        "err_11m_cm": 48.99,
+        "dt_11m_ms": -7.7,
+        "pred_11m_Y_m": 0.9282,
+        "pred_11m_Z_m": 1.8484,
+        "post_100ms_3d_rmse_cm": 97.7
+      },
+      "physics_unknown_spin_relaxed_0_50_100ms": {
+        "err_11m_cm": 11.76,
+        "dt_11m_ms": -3.7,
+        "pred_11m_Y_m": 0.9301,
+        "pred_11m_Z_m": 2.2236,
+        "post_100ms_3d_rmse_cm": 20.08
+      },
+      "physics_spin_constrained_relaxed_0_50_100ms": {
+        "err_11m_cm": 11.68,
+        "dt_11m_ms": -3.7,
+        "pred_11m_Y_m": 0.9259,
+        "pred_11m_Z_m": 2.2235,
+        "post_100ms_3d_rmse_cm": 19.99
+      },
+      "oracle_full_trajectory_fit": {
+        "err_11m_cm": 0.68,
+        "dt_11m_ms": -0.2,
+        "pred_11m_Y_m": 0.9079,
+        "pred_11m_Z_m": 2.3361,
+        "post_100ms_3d_rmse_cm": 0.93
+      }
+    }
+  }
+}

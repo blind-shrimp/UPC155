@@ -1,0 +1,238 @@
+{
+  "sigma_m": 0.01,
+  "posterior_samples": 16000,
+  "published_p1_checkpoint_sha256": "0a5fc31a616c61b2a433193672d9761ee32367b532c540bea58355894a324c85",
+  "cases": {
+    "Fig3": {
+      "workbook_sha256": "a10d7b7fe7e9a0ad62b8cfd2e3fc45f0dc4c5a6b7b07a34eb0c8881131ed2ba0",
+      "frames": 131,
+      "reference_time_s": 0.6251986402966625,
+      "reference_yz_m": [
+        0.6008637610259581,
+        3.14326212657602
+      ],
+      "p1_aligned_input_6d": [
+        0.9578659999999999,
+        0.11898330000000001,
+        0.4743899999999999,
+        1.9000059999999999,
+        0.2202483,
+        0.8176159999999999
+      ],
+      "z_shift_m": 0.162688,
+      "scores": {
+        "quadratic": {
+          "prediction_yz_m": [
+            0.19426328425702832,
+            3.3285381602388995
+          ],
+          "error_cm": 44.68234062340171
+        },
+        "fixed_start_physics": {
+          "prediction_yz_m": [
+            0.5126059531489907,
+            3.2794448452267786
+          ],
+          "error_cm": 16.22811557463139
+        },
+        "physics": {
+          "prediction_yz_m": [
+            1.1278514053575868,
+            2.9799802415495544
+          ],
+          "error_cm": 55.17036806619973,
+          "airborne_plane_probability": 1.0,
+          "ess": 14013.684111914898
+        },
+        "spin_retrospective": {
+          "prediction_yz_m": [
+            1.17033582154366,
+            2.946464980486084
+          ],
+          "error_cm": 60.25176714582076,
+          "airborne_plane_probability": 1.0,
+          "ess": 14573.521436518957,
+          "first_spin_s": 0.05,
+          "rps": 5.8431
+        },
+        "full_fit": {
+          "prediction_yz_m": [
+            0.6006567486754218,
+            3.141278356174839
+          ],
+          "error_cm": 0.19945423329363426,
+          "fit_rmse_cm": 1.4860976823723961
+        },
+        "p1": {
+          "prediction_yz_m": [
+            1.1288101646906576,
+            3.0083318853464007
+          ],
+          "error_cm": 54.49161175270678,
+          "density_grid_mode_yz_m": [
+            0.8509705195097047,
+            3.5160365421456525
+          ],
+          "hdr_covers_reference": {
+            "0.5": true,
+            "0.95": true
+          }
+        }
+      }
+    },
+    "Sample05": {
+      "workbook_sha256": "7321410aadd5cdbe07bd3f0b35db24de344ad68be3dd46e7261de234b72f2088",
+      "frames": 104,
+      "reference_time_s": 0.5356833946400421,
+      "reference_yz_m": [
+        0.4642119193378875,
+        1.5532910118234367
+      ],
+      "p1_aligned_input_6d": [
+        1.095275,
+        0.1259215,
+        0.35973200000000005,
+        2.193295,
+        0.23341849999999997,
+        0.590013
+      ],
+      "z_shift_m": 0.04245,
+      "scores": {
+        "quadratic": {
+          "prediction_yz_m": [
+            0.4334076497933777,
+            1.770008572046878
+          ],
+          "error_cm": 21.88958746330586
+        },
+        "fixed_start_physics": {
+          "prediction_yz_m": [
+            0.4072935521739908,
+            1.6505037884278475
+          ],
+          "error_cm": 11.26500086806177
+        },
+        "physics": {
+          "prediction_yz_m": [
+            0.987534759422874,
+            1.5378277881680222
+          ],
+          "error_cm": 52.35512450949131,
+          "airborne_plane_probability": 1.0,
+          "ess": 13252.668754632943
+        },
+        "spin_retrospective": {
+          "prediction_yz_m": [
+            1.041676258012256,
+            1.5170096269145896
+          ],
+          "error_cm": 57.860297383571215,
+          "airborne_plane_probability": 1.0,
+          "ess": 13985.510778810038,
+          "first_spin_s": 0.15,
+          "rps": 6.298
+        },
+        "full_fit": {
+          "prediction_yz_m": [
+            0.4714198459181185,
+            1.5447440779069703
+          ],
+          "error_cm": 1.1180531515023884,
+          "fit_rmse_cm": 1.7652282116023938
+        },
+        "p1": {
+          "prediction_yz_m": [
+            0.9616452606442911,
+            1.589140923796796
+          ],
+          "error_cm": 49.87235158198885,
+          "density_grid_mode_yz_m": [
+            0.726667895579866,
+            2.0202255372058984
+          ],
+          "hdr_covers_reference": {
+            "0.5": true,
+            "0.95": true
+          }
+        }
+      }
+    },
+    "Sample12": {
+      "workbook_sha256": "b6c7f4eec4e073b0ea22f0786474d4fa529a8f5959290ebe2d44af52964bebd9",
+      "frames": 125,
+      "reference_time_s": 0.58133421506613,
+      "reference_yz_m": [
+        0.901235483841288,
+        2.3375955492811964
+      ],
+      "p1_aligned_input_6d": [
+        1.020458,
+        0.1552923,
+        0.424705,
+        2.033418,
+        0.29460929999999996,
+        0.706961
+      ],
+      "z_shift_m": 0.03541999999999999,
+      "scores": {
+        "quadratic": {
+          "prediction_yz_m": [
+            0.8267783747517712,
+            1.8166577005656415
+          ],
+          "error_cm": 52.62319862174463
+        },
+        "fixed_start_physics": {
+          "prediction_yz_m": [
+            0.8825495876276095,
+            1.8358761653616835
+          ],
+          "error_cm": 50.20672294801602
+        },
+        "physics": {
+          "prediction_yz_m": [
+            1.4535688250204166,
+            2.057675005843808
+          ],
+          "error_cm": 61.92153344486735,
+          "airborne_plane_probability": 1.0,
+          "ess": 14096.863555565724
+        },
+        "spin_retrospective": {
+          "prediction_yz_m": [
+            1.4693338577548403,
+            2.051756782457391
+          ],
+          "error_cm": 63.595562979077094,
+          "airborne_plane_probability": 1.0,
+          "ess": 14259.161023160936,
+          "first_spin_s": 0.04,
+          "rps": 7.0435
+        },
+        "full_fit": {
+          "prediction_yz_m": [
+            0.907545609991882,
+            2.3361845470374454
+          ],
+          "error_cm": 0.6465958503445622,
+          "fit_rmse_cm": 1.629856937235739
+        },
+        "p1": {
+          "prediction_yz_m": [
+            1.4239923159919046,
+            2.0518701941125506
+          ],
+          "error_cm": 59.57463253318451,
+          "density_grid_mode_yz_m": [
+            1.0380105187109483,
+            1.6290165565826218
+          ],
+          "hdr_covers_reference": {
+            "0.5": true,
+            "0.95": true
+          }
+        }
+      }
+    }
+  }
+}

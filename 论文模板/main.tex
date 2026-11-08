@@ -333,6 +333,38 @@ For two tracked DFL penalties \cite{dfl2025}, a separate physical inference uses
 
 Across 11 additional screened DFL match segments, unknown spin lowers held-out RMSE in 7 of 11 segments at each of the $15$ and $30\,\mathrm{mm}$ assumptions. The paired median improvements are $0.027$ and $0.011\,\mathrm{m}$. These segments have no goal-plane endpoint labels, and screening on smooth flight and uncertain contact status limits generalisation. The tracked examples assess physical extrapolation on a case basis. They do not calibrate the MDN.
 
+
+\subsection{External replay of three 100 Hz curve kicks}
+\label{sec:asai-replay}
+Takeshi Asai provided ball-centre tracks for three curve kicks from the experiment in \cite{asai2020replay}. We used the first tracked frame as the time and horizontal origin and interpolated the measured crossing of a virtual plane 11 m ahead. Position-only forecasts used observations at 0, 50, and 100 ms. For the physical posterior and frozen P1 we assumed 10 mm per-coordinate position noise. P1's input and output heights were translated to and from its training origin using the published weights and calibration.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Error at the virtual 11 m crossing, in centimetres. Spin-aided estimates are retrospective. The full-track row uses the reference window in fitting.}
+\label{tab:asai-replay}
+\begin{tabular}{lrrr}
+\toprule
+Method & Fig. 3 & Sample 05 & Sample 12 \\
+\midrule
+Constant acceleration & 44.68 & 21.89 & 52.62 \\
+Canonical posterior, unknown spin & 55.17 & 52.36 & 61.92 \\
+Canonical posterior, spin magnitude supplied & 60.25 & 57.86 & 63.60 \\
+Frozen P1, height translation & 54.49 & 49.87 & 59.57 \\
+Canonical full-track fit & 0.20 & 1.12 & 0.65 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The frozen P1 regions included all three references, while point errors remained about 50--60 cm. Three trials are insufficient to estimate real-world coverage. Spin magnitudes did not improve this posterior under the assumed spin-axis distribution. These values were smoothed using a nine-point moving average, and Sample 05's first spin value is at 150 ms, so the spin comparison is retrospective. Full-track fits attained trajectory RMSEs of 1.49--1.77 cm. A separate effective-lift fit with a directional prior and a different lift law averaged 11.39 cm at the virtual plane, so that result does not isolate the effect of allowing position noise.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{../student_b/runs/asai_replay/asai_3kicks_overlay.png}
+  \caption{Asai curve kicks, trajectory comparisons, and frozen P1 prediction regions at the virtual 11 m plane. The full fit includes later observations. We thank Takeshi Asai for sharing the trials.}
+  \label{fig:asai-replay}
+\end{figure}
+
 \section{Discussion}
 
 The main gain is a better forecast density. At moderate noise, model D, model C and the final MDN often return similar point forecasts, yet the final network assigns more appropriate density to the true endpoint. Coverage and area give complementary checks. In the high-noise setting a calibrated inner region can cover more true endpoints while the outer region becomes smaller. Crosswind and spin decay show that accurate point forecasts can coexist with miscalibrated joint regions.
@@ -369,6 +401,10 @@ The next step is to collect high-rate, three-dimensional penalty tracks with ind
 \bibitem{virtanen2020} P. Virtanen et al., ``SciPy 1.0: fundamental algorithms for scientific computing in Python,'' \emph{Nature Methods} \textbf{17}, 261--272 (2020). \url{https://doi.org/10.1038/s41592-019-0686-2}.
 \bibitem{paszke2019} A. Paszke et al., ``PyTorch: An imperative style, high-performance deep learning library,'' in \emph{Advances in Neural Information Processing Systems} \textbf{32}, 8024--8035 (2019).
 \bibitem{hunter2007} J. D. Hunter, ``Matplotlib: A 2D graphics environment,'' \emph{Computing in Science \& Engineering} \textbf{9}(3), 90--95 (2007). \url{https://doi.org/10.1109/MCSE.2007.55}.
+\bibitem{asai2020replay}
+T. Asai, K. Kimachi, R. Liu, M. Koido, M. Nakayama, J. E. Goff, and S. Hong,
+Measurements of the Flight Trajectory of a Spinning Soccer Ball and the Magnus Force Acting on It,
+\emph{Proceedings} \textbf{49}, 88 (2020). DOI: 10.3390/proceedings2020049088.
 \end{thebibliography}
 \addcontentsline{toc}{section}{References}
 

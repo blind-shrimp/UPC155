@@ -13,6 +13,10 @@
 | 实测外推 | 已完成两次 DFL 点球的基线与旋转比较，并检查 ISSIA、Barber 和 11 段 DFL 比赛轨迹。属于逐案例物理外推。[两次点球](student_b/runs/real_penalties/实测点球外推结果.md) · [四例](student_b/runs/real_spin_final/旋转外推.md) · [11 段](student_b/runs/dfl_screened_spin/DFL旋转对照.md) |
 | 论文 | 英文稿已同步 P1 主表、案例、偏移与实测结果。交稿前还需团队合并完整 AI 使用记录并完成提交检查。[LaTeX](论文模板/main.tex) · [PDF](论文模板/main.pdf) · [写作状态](论文模板/写作状态.md) |
 
+## Asai 100 Hz 实测复演
+
+[三球复演报告](student_b/runs/asai_replay/README.md)已补充到论文源码。冻结 P1 经首帧高度平移后，三条弧线球的 11 m 虚拟截面误差约为 50–60 cm。整段拟合和转速辅助作为回顾性诊断单列。论文 PDF 已在本地编译，仓库预览 PDF 仍是上一个版本。
+
 ## 补充整合
 
 [双线成果整合](handoff/2026-11-08-evidence/README.md)对照另一套题例实现，补充同参数仿真器核对、Arm C 开发复核、DFL 观测窗口和跨比赛迁移结果。论文主表继续使用正式 P1 独立盲测。
