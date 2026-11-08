@@ -51,7 +51,7 @@ SB = HERE.parents[1]
 if str(SB) not in sys.path:
     sys.path.insert(0, str(SB))
 
-from physics import Config, HIGH, LOW, sample_prior, simulate  # noqa: E402
+from physics import Config, HIGH, LOW, acceleration, sample_prior, simulate  # noqa: E402
 
 DELTA_T = .05
 LEVELS_MM = (2, 5, 10, 15)
@@ -126,6 +126,13 @@ def compute(n=4000, seed=155107, out_dir=Path('student_b/runs/information_limit'
     jh2, jh15, jg = jh2[valid], jh15[valid], jg[valid]
     m = len(theta)
 
+    # Prior spread of the aerodynamic acceleration at t = 0 (lateral/vertical
+    # components, gravity removed): the denominator of the observability ratio.
+    a_total = acceleration(theta[:, :3], theta, 0., CFG)
+    a_aero = a_total - np.array([0., 0., -CFG.gravity])
+    aero_sd = np.std(a_aero[:, 1:3], axis=0, ddof=1)   # (y, z) components
+    aero_sd_total = float(np.sqrt(np.mean(aero_sd ** 2)))
+
     step = T / DELTA_T
     l1 = -step * (step - 2.)
     l2 = step * (step - 1.) / 2.
@@ -186,6 +193,13 @@ def compute(n=4000, seed=155107, out_dir=Path('student_b/runs/information_limit'
             lambda_median=float(np.median(lam)), lambda_mean=float(lam.mean()),
             lambda_range=[float(lam.min()), float(lam.max())],
             rayleigh_median=RAYLEIGH_MEDIAN,
+            aero_acceleration_prior_sd_m_s2=dict(
+                y=float(aero_sd[0]), z=float(aero_sd[1]),
+                rms=float(aero_sd_total)),
+            observability_ratio=dict(
+                definition='(sqrt(5) sigma / Delta t^2) / sigma_aero',
+                values={str(mm): float(np.sqrt(5.) * mm * 1e-3 / DELTA_T ** 2
+                                       / aero_sd_total) for mm in LEVELS_MM}),
             caveat=('Kinematic bound is exact for second-order extrapolation of two '
                     'positions. Bayesian floor is a local linearised bound with a '
                     'Gaussian approximation of the uniform prior; it is conditional '

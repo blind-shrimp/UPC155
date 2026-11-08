@@ -43,6 +43,20 @@
    218.5965591246139
   ],
   "rayleigh_median": 1.1774100225154747,
+  "aero_acceleration_prior_sd_m_s2": {
+   "y": 7.863599490487302,
+   "z": 7.541850526143142,
+   "rms": 7.704404788998231
+  },
+  "observability_ratio": {
+   "definition": "(sqrt(5) sigma / Delta t^2) / sigma_aero",
+   "values": {
+    "2": 0.2321859288279203,
+    "5": 0.5804648220698008,
+    "10": 1.1609296441396015,
+    "15": 1.7413944662094025
+   }
+  },
   "caveat": "Kinematic bound is exact for second-order extrapolation of two positions. Bayesian floor is a local linearised bound with a Gaussian approximation of the uniform prior; it is conditional on the simulator being the true model."
  },
  "levels": {
